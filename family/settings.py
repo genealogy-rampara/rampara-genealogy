@@ -75,25 +75,25 @@ WSGI_APPLICATION = 'family.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# import os
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'URL': os.getenv('POSTGRES_URL'),
-#         'NAME': os.getenv('PGNAME'),
-#         'USER': os.getenv('PGUSER'),
-#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-#         'HOST': os.getenv('PGHOST'),
-#         'PORT': os.getenv('PGPORT'),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+import os
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': os.getenv('POSTGRES_URL'),
+        'NAME': os.getenv('PGNAME'),
+        'USER': os.getenv('PGUSER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('PGHOST'),
+        'PORT': os.getenv('PGPORT'),
+    }
+}
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -142,10 +142,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-
-# STATICFILES_DIRS = ['/Users/neel2004/Desktop/family/family/static',]
-# STATIC_URL = "static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+import os
+STATICFILES_DIRS = ['/Users/neel2004/Desktop/family/family/static',]
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

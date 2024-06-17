@@ -1,261 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Child Detail</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-        h1, h2, h3 {
-            color: #007bff;
-            text-align: center;
-        }
-        hr {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border-top: 1px solid #007bff;
-        }
-        .card {
-            margin-bottom: 20px;
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .small-card {
-            margin-bottom: 10px;
-        }
-        .card-title, .card-text {
-            margin-bottom: 10px;
-        }
-        .btn {
-            margin-top: 10px;
-        }
-        .text-center {
-            margin-top: 20px;
-        }
-        .container {
-            max-width: 1200px;
-        }
-    </style>
-</head>
-<body>
-    <nav class="breadcrumb navbar">
-        <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item">
-                <a href="{% url 'tree_view' %}">Home</a>
-            </li>
-            {% if person.id == 10 %}
-                <li class="breadcrumb-item">
-                    <p>Unknown</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Child Detail</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body 
+            {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                padding: 20px;
+            }
+            h1, h2, h3 
+            {
+                color: #007bff;
+                text-align: center;
+            }
+            hr 
+            {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-top: 1px solid #007bff;
+            }
+            .card 
+            {
+                margin-bottom: 20px;
+                border: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .small-card 
+            {
+                margin-bottom: 10px;
+            }
+            .card-title, .card-text 
+            {
+                margin-bottom: 10px;
+            }
+            .btn 
+            {
+                margin-top: 10px;
+            }
+            .text-center 
+            {
+                margin-top: 20px;
+            }
+            .container 
+            {
+                max-width: 1200px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="breadcrumb navbar">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item active" aria-current="page">
+                    Child Detail
                 </li>
-            {% else %}
                 <li class="breadcrumb-item">
-                    <a href="{% url 'person_detail' father.id %}">{{ father }}</a>
+                    <a href="{% url 'tree_view' %}">Home</a>
                 </li>
-            {% endif %}
-            <li class="breadcrumb-item active" aria-current="page">{{ child.name }}</li>
-        </ol>
-        <button onclick="window.print()" class="btn btn-secondary ml-auto">Print Details</button>
-    </nav>
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <h1 class="card-title">{{ child.name }} | Details</h1>
-                <hr>
-                <strong>
+                {% if person.id == 10 %}
+                    <li class="breadcrumb-item">
+                        <p>Unknown</p>
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'person_detail' father.id %}">{{ father }}</a>
+                    </li>
+                {% endif %}
+                <li class="breadcrumb-item active" aria-current="page">{{ child.name }}</li>
+            </ol>
+            <button onclick="window.print()" class="btn btn-secondary ml-auto">Print Details</button>
+        </nav>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">{{ child.name }} | Details</h1>
+                    <hr>
+                    <strong>
+                        <center>
+                            <p class="card-text">Date of Birth: {{ child.dob }}</p>
+                        </center>
+                    </strong>
+                    <strong>
+                        <center>
+                            <p class="card-text">Gender: {{ child.gender }}</p>
+                        </center>
+                    </strong>
                     <center>
-                        <p class="card-text">Date of Birth: {{ child.dob }}</p>
+                        <a href="{% url 'update_person' child.id %}" class="btn btn-primary">Update Person</a>&emsp;&emsp;
+                        <a href="{% url 'delete_person' child.id %}" class="btn btn-danger">Delete Person</a>
                     </center>
-                </strong>
-                <strong>
-                    <center>
-                        <p class="card-text">Gender: {{ child.gender }}</p>
-                    </center>
-                </strong>
-                <center>
-                    <a href="{% url 'update_person' child.id %}" class="btn btn-primary">Update Person</a>&emsp;&emsp;
-                    <a href="{% url 'delete_person' child.id %}" class="btn btn-danger">Delete Person</a>
-                </center>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Parents Information -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2>Parents Information</h2>
-                        <hr>
-                        <p><strong>Father: </strong>{{ father }}</p>
-                        <p><strong>Mother: </strong>{{ mother }}</p>
-                    </div>
                 </div>
             </div>
-            <!-- Spouse Information -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2>Spouse Information</h2>
-                        <hr>
-                        {% if spouses %}
-                            {% for spouse in spouses %}
-                                <div class="small-card">
-                                    <hr>
-                                    <h3>Spouse {{ forloop.counter }}</h3>
-                                    <hr>
-                                    <strong>
-                                        <center>
-                                            <p class="card-text">Spouse Name: {{ spouse.spouse_name }}</p>
-                                        </center>
-                                    </strong>
-                                    <strong>
-                                        <center>
-                                            <p class="card-text">Spouse Father's Name: {{ spouse.spouse_fathername }}</p>
-                                        </center>
-                                    </strong>
-                                    <strong>
-                                        <center>
-                                            <p class="card-text">Spouse Village: {{ spouse.spouse_village }}</p>
-                                        </center>
-                                    </strong>
-                                    <center>
-                                        <a href="{% url 'update_spouse' spouse.id %}" class="btn btn-primary">Update Spouse</a>&emsp;&emsp;
-                                        <a href="{% url 'delete_spouse' spouse.id %}" class="btn btn-danger">Delete Spouse</a>
-                                    </center>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <strong>
-                                <center>
-                                    <p class="card-text">No Spouse Information Available!</p>
-                                </center>
-                            </strong>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Children Information -->
-        <div class="row">
-            <div class="col-md-12">
-                {% if families %}
+            <div class="row">
+                <!-- Parents Information -->
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">Children Information</h2>
+                            <h2>Parents Information</h2>
                             <hr>
-                            {% if children_count_father > 0 %}
-                                <strong>
-                                    <center>
-                                        <p class="card-text">Number of Children: {{ children_count_father }}</p>
-                                    </center>
-                                </strong>
-                                <hr>
-                                <div class="container">
-                                    <div class="row">
-                                        {% for family in families %}
-                                            {% if spouses|length > 1 %}
-                                                <div class="col-12">
-                                                    <h5 class="text-center">{{ family.mother }}</h5>
-                                                </div>
-                                            {% endif %}
-                                            <div class="row">
-                                                {% for child in family.children.all %}
-                                                    <div class="col-md-6">
-                                                        <div class="card mb-3">
-                                                            <div class="card-body">
-                                                                <h6 class="card-title">
-                                                                    <a href="{% url 'child_detail' child.id %}">{{ child.name }}</a>
-                                                                </h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                                <div class="col-12 text-center mt-3">
-                                                    <a href="{% url 'update_family' family.id %}" class="btn btn-primary">Update Family</a>&emsp;&emsp;
-                                                    <a href="{% url 'delete_family' family.id %}" class="btn btn-danger">Delete Family</a>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="card">
-                                    <div class="card-body">
+                            <p><strong>Father: </strong>{{ father }}</p>
+                            <p><strong>Mother: </strong>{{ mother }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Spouse Information -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>Spouse Information</h2>
+                            <hr>
+                            {% if spouses %}
+                                {% for spouse in spouses %}
+                                    <div class="small-card">
+                                        <hr>
+                                        <h3>Spouse {{ forloop.counter }}</h3>
+                                        <hr>
                                         <strong>
                                             <center>
-                                                <p class="card-text">No Children Information Available!</p>
+                                                <p class="card-text">Spouse Name: {{ spouse.spouse_name }}</p>
                                             </center>
                                         </strong>
+                                        <strong>
+                                            <center>
+                                                <p class="card-text">Spouse Father's Name: {{ spouse.spouse_fathername }}</p>
+                                            </center>
+                                        </strong>
+                                        <strong>
+                                            <center>
+                                                <p class="card-text">Spouse Village: {{ spouse.spouse_village }}</p>
+                                            </center>
+                                        </strong>
+                                        <center>
+                                            <a href="{% url 'update_spouse' spouse.id %}" class="btn btn-primary">Update Spouse</a>&emsp;&emsp;
+                                            <a href="{% url 'delete_spouse' spouse.id %}" class="btn btn-danger">Delete Spouse</a>
+                                        </center>
                                     </div>
-                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <strong>
+                                    <center>
+                                        <p class="card-text">No Spouse Information Available!</p>
+                                    </center>
+                                </strong>
                             {% endif %}
                         </div>
                     </div>
-                {% else %}
-                    {% if children_count_mother > 0 %}
+                </div>
+            </div>
+            <!-- Children Information -->
+            <div class="row">
+                <div class="col-md-12">
+                    {% if families %}
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="card-title">Children Information</h2>
                                 <hr>
-                                <strong>
-                                    <center>
-                                        <p class="card-text">Number of Children: {{children_count_mother }}</p>
-                                    </center>
-                                </strong>
-                                <hr>
-                                <div class="container">
-                                    <div class="row">
-                                        {% for family in families_as_mother %}
-                                            {% if spouses|length > 1 %}
-                                                <div class="col-12">
-                                                    <h5 class="text-center">{{ family.father }}</h5>
-                                                </div>
-                                            {% endif %}
-                                            <div class="row">
-                                                {% for child in family.children.all %}
-                                                    <div class="col-md-6">
-                                                        <div class="card mb-3">
-                                                            <div class="card-body">
-                                                                <h6 class="card-title">
-                                                                    <p class="card-text text-center"> {{ child.name }} </p>
-                                                                </h6>
+                                {% if children_count_father > 0 %}
+                                    <strong>
+                                        <center>
+                                            <p class="card-text">Number of Children: {{ children_count_father }}</p>
+                                        </center>
+                                    </strong>
+                                    <hr>
+                                    <div class="container">
+                                        <div class="row">
+                                            {% for family in families %}
+                                                {% if spouses|length > 1 %}
+                                                    <div class="col-12">
+                                                        <h5 class="text-center">{{ family.mother }}</h5>
+                                                    </div>
+                                                {% endif %}
+                                                <div class="row">
+                                                    {% for child in family.children.all %}
+                                                        <div class="col-md-6">
+                                                            <div class="card mb-3">
+                                                                <div class="card-body">
+                                                                    <h6 class="card-title">
+                                                                        <a href="{% url 'child_detail' child.id %}">{{ child.name }}</a>
+                                                                    </h6>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                    {% endfor %}
+                                                    <div class="col-12 text-center mt-3">
+                                                        <a href="{% url 'update_family' family.id %}" class="btn btn-primary">Update Family</a>&emsp;&emsp;
+                                                        <a href="{% url 'delete_family' family.id %}" class="btn btn-danger">Delete Family</a>
                                                     </div>
-                                                {% endfor %}
-                                                <div class="col-12 text-center mt-3">
-                                                    <a href="{% url 'update_family' family.id %}" class="btn btn-primary">Update Family</a>&emsp;&emsp;
-                                                    <a href="{% url 'delete_family' family.id %}" class="btn btn-danger">Delete Family</a>
                                                 </div>
-                                            </div>
-                                        {% endfor %}
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                </div>
+                                {% else %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <strong>
+                                                <center>
+                                                    <p class="card-text">No Children Information Available!</p>
+                                                </center>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% else %}
-                        <div class="card">
-                            <div class="card-body">
-                                <strong>
-                                    <center>
-                                        <p class="card-text">No Children Information Available!</p>
-                                    </center>
-                                </strong>
+                        {% if children_count_mother > 0 %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="card-title">Children Information</h2>
+                                    <hr>
+                                    <strong>
+                                        <center>
+                                            <p class="card-text">Number of Children: {{children_count_mother }}</p>
+                                        </center>
+                                    </strong>
+                                    <hr>
+                                    <div class="container">
+                                        <div class="row">
+                                            {% for family in families_as_mother %}
+                                                {% if spouses|length > 1 %}
+                                                    <div class="col-12">
+                                                        <h5 class="text-center">{{ family.father }}</h5>
+                                                    </div>
+                                                {% endif %}
+                                                <div class="row">
+                                                    {% for child in family.children.all %}
+                                                        <div class="col-md-6">
+                                                            <div class="card mb-3">
+                                                                <div class="card-body">
+                                                                    <h6 class="card-title">
+                                                                        <p class="card-text text-center"> {{ child.name }} </p>
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                    <div class="col-12 text-center mt-3">
+                                                        <a href="{% url 'update_family' family.id %}" class="btn btn-primary">Update Family</a>&emsp;&emsp;
+                                                        <a href="{% url 'delete_family' family.id %}" class="btn btn-danger">Delete Family</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% else %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <strong>
+                                        <center>
+                                            <p class="card-text">No Children Information Available!</p>
+                                        </center>
+                                    </strong>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                </div>
             </div>
+            <center>
+                <a class="btn btn-dark" href="{% url 'create_person' %}">Add Person</a>
+            </center>
         </div>
-        <center>
-            <a class="btn btn-dark" href="{% url 'create_person' %}">Add Person</a>
-        </center>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
 </html>
