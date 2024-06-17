@@ -7,38 +7,47 @@
         <title>Person Detail</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
-            body {
+            body 
+            {
                 font-family: Arial, sans-serif;
                 background-color: #f8f9fa;
                 padding: 20px;
             }
-            h1, h2, h3 {
+            h1, h2, h3 
+            {
                 color: #007bff;
                 text-align: center;
             }
-            hr {
+            hr 
+            {
                 margin-top: 20px;
                 margin-bottom: 20px;
                 border-top: 1px solid #007bff;
             }
-            .card {
+            .card 
+            {
                 margin-bottom: 20px;
                 border: none;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
-            .small-card {
+            .small-card 
+            {
                 margin-bottom: 10px;
             }
-            .card-title, .card-text {
+            .card-title, .card-text 
+            {
                 margin-bottom: 10px;
             }
-            .btn {
+            .btn 
+            {
                 margin-top: 10px;
             }
-            .text-center {
+            .text-center 
+            {
                 margin-top: 20px;
             }
-            .container {
+            .container 
+            {
                 max-width: 1200px;
             }
         </style>
@@ -63,7 +72,7 @@
                 {% endif %}
                 <li class="breadcrumb-item active" aria-current="page">{{ person.name }}</li>
             </ol>
-            <button onclick="window.print()" class="btn btn-secondary ml-auto">Print Details</button>
+            <button onclick="window.print()" class="btn btn-secondary">Print Details</button>
         </nav>
         <div class="container">
             <div class="card">
