@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST">
+                    {% csrf_token  %}
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Enter New Password:</label>
+                        <input type="text" nameclass="form-control" id="password" name="password" value="{{ password }}" placeholder="enter new password">
+                        <button class="btn btn-primary" type="submit">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+</body>
+</html>

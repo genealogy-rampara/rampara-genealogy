@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>D3.js Collapsible Tree</title>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+    </head>
+    <body>
+        <script>
+
+            // Define the dimensions and margins of the diagram
+            var margin = {
+                            top: 20, 
+                            right: 90, 
+                            bottom: 30, 
+                            left: 90
+                        },
+                width = 960 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+            // Append SVG canvas to the tree container
+            var svg = d3.select("#tree-container")
+                        .append("svg")
+                        .attr("width", width + margin.right + margin.left)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                // Load data using AJAX
+                d3.json("{% url 'd3_collapsible_tree' %}", function(error, data) 
+                {
+                    if (error) throw error;
+                    // Construct tree layout
+                    var tree = d3.tree().size([height, width]);
+                    var root = d3.hierarchy(data);
+                    tree(root);
+
+                    // Draw links between nodes
+                    svg.selectAll('.link')
+                        .data(root.links())
+                        .enter()
+                        .append('path')
+                        .attr('class', 'link')
+                        .attr('d', d3.linkHorizontal()
+                                    .x(function(d) { return d.y; })
+                                    .y(function(d) { return d.x; }));
+
+                    // Draw nodes
+                    var node = svg.selectAll('.node')
+                                .data(root.descendants())
+                                .enter()
+                                .append('g')
+                                .attr('class', 'node')
+                                .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
+
+                                // Draw circle for each node
+                                node.append('circle')
+                                    .attr('r', 4.5);
+
+                                // Display person's name beside the node
+                                node.append('text')
+                                    .attr('dy', '.35em')
+                                    .attr('x', function(d) { return d.children ? -13 : 13; })
+                                    .style('text-anchor', function(d) { return d.children ? 'end' : 'start'; })
+                                    .text(function(d) { return d.data.name; });
+
+                    // Function to toggle children on click
+                    function toggleChildren(d) 
+                    {
+                        if (d.children) 
+                        {
+                            d._children = d.children;
+                            d.children = null;
+                        }
+                        else  
+                        {
+                            d.children = d._children;
+                            d._children = null;
+                        }
+                    }
+
+                    // Update tree on click
+                    node.on('click', function(d) 
+                    {
+                        toggleChildren(d);
+                        tree(root);
+                    });
+                });
+        </script>
+    </body>
+</html>

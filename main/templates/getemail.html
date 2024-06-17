@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST">
+                    {% csrf_token  %}
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Email address</label>
+                    <input type="email" nameclass="form-control" id="email_id" name="email_id" value="{{ email }}" placeholder="name@example.com">
+                    <button class="btn btn-primary" type="submit">Get otp</button>
+                  </div>
+                </form>
+                {{error_message}}
+            </div>
+        </div>
+      </div>
+</body>
+</html>
