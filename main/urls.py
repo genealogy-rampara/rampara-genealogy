@@ -1,14 +1,14 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
-
+from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('',views.LoginUserView, name='login'),
     path('signup/',views.RegisterUserView, name='signup'),
-    path('logout/',LogoutView.as_view(), name='logout'),
-    # path("changepass/",views.changepass,name="changepass"),
-    # path("otp/",views.otp, name="otp"),
-    # path('forgotpass/',views.forgotpass,name='forgotpass'),
+    path('logout/',views.logout_view, name='logout'),
+    path("changepass/",views.changepass,name="changepass"),
+    path("otp/",views.otp, name="otp"),
+    path('forgotpass/',views.forgotpass,name='forgotpass'),
     path('contactus/', views.contactus_view, name='contactus'),
     path('tree/', views.render_tree_view, name='tree_view'),
     path('get_tree_data/', views.get_tree_data, name='get_tree_data'),
