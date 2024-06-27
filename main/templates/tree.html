@@ -129,37 +129,15 @@
                     <!-- Dropdown for Create -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            Add Data
+                            Add Data Through CSV
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
-                            <li><a class="dropdown-item" href="{% url 'create_person' %}">Add Person</a></li>
-                            <li><a class="dropdown-item" href="{% url 'create_spouse' %}">Add Spouse</a></li>
-                            <li><a class="dropdown-item" href="{% url 'create_family' %}">Add Children</a></li>
+                            <li><a class="dropdown-item" href="{% url 'create_person' %}">Add Data</a></li>
                             <!-- Add more dropdown items as needed -->
                         </ul>
                     </li>
-                    
-                    <!-- Contact Link -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contactus' %}">Contact</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <!-- Authentication links -->
-                    {% if user_registration %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt"></i> {{ user_registration }}
-                        </a>
-                    </li>                    
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signup' %}">Register</a>
-                        </li>
-                    {% endif %}
                     <li class="nav-item">
                         <center>
                             <button onclick="window.print()" class="btn btn-secondary">Print Details</button>

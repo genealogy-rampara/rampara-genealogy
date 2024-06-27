@@ -97,10 +97,6 @@
                             <p class="card-text">Gender: {{ child.gender }}</p>
                         </center>
                     </strong>
-                    <center>
-                        <a href="{% url 'update_person' child.id %}" class="btn btn-primary">Update Person</a>&emsp;&emsp;
-                        <a href="{% url 'delete_person' child.id %}" class="btn btn-danger">Delete Person</a>
-                    </center>
                 </div>
             </div>
             <div class="row">
@@ -174,10 +170,6 @@
                                                 <p class="card-text">Spouse Village: {{ spouse.spouse_village }}</p>
                                             </center>
                                         </strong>
-                                        <center>
-                                            <a href="{% url 'update_spouse' spouse.id %}" class="btn btn-primary">Update Spouse</a>&emsp;&emsp;
-                                            <a href="{% url 'delete_spouse' spouse.id %}" class="btn btn-danger">Delete Spouse</a>
-                                        </center>
                                     </div>
                                 {% endfor %}
                             {% else %}
@@ -226,10 +218,6 @@
                                                             </div>
                                                         </div>
                                                     {% endfor %}
-                                                    <div class="col-12 text-center mt-3">
-                                                        <a href="{% url 'update_family' family.id %}" class="btn btn-primary">Update Family</a>&emsp;&emsp;
-                                                        <a href="{% url 'delete_family' family.id %}" class="btn btn-danger">Delete Family</a>
-                                                    </div>
                                                 </div>
                                             {% endfor %}
                                         </div>
@@ -279,10 +267,6 @@
                                                             </div>
                                                         </div>
                                                     {% endfor %}
-                                                    <div class="col-12 text-center mt-3">
-                                                        <a href="{% url 'update_family' family.id %}" class="btn btn-primary">Update Family</a>&emsp;&emsp;
-                                                        <a href="{% url 'delete_family' family.id %}" class="btn btn-danger">Delete Family</a>
-                                                    </div>
                                                 </div>
                                             {% endfor %}
                                         </div>
@@ -304,7 +288,7 @@
                 </div>
             </div>
             <center>
-                <a class="btn btn-dark" href="{% url 'create_person' %}">Add Person</a>
+                <a class="btn btn-dark" href="{% url 'create_person' %}">Edit Data</a>
             </center>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
