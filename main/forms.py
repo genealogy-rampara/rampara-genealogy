@@ -31,3 +31,7 @@
 #             'spouse_fathername': forms.TextInput(attrs={'class': 'form-field d-flex align-items-center', 'type': 'text'}),
 #             'spouse_village': forms.TextInput(attrs={'class': 'form-field d-flex align-items-center', 'type': 'text'}),
 #         }
+
+from django import forms
+class FilePathForm(forms.Form):
+    file_path = forms.CharField(label='File Path', max_length=255)
