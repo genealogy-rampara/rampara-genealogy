@@ -38,7 +38,6 @@ def person_detail(request, person_id):
         # Convert children IDs to list of person dictionaries
         for family in families:
             children = []
-
             # Check if 'children' key exists in the family dictionary
             if 'children' in family:
                 child = family['children']
@@ -77,30 +76,30 @@ def person_detail(request, person_id):
                 print('=========================================================================================================================================\n\n')
 
                 # Initialize a list to store child details dictionaries
-                # child2 = []
+                child2 = []
 
-                # # Check if 'child_id' key exists in the family dictionary
-                # if 'child_id' in family:
-                #     print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
-                #     child_ids = family['child_id'].split(';')
+                # Check if 'child_id' key exists in the family dictionary
+                if 'child_id' in family:
+                    print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
+                    child_ids = family['child_id'].split(';')
 
-                #     # Iterate through each child_id and create child_details dictionary
-                #     for c_id in child_ids:
-                #         child_details = {
-                #             'child_id': c_id.strip(),
-                #         }
-                #         child2.append(child_details)
+                    # Iterate through each child_id and create child_details dictionary
+                    for c_id in child_ids:
+                        child_details = {
+                            'child_id': c_id.strip(),
+                        }
+                        child2.append(child_details)
 
-                #     print('\n\n=========================================================================================================================================')
-                #     print('=====================================================  CHILD 2 ===========================================================\n')
-                #     print(child2)
-                #     print('=========================================================================================================================================\n\n')
+                    print('\n\n=========================================================================================================================================')
+                    print('=====================================================  CHILD 2 ===========================================================\n')
+                    print(child2)
+                    print('=========================================================================================================================================\n\n')
 
                 # Iterate through childrens_ids and construct family_details for each children_name
                 for children_name in childrens_ids:
                     family_details = {
                         'children_name': children_name.strip(),
-                        # 'child_ids2': child2,  # Use the correct child_id list for each children_name
+                        'child_ids2': child2,  # Use the correct child_id list for each children_name
                     }
                     families.append(family_details)
 
@@ -150,6 +149,7 @@ def person_detail(request, person_id):
     else:
         raise Http404("Person does not exist")
 
+
 # file_path='main/genealogy.csv'
 def load_csv_data(file_path):
     """
@@ -191,63 +191,40 @@ def child_detail(request, child_id):
     genealogy_data = load_csv_data(file_path)
     # Find the child in CSV data
     child = find_child(genealogy_data, child_id)
-    print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>++++++++++++++++++++++++++++++',child)
+    print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>++++++++++++++++++++++++++++++', child)
     if child:
+        # Initialize lists for families and spouses
         families = []
-        families.append(child)
-        # Convert children IDs to a list of person dictionaries
-        for family in families:
-            children = []
-            # Check if 'children' key exists in the family dictionary
-            if 'children' in family:
-                children_ids = family['children'].split(";")
-                
-                # Append each child to the children list
-                for c in children_ids:
-                    children.append(c.strip())
-                
-                # Initialize a list to store child details dictionaries
-                child2 = []
-                
-                # Check if 'child_id' key exists in the family dictionary
-                if 'child_id' in family:
-                    child_ids = family['child_id'].split(';')
-                    
-                    # Iterate through each child_id and create child_details dictionary
-                    for c_id in child_ids:
-                        child_details = {
-                            'child_id': c_id.strip(),
-                        }
-                        child2.append(child_details)
-                
-                # Iterate through children IDs and construct family_details for each children_name
-                for children_name in children:
-                    family_details = {
-                        'children_name': children_name.strip(),
-                        # 'child_ids': child2,  # Use the correct child_id list for each children_name
-                    }
-                    families.append(family_details)
-        print('FAMILIES>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',families)
-        # Continue with spouse processing and rendering as per your existing logic
         spouses = []
-        
+
+        # Check if 'children' key exists in the child dictionary
+        if 'children' in child:
+            children_ids = child['children'].split(";")
+
+            # Iterate through children IDs and construct family_details for each children_name
+            for children_name in children_ids:
+                family_details = {
+                    'children_name': children_name.strip(),
+                }
+                families.append(family_details)
+
         # Check if the child has a spouse_name
         if child.get('spouse_name'):
             # Iterate through genealogy_data to find spouses where spouse_name matches child's spouse_name
             for entry in genealogy_data:
                 if child['spouse_name'] in entry['spouse_name']:
                     spouse_names = entry['spouse_name'].split(';')
-                    
+
                     for idx, spouse_name in enumerate(spouse_names):
                         spouse_details = {
                             'spouse_name': spouse_name.strip(),
                             'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
                         }
-                        
+
                         # Append spouse details to the spouses list
                         spouses.append(spouse_details)
-            
+
         return render(request, 'child_detail.html', {
             'child': child,
             'families': families,
@@ -256,6 +233,40 @@ def child_detail(request, child_id):
 
     else:
         raise Http404("Person does not exist")
+
+# def child_detail(request, child_id):
+#     genealogy_data = load_csv_data(file_path)
+#     child = find_person(genealogy_data, child_id)
+#     if child:
+#         families = []
+#         if 'children' in child:
+#             children_ids = child['children'].split(";")
+#             for children_name in children_ids:
+#                 family_details = {
+#                     'children_name': children_name.strip(),
+#                     'child_id': child_id  # Ensure this is passed correctly
+#                 }
+#                 families.append(family_details)
+#         spouses = []
+#         if child.get('spouse_name'):
+#             for entry in genealogy_data:
+#                 if child['spouse_name'] in entry['spouse_name']:
+#                     spouse_names = entry['spouse_name'].split(';')
+#                     for idx, spouse_name in enumerate(spouse_names):
+#                         spouse_details = {
+#                             'spouse_name': spouse_name.strip(),
+#                             'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
+#                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
+#                         }
+#                         spouses.append(spouse_details)
+#         return render(request, 'child_detail.html', {
+#             'child': child,
+#             'families': families,
+#             'spouses': spouses
+#         })
+#     else:
+#         raise Http404("Child does not exist")
+
 
 def create_person(request):
     if request.method == 'POST':
