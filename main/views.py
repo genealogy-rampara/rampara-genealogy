@@ -77,30 +77,30 @@ def person_detail(request, person_id):
                 print('=========================================================================================================================================\n\n')
 
                 # Initialize a list to store child details dictionaries
-                child2 = []
+                # child2 = []
 
-                # Check if 'child_id' key exists in the family dictionary
-                if 'child_id' in family:
-                    print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
-                    child_ids = family['child_id'].split(';')
+                # # Check if 'child_id' key exists in the family dictionary
+                # if 'child_id' in family:
+                #     print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
+                #     child_ids = family['child_id'].split(';')
 
-                    # Iterate through each child_id and create child_details dictionary
-                    for c_id in child_ids:
-                        child_details = {
-                            'child_id': c_id.strip(),
-                        }
-                        child2.append(child_details)
+                #     # Iterate through each child_id and create child_details dictionary
+                #     for c_id in child_ids:
+                #         child_details = {
+                #             'child_id': c_id.strip(),
+                #         }
+                #         child2.append(child_details)
 
-                    print('\n\n=========================================================================================================================================')
-                    print('=====================================================  CHILD 2 ===========================================================\n')
-                    print(child2)
-                    print('=========================================================================================================================================\n\n')
+                #     print('\n\n=========================================================================================================================================')
+                #     print('=====================================================  CHILD 2 ===========================================================\n')
+                #     print(child2)
+                #     print('=========================================================================================================================================\n\n')
 
                 # Iterate through childrens_ids and construct family_details for each children_name
                 for children_name in childrens_ids:
                     family_details = {
                         'children_name': children_name.strip(),
-                        'child_ids2': child2,  # Use the correct child_id list for each children_name
+                        # 'child_ids2': child2,  # Use the correct child_id list for each children_name
                     }
                     families.append(family_details)
 
@@ -170,15 +170,27 @@ def find_person(data, person_id):
     for person in data:
         if person['ID'] == str(person_id):
             return person
-
+            # print('PERSON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',person)
+    # for child in data:
+    #     if child['child_id'] == str(child_id):
+    #         print('====================CHILD>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child)
 # This view displays details of a child
 # file_path = '/Users/neel2004/Desktop/family/family/main/genealogy.csv'
+
+def find_child(data, child_id):
+    """
+    Find a child with the specified ID in the loaded genealogy data.
+    """
+    for child in data:
+        if child['child_id'] == str(child_id):
+            return child
+            # print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child)
 
 def child_detail(request, child_id):
     # Load CSV data
     genealogy_data = load_csv_data(file_path)
     # Find the child in CSV data
-    child = find_person(genealogy_data, child_id)
+    child = find_child(genealogy_data, child_id)
     print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>++++++++++++++++++++++++++++++',child)
     if child:
         families = []
@@ -249,9 +261,10 @@ def create_person(request):
     if request.method == 'POST':
         # Extract data from POST request
         new_person_data = {
-            'id': request.POST.get('id'),
-            'name': request.POST.get('name'),
-            'gender': request.POST.get('gender'),
+            'ID': request.POST.get('ID'),
+            'child_id': request.POST.get('child_id'),
+            'Name': request.POST.get('Name'),
+            'Gender': request.POST.get('Gender'),
             'father': '',
             'mother': '',
             'children': '',
@@ -264,9 +277,9 @@ def create_person(request):
         with open(file_path, 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([
-                new_person_data['id'],
-                new_person_data['name'],
-                new_person_data['gender'],
+                new_person_data['ID'],
+                new_person_data['Name'],
+                new_person_data['Gender'],
                 new_person_data['father'],
                 new_person_data['mother'],
                 new_person_data['children'],
@@ -276,7 +289,8 @@ def create_person(request):
             ])
         
         # Redirect to create spouse view or any other relevant view
-        return redirect('create_spouse')
+        return redirect('tree_view')
+    # return redirect('tree_view')
     
     # Render a template for creating a new person (if needed)
     return render(request, 'person_form.html')
