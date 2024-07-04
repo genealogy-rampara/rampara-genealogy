@@ -661,11 +661,12 @@ def import_data_from_csv(request):
             imported_data.clear()  # Clear existing data to ensure fresh import
             
             for row in reader:
-                try:
+                # try:
                     if not row['ID'].isdigit():
                         continue
                     
                     person_id = int(row['ID'])
+                    child_id = row.get('child_id', '')
                     father_name = row.get('father', '')
                     mother_name = row.get('mother', '')
                     spouse_name = row.get('spouse_name', '')
@@ -675,6 +676,7 @@ def import_data_from_csv(request):
                     # Append each person's data to imported_data with an empty children list
                     imported_data.append({
                         'ID': person_id,
+                        'child_id': child_id,
                         'Name': row['Name'],
                         'Gender': row['Gender'],
                         'Father': father_name,
@@ -685,8 +687,8 @@ def import_data_from_csv(request):
                         'children': []  # Initialize an empty list for children
                     })
                 
-                except Exception as e:
-                    return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+                # except Exception as e:
+                #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
         
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
