@@ -15,7 +15,7 @@ import csv
 
 # Path to your CSV file
 
-file_path = 'genealogy.csv'
+file_path = 'main/genealogy.csv'
 
 def person_detail(request, person_id):
     # Load CSV data
@@ -149,7 +149,8 @@ def person_detail(request, person_id):
         
     else:
         raise Http404("Person does not exist")
-    
+
+file_path='family/family/main/genealogy.csv'
 def load_csv_data(file_path):
     """
     Load genealogy data from CSV file into a list of dictionaries.
