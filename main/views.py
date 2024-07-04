@@ -15,7 +15,7 @@ import csv
 
 # Path to your CSV file
 
-file_path = '/Users/neel2004/Desktop/family/family/main/genealogy.csv'
+file_path = 'genealogy.csv'
 
 def person_detail(request, person_id):
     # Load CSV data
