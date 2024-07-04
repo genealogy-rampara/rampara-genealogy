@@ -679,7 +679,7 @@ def import_data_from_csv(request):
                 # if not row['ID'].isdigit():
                 #     continue
                 
-                person_id = int(row['ID'])
+                person_id = row.get('ID')
                 child_id = row.get('child_id', '')
                 father_name = row.get('father', '')
                 mother_name = row.get('mother', '')
