@@ -30,12 +30,11 @@
 #             'spouse_name': forms.TextInput(attrs={'class': 'form-field d-flex align-items-center', 'type': 'text'}),
 #             'spouse_fathername': forms.TextInput(attrs={'class': 'form-field d-flex align-items-center', 'type': 'text'}),
 #             'spouse_village': forms.TextInput(attrs={'class': 'form-field d-flex align-items-center', 'type': 'text'}),
-<<<<<<< HEAD
-#         }
-=======
+
 #         }
 
-from django import forms
-class FilePathForm(forms.Form):
-    file_path = forms.CharField(label='File Path', max_length=255)
->>>>>>> origin/master
+#         }
+
+# from django import forms
+# class FilePathForm(forms.Form):
+#     file_path = forms.CharField(label='File Path', max_length=255)
