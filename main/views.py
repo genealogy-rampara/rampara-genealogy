@@ -654,44 +654,44 @@ def import_data_from_csv(request):
         if not csv_file or not csv_file.name.endswith('.csv'):
             return JsonResponse({'status': 'error', 'message': 'Please upload a valid CSV file'}, status=400)
         
-        try:
-            csv_data = csv_file.read().decode('utf-8').splitlines()
-            reader = csv.DictReader(csv_data)
+        # try:
+        csv_data = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(csv_data)
+        
+        imported_data.clear()  # Clear existing data to ensure fresh import
             
-            imported_data.clear()  # Clear existing data to ensure fresh import
-            
-            for row in reader:
-                # try:
-                    if not row['ID'].isdigit():
-                        continue
-                    
-                    person_id = int(row['ID'])
-                    child_id = row.get('child_id', '')
-                    father_name = row.get('father', '')
-                    mother_name = row.get('mother', '')
-                    spouse_name = row.get('spouse_name', '')
-                    spouse_fathername = row.get('spouse_fathername', '')
-                    spouse_village = row.get('spouse_village', '')
-                    
-                    # Append each person's data to imported_data with an empty children list
-                    imported_data.append({
-                        'ID': person_id,
-                        'child_id': child_id,
-                        'Name': row['Name'],
-                        'Gender': row['Gender'],
-                        'Father': father_name,
-                        'Mother': mother_name,
-                        'Spouse Name': spouse_name,
-                        'Spouse Father Name': spouse_fathername,
-                        'Spouse Village': spouse_village,
-                        'children': []  # Initialize an empty list for children
-                    })
+        for row in reader:
+            # try:
+                if not row['ID'].isdigit():
+                    continue
                 
+                person_id = int(row['ID'])
+                child_id = row.get('child_id', '')
+                father_name = row.get('father', '')
+                mother_name = row.get('mother', '')
+                spouse_name = row.get('spouse_name', '')
+                spouse_fathername = row.get('spouse_fathername', '')
+                spouse_village = row.get('spouse_village', '')
+                
+                # Append each person's data to imported_data with an empty children list
+                imported_data.append({
+                    'ID': person_id,
+                    'child_id': child_id,
+                    'Name': row['Name'],
+                    'Gender': row['Gender'],
+                    'Father': father_name,
+                    'Mother': mother_name,
+                    'Spouse Name': spouse_name,
+                    'Spouse Father Name': spouse_fathername,
+                    'Spouse Village': spouse_village,
+                    'children': []  # Initialize an empty list for children
+                })
+            
                 # except Exception as e:
                 #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
         
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        # except Exception as e:
+        #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
         
         return redirect('tree_view')
         # return JsonResponse({'status': 'success', 'message': 'Data imported successfully'})
