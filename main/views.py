@@ -676,8 +676,8 @@ def import_data_from_csv(request):
             
         for row in reader:
             # try:
-                if not row['ID'].isdigit():
-                    continue
+                # if not row['ID'].isdigit():
+                #     continue
                 
                 person_id = int(row['ID'])
                 child_id = row.get('child_id', '')
