@@ -150,7 +150,7 @@ def person_detail(request, person_id):
     else:
         raise Http404("Person does not exist")
 
-file_path='family/family/main/genealogy.csv'
+# file_path='main/genealogy.csv'
 def load_csv_data(file_path):
     """
     Load genealogy data from CSV file into a list of dictionaries.
@@ -172,7 +172,7 @@ def find_person(data, person_id):
             return person
 
 # This view displays details of a child
-file_path = '/Users/neel2004/Desktop/family/family/main/genealogy.csv'
+# file_path = '/Users/neel2004/Desktop/family/family/main/genealogy.csv'
 
 def child_detail(request, child_id):
     # Load CSV data
