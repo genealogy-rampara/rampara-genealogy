@@ -293,7 +293,7 @@ def import_data_from_csv(request):
         imported_data.clear()  # Clear existing data to ensure fresh import
         for row in reader:
             try:
-                if not row['ID'].isdigit():
+                if not row['ID']:
                     continue
                 person_id = row['ID']
                 child_id = row.get('child_id', '')
