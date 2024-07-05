@@ -293,8 +293,8 @@ def import_data_from_csv(request):
         imported_data.clear()  # Clear existing data to ensure fresh import
         for row in reader:
             try:
-                if not row['ID']:
-                    continue
+                # if not row['ID']:
+                    # continue
                 person_id = row.get('ID')
                 child_id = row.get('child_id', '')
                 father_name = row.get('father', '')
