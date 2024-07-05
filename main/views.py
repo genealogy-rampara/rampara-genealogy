@@ -1,17 +1,16 @@
 # from re import M
 # from django.forms import JSONField
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404, JsonResponse,HttpResponse
-
+from django.shortcuts import render, Http404, redirect
+from django.http import Http404, JsonResponse
+import csv
+from django.db import transaction
+from django.http import JsonResponse
 
 # This view renders the tree.html template
 def render_tree_view(request):
     return render(request, 'tree.html')
 
 # This view displays details of a person
-# This view displays details of a person
-from django.shortcuts import render, Http404
-import csv
 
 # Path to your CSV file
 
@@ -234,38 +233,6 @@ def child_detail(request, child_id):
     else:
         raise Http404("Person does not exist")
 
-# def child_detail(request, child_id):
-#     genealogy_data = load_csv_data(file_path)
-#     child = find_person(genealogy_data, child_id)
-#     if child:
-#         families = []
-#         if 'children' in child:
-#             children_ids = child['children'].split(";")
-#             for children_name in children_ids:
-#                 family_details = {
-#                     'children_name': children_name.strip(),
-#                     'child_id': child_id  # Ensure this is passed correctly
-#                 }
-#                 families.append(family_details)
-#         spouses = []
-#         if child.get('spouse_name'):
-#             for entry in genealogy_data:
-#                 if child['spouse_name'] in entry['spouse_name']:
-#                     spouse_names = entry['spouse_name'].split(';')
-#                     for idx, spouse_name in enumerate(spouse_names):
-#                         spouse_details = {
-#                             'spouse_name': spouse_name.strip(),
-#                             'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
-#                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
-#                         }
-#                         spouses.append(spouse_details)
-#         return render(request, 'child_detail.html', {
-#             'child': child,
-#             'families': families,
-#             'spouses': spouses
-#         })
-#     else:
-#         raise Http404("Child does not exist")
 
 
 def create_person(request):
@@ -289,6 +256,7 @@ def create_person(request):
             writer = csv.writer(file)
             writer.writerow([
                 new_person_data['ID'],
+                new_person_data['child_id'],
                 new_person_data['Name'],
                 new_person_data['Gender'],
                 new_person_data['father'],
@@ -302,371 +270,10 @@ def create_person(request):
         # Redirect to create spouse view or any other relevant view
         return redirect('tree_view')
     # return redirect('tree_view')
-    
-    # Render a template for creating a new person (if needed)
     return render(request, 'person_form.html')
 
-# 
-# def create_spouse(request):
-#     if request.method == 'POST':
-#         spouse_form = SpouseInfoForm(request.POST)
-#         if spouse_form.is_valid():
-#             spouse_form.save()
-#             return redirect('create_family')
-#     else:
-#         spouse_form = SpouseInfoForm()
-#     return render(request, 'spouse_form.html',{'spouse_form':spouse_form})
 
 
-# def create_spouse(request):
-#     if request.method == 'POST':
-#         spouse_form = SpouseInfoForm(request.POST)
-#         if spouse_form.is_valid():
-#             spouse = spouse_form.save(commit=False)  # Don't save to database yet
-#             spouse.save()
-
-#             # Add spouse details to CSV
-#             update_csv_with_spouse(spouse)
-
-#             return redirect('create_family')
-#     else:
-#         spouse_form = SpouseInfoForm()
-#     return render(request, 'spouse_form.html', {'spouse_form': spouse_form})
-
-
-# # 
-# # def create_family(request):
-# #     if request.method == 'POST':
-# #         family_form = FamilyForm(request.POST)
-# #         if family_form.is_valid():
-# #             family = family_form.save()
-# #             children_ids = request.POST.getlist('children')
-# #             for child_id in children_ids:
-# #                 child = Person.objects.get(id=child_id)
-# #                 family.children.add(child)
-# #             return redirect('tree_view')
-# #     else:
-# #         family_form = FamilyForm()
-# #         # Filter the queryset for father and mother fields based on gender
-# #         family_form.fields['father'].queryset = Person.objects.filter(gender='M')
-# #         family_form.fields['mother'].queryset = Person.objects.filter(gender='F')
-# #     return render(request, 'family_form.html', {'family_form': family_form})
-
-
-
-
-# def create_family(request):
-#     if request.method == 'POST':
-#         family_form = FamilyForm(request.POST)
-#         if family_form.is_valid():
-#             family = family_form.save()
-
-#             # Update CSV with family details and children
-#             update_csv_with_family(family, request.POST.getlist('children'))
-
-#             return redirect('tree_view')
-#     else:
-#         family_form = FamilyForm()
-#         # Filter the queryset for father and mother fields based on gender
-#         family_form.fields['father'].queryset = Person.objects.filter(gender='M')
-#         family_form.fields['mother'].queryset = Person.objects.filter(gender='F')
-
-#     return render(request, 'family_form.html', {'family_form': family_form})
-
-# def update_csv_with_family(family, children_ids):
-#     file_path = '/Users/neel2004/Desktop/family/genealogy.csv'
-
-#     # Open CSV file in append mode to add new family details
-#     with open(file_path, 'a', newline='') as file:
-#         writer = csv.writer(file)
-
-#         # Write family details to CSV
-#         writer.writerow([
-#             family.id,  # Assuming family has a unique identifier
-#             family.father.id if family.father else '',  # Assuming ForeignKey to Person
-#             family.mother.id if family.mother else '',  # Assuming ForeignKey to Person
-#             ';'.join(children_ids) if children_ids else '',  # Assuming multiple children are separated by ';'
-#         ])
-
-# # Update an existing person
-# # 
-# # def update_person(request, person_id):
-# #     person = get_object_or_404(Person, pk=person_id)
-# #     if request.method == 'POST':
-# #         person_form = PersonForm(request.POST, instance=person)
-# #         if person_form.is_valid():
-# #             person_form.save()
-# #             # Redirect to the update_spouse view with the spouse's ID
-# #             return redirect('person_detail', person_id=person.id)
-# #     else:
-# #         person_form = PersonForm(instance=person)
-# #     return render(request, 'person_edit_form.html', {'person_form': person_form})
-
-
-# def update_person(request, person_id):
-#     person = get_object_or_404(Person, pk=person_id)
-    
-#     if request.method == 'POST':
-#         person_form = PersonForm(request.POST, instance=person)
-#         if person_form.is_valid():
-#             person_form.save()
-            
-#             # Update CSV file with new person data
-#             update_csv_with_person(person)
-            
-#             # Redirect to the person detail view
-#             return redirect('person_detail', person_id=person.id)
-#     else:
-#         person_form = PersonForm(instance=person)
-    
-#     return render(request, 'person_edit_form.html', {'person_form': person_form})
-
-
-# def update_person(request, person_id):
-#     person = get_object_or_404(Person, pk=person_id)
-    
-#     if request.method == 'POST':
-#         person_form = PersonForm(request.POST, instance=person)
-#         if person_form.is_valid():
-#             person_form.save()
-            
-#             # Update CSV file with new person data
-#             update_csv_with_person(person)
-            
-#             # Redirect to the person detail view
-#             return redirect('person_detail', person_id=person.id)
-#     else:
-#         person_form = PersonForm(instance=person)
-    
-#     return render(request, 'person_edit_form.html', {'person_form': person_form})
-
-# def update_csv_with_person(person):
-#     file_path = '/Users/neel2004/Desktop/family/genealogy.csv'
-    
-#     # Open CSV file and update person's information
-#     with open(file_path, 'r', newline='') as file:
-#         reader = csv.reader(file)
-#         rows = list(reader)
-        
-#     with open(file_path, 'w', newline='') as file:
-#         writer = csv.writer(file)
-#         for row in rows:
-#             if row[0] == str(person.id):  # Assuming ID is the first column
-#                 row[1] = person.name      # Update name (assuming name is the second column)
-#                 row[2] = person.gender    # Update gender (assuming gender is the third column)
-#             writer.writerow(row)
-
-# # 
-# # def update_spouse(request, spouse_id):
-# #     spouse = get_object_or_404(SpouseInfo, pk=spouse_id)
-# #     if request.method == 'POST':
-# #         spouse_form = SpouseInfoForm(request.POST, instance=spouse)
-# #         if spouse_form.is_valid():
-# #             spouse_form.save()
-# #             # Redirect to the update_family view with the spouse's ID
-# #             return redirect('tree_view')
-# #     else:
-# #         spouse_form = SpouseInfoForm(instance=spouse)
-# #     return render(request, 'spouse_edit_form.html', {'spouse_form': spouse_form})
-
-
-# def update_spouse(request, spouse_id):
-#     spouse = get_object_or_404(SpouseInfo, pk=spouse_id)
-    
-#     if request.method == 'POST':
-#         spouse_form = SpouseInfoForm(request.POST, instance=spouse)
-#         if spouse_form.is_valid():
-#             spouse_form.save()
-            
-#             # Update CSV file with new spouse data
-#             update_csv_with_spouse(spouse)
-            
-#             # Redirect to the tree view or any appropriate view
-#             return redirect('tree_view')  # Adjust the redirect as per your application's flow
-#     else:
-#         spouse_form = SpouseInfoForm(instance=spouse)
-    
-#     return render(request, 'spouse_edit_form.html', {'spouse_form': spouse_form})
-
-# def update_csv_with_spouse(spouse):
-#     file_path = '/Users/neel2004/Desktop/family/genealogy.csv'
-    
-#     # Open CSV file and update spouse's information
-#     with open(file_path, 'r', newline='') as file:
-#         reader = csv.reader(file)
-#         rows = list(reader)
-        
-#     with open(file_path, 'w', newline='') as file:
-#         writer = csv.writer(file)
-#         for row in rows:
-#             if row[0] == str(spouse.person.id):  # Assuming ID is the first column
-#                 row[6] = spouse.spouse_name          # Update spouse_name (assuming it's the 7th column)
-#                 row[7] = spouse.spouse_fathername    # Update spouse_fathername (assuming it's the 8th column)
-#                 row[8] = spouse.spouse_village       # Update spouse_village (assuming it's the 9th column)
-#             writer.writerow(row)
-
-# # 
-# # def update_family(request, family_id):
-# #     family = get_object_or_404(Family, pk=family_id)
-# #     if request.method == 'POST':
-# #         family_form = FamilyForm(request.POST, instance=family)
-# #         if family_form.is_valid():
-# #             family_form.save()
-# #             # Redirect to the family_detail view with the family's ID
-# #             return redirect('tree_view')
-# #     else:
-# #         family_form = FamilyForm(instance=family)
-# #     return render(request, 'family_edit_form.html', {'family_form': family_form})
-
-# # login_required
-# def update_family(request, family_id):
-#     family = get_object_or_404(Family, pk=family_id)
-    
-#     if request.method == 'POST':
-#         family_form = FamilyForm(request.POST, instance=family)
-#         if family_form.is_valid():
-#             family_form.save()
-            
-#             # Update CSV file with new family data
-#             update_csv_with_family(family)
-            
-#             # Redirect to the tree view or any appropriate view
-#             return redirect('tree_view')  # Adjust the redirect as per your application's flow
-#     else:
-#         family_form = FamilyForm(instance=family)
-    
-#     return render(request, 'family_edit_form.html', {'family_form': family_form})
-
-
-# def update_csv_with_family(family):
-#     file_path = '/Users/neel2004/Desktop/family/genealogy.csv'
-    
-#     # Open CSV file and update family's information
-#     with open(file_path, 'r', newline='') as file:
-#         reader = csv.reader(file)
-#         rows = list(reader)
-        
-#     with open(file_path, 'w', newline='') as file:
-#         writer = csv.writer(file)
-#         for row in rows:
-#             if row and row[0] == str(family.father.id):  # Assuming father's ID is the first column
-#                 children_names = ', '.join([child.name for child in family.children.all()])  # Update children (assuming it's the 4th column)
-#                 row[5] = children_names.split(', ')  # Split children names by comma after updating
-#             writer.writerow(row)
-
-# # Delete a person
-
-# def delete_person(request, person_id):
-#     person = get_object_or_404(Person, pk=person_id)
-#     if request.method == 'POST':
-#         person.delete()
-#         return redirect('tree_view')
-#     return render(request, 'person_confirm_delete.html', {'person': person})
-
-
-# def delete_spouse(request, spouse_id):
-#     spouse = get_object_or_404(SpouseInfo, pk=spouse_id)
-#     if request.method == 'POST':
-#         spouse.delete()
-#         return redirect('tree_view')
-#     return render(request, 'spouse_confirm_delete.html', {'spouse': spouse})
-
-
-# def delete_family(request, family_id):
-#     family = get_object_or_404(Family, pk=family_id)
-#     if request.method == 'POST':
-#         family.delete()
-#         return redirect('tree_view')
-#     return render(request, 'family_confirm_delete.html', {'family': family})
-
-
-# def forgotpass(request):
-#     if request.method == 'POST':
-#         email_id = request.POST.get('email_id')
-#         if not UserRegistration.objects.filter(email_id=email_id).exists():
-#             return render(request, 'getemail.html', {'error_message': "Email address not registered." "\n\n\n" "Please enter a valid email."})
-#         otp = ''.join(random.choices('1234567890', k=4))
-#         request.session['otp'] = otp
-#         # Create email content
-#         subject = "Your OTP Code"
-#         body = f"Your OTP code is: {otp}"
-#         message = f"Subject: {subject}\n\n{body}"
-#         try:
-#             # Use certifi's certificate bundle
-#             context = ssl.create_default_context(cafile=certifi.where())
-#             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-#                 server.login("ramparagenealogy@gmail.com", "pzkq adso icms rjed")
-#                 server.sendmail("ramparagenealogy@gmail.com", email_id, message)
-#         except Exception as e:
-#             print("Error sending email:", e)
-#             return HttpResponse("Failed to send OTP email. Please try again.")
-#         request.session['email_id'] = email_id
-#         return redirect('otp')    
-#     return render(request, 'getemail.html')
-
-
-# def otp(request):
-#     if 'email_id' not in request.session:
-#         return redirect('login')
-#     if request.method == 'POST':
-#         entered_otp = request.POST.get('otp')
-#         if not entered_otp:
-#             return render(request, 'otp.html')
-#         stored_otp = request.session.get('otp')
-#         if entered_otp == stored_otp:
-#             return redirect('changepass')
-#         else:
-#             return render(request, 'otp.html',{'error_message':'Wrong OTP Entered.'})
-#     return render(request, 'otp.html')
-
-
-# def changepass(request):
-#     if request.method == 'POST':
-#         new_password = request.POST.get('password')
-#         if not new_password:
-#             return render(request, 'changepass.html', {'error_message': "Password cannot be empty."})
-#         if 'email_id' not in request.session:
-#             return redirect('login')
-#         try:
-#             user = UserRegistration.objects.get(email_id=request.session['email_id'])
-#             user.password = new_password
-#             user.save()
-#             # Send email notification
-#             email = user.email_id
-#             subject = "Password Changed Successfully..."
-#             body = f"Hello,Your password has been successfully changed."
-#             message = f"Subject: {subject}\n\n{body}"
-#             try:
-#                 # Use certifi's certificate bundle
-#                 context = ssl.create_default_context(cafile=certifi.where())
-#                 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-#                     server.login("ramparagenealogy@gmail.com", "pzkq adso icms rjed")
-#                     server.sendmail("ramparagenealogy@gmail.com", email, message)
-#             except Exception as e:
-#                 print("Error sending email:", e)
-#             return redirect('login')
-#         except UserRegistration.DoesNotExist:
-#             return redirect('login')
-#     return render(request, 'changepass.html')
-
-def save_person_details(request):
-    if request.method == 'POST':
-        imported_data = imported_data(request.POST)
-        if imported_data.is_valid():
-            imported_data = imported_data.save()
-            # Redirect to import_data_from_csv view
-            return redirect('tree_view')
-        else:
-            # Handle form errors if needed
-            return JsonResponse({'status': 'error', 'message': 'Form data is not valid.'}, status=400)
-    else:
-        # Handle GET request if needed
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
-
-
-import csv
-from django.http import JsonResponse
-from django.db import transaction
 
 # Global variable to store imported data
 global imported_data
@@ -682,15 +289,13 @@ def import_data_from_csv(request):
         # try:
         csv_data = csv_file.read().decode('utf-8').splitlines()
         reader = csv.DictReader(csv_data)
-        
+
         imported_data.clear()  # Clear existing data to ensure fresh import
-            
         for row in reader:
-            # try:
-                # if not row['ID'].isdigit():
-                #     continue
-                
-                person_id = row.get('ID')
+            try:
+                if not row['ID'].isdigit():
+                    continue
+                person_id = row['ID']
                 child_id = row.get('child_id', '')
                 father_name = row.get('father', '')
                 mother_name = row.get('mother', '')
@@ -712,8 +317,8 @@ def import_data_from_csv(request):
                     'children': []  # Initialize an empty list for children
                 })
             
-                # except Exception as e:
-                #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
         
         # except Exception as e:
         #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
@@ -723,13 +328,13 @@ def import_data_from_csv(request):
     
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
-from django.http import JsonResponse
 
 def build_tree(person, data):
     # Initialize the tree structure for the current person
     person_tree = {
         'name': person['Name'],
         'id': person['ID'],
+        'child_id': person['child_id'],
         'gender': person['Gender'],
         'children': []
     }
@@ -798,6 +403,7 @@ def d3_collapsible_tree(request):
         return {
             'name': person['Name'],
             'id': person['ID'],
+            'child_id': person['child_id'],
             'gender': person['Gender'],
             'children': [
                 build_tree_with_male(child)
@@ -810,111 +416,17 @@ def d3_collapsible_tree(request):
     return JsonResponse(tree_data)
 
 
+def save_person_details(request):
+    if request.method == 'POST':
+        imported_data = imported_data(request.POST)
+        if imported_data.is_valid():
+            imported_data = imported_data.save()
+            # Redirect to import_data_from_csv view
+            return redirect('tree_view')
+        else:
+            # Handle form errors if needed
+            return JsonResponse({'status': 'error', 'message': 'Form data is not valid.'}, status=400)
+    else:
+        # Handle GET request if needed
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
 
-
-# def RegisterUserView(request):
-#     if request.method == 'POST':
-#         first_name = request.POST.get('firstName')
-#         last_name = request.POST.get('lastName')
-#         email_id = request.POST.get('email_id')
-#         password = request.POST.get('password')
-        
-#         # Create and save the user registration
-#         user_registration = UserRegistration(
-#             first_name=first_name,
-#             last_name=last_name,
-#             email_id=email_id,
-#             password=password
-#         )
-#         try:
-#             user_registration.save()
-#         except IntegrityError:
-#             error_message = "Email already registered. Please use a different email."
-#             return render(request, 'signup.html', {'error_message': error_message})
-
-#         # Send registration email
-#         email = user_registration.email_id
-#         subject = "Registered Successfully"
-#         body = f"Hello {first_name} {last_name}, Thank you for registration.\n\nHave a nice day."
-#         message = f"Subject: {subject}\n\n{body}"
-#         try:
-#             context = ssl.create_default_context(cafile=certifi.where())
-#             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-#                 server.login("ramparagenealogy@gmail.com", "pzkq adso icms rjed")
-#                 server.sendmail("ramparagenealogy@gmail.com", email, message)
-#         except Exception as e:
-#             print("Error sending email:", e)
-        
-#         return redirect('login')
-#     return render(request, 'signup.html')
-
-# def LoginUserView(request):
-#     if request.method == 'POST':
-#         email = request.POST.get('email_id')
-#         passwordobj = request.POST.get('password')      
-#         user_registration = UserRegistration.objects.filter(email_id=email).last()
-#         print('-----------------------------------USER>>>>>>>>>>>>>>', user_registration)
-#         if user_registration is not None:
-#             print('--------------------------CHECK IF >>>>>>>>>>>>>>>>>>>>>', user_registration)
-#             if user_registration.password == passwordobj:
-#                 print('---------------------------PASSWORD>>>>>>>>>>>>>>>>>', passwordobj)
-#                 # Store user information in session
-#                 request.session['user_id'] = user_registration.id
-#                 request.session['email'] = email
-#                 request.session['first_name'] = user_registration.first_name
-#                 request.session['last_name'] = user_registration.last_name
-#                 email = user_registration.email_id
-#                 subject = "Login Successfully"
-#                 body = f"Hello {user_registration.first_name} {user_registration.last_name},\nWelcome back! You have logged in successfully..."
-#                 message = f"Subject: {subject}\n\n{body}"
-#                 try:
-#                     context = ssl.create_default_context(cafile=certifi.where())
-#                     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-#                         server.login("ramparagenealogy@gmail.com", "pzkq adso icms rjed")
-#                         server.sendmail("ramparagenealogy@gmail.com", email, message)
-#                 except Exception as e:
-#                     print("Error sending email:", e)
-#                 return redirect('tree_view')
-#             else:
-#                 return render(request, 'login.html', {'error_message': 'Invalid credentials'})
-#         else:
-#             return render(request, 'login.html', {'error_message': 'User not found or invalid password'})
-#     return render(request, 'login.html')
-
-
-# def logout_view(request):
-#     email = request.session.get('email')
-#     if email:
-#         del request.session['user_id']
-#         del request.session['email']
-#         del request.session['first_name']
-#         del request.session['last_name']
-#     else:    
-#         return redirect('login')    
-#     return redirect('login')
-
-
-# def contactus_view(request):
-#     if request.method == 'POST':
-#         name = request.POST['name']
-#         email = request.POST['email']
-#         phone = request.POST['phone']
-#         message = request.POST['message']
-#         ContactMessage.objects.create(name=name, email=email, phone=phone, message=message)
-#         return redirect('contactus')
-#     return render(request, 'contactus.html')
-
-
-# Create a new person
-# 
-# def create_person(request):
-#     if request.method == 'POST':
-#         person_form = PersonForm(request.POST)
-#         if person_form.is_valid() :
-#             person_form.save()
-#         return redirect('create_spouse')
-#     else:
-#         person_form = PersonForm()
-#     return render(request, 'person_form.html', {'person_form': person_form})
-
-# file_path = '/Users/neel2004/Desktop/family/family/main/genealogy.csv'
