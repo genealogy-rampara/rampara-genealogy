@@ -276,6 +276,58 @@ def create_person(request):
 
 
 # Global variable to store imported data
+# global imported_data
+# imported_data = []
+# @transaction.atomic
+# def import_data_from_csv(request):
+#     global imported_data
+#     if request.method == 'POST':
+#         csv_file = request.FILES.get('csv_file')
+#         if not csv_file or not csv_file.name.endswith('.csv'):
+#             return JsonResponse({'status': 'error', 'message': 'Please upload a valid CSV file'}, status=400)
+        
+#         # try:
+#         csv_data = csv_file.read().decode('utf-8').splitlines()
+#         reader = csv.DictReader(csv_data)
+
+#         imported_data.clear()  # Clear existing data to ensure fresh import
+#         for row in reader:
+#             try:
+#                 if not row['ID']:
+#                     continue
+#                 person_id = row.get('ID')
+#                 child_id = row.get('child_id', '')
+#                 father_name = row.get('father', '')
+#                 mother_name = row.get('mother', '')
+#                 spouse_name = row.get('spouse_name', '')
+#                 spouse_fathername = row.get('spouse_fathername', '')
+#                 spouse_village = row.get('spouse_village', '')
+                
+#                 # Append each person's data to imported_data with an empty children list
+#                 imported_data.append({
+#                     'ID': person_id,
+#                     'child_id': child_id,
+#                     'Name': row['Name'],
+#                     'Gender': row['Gender'],
+#                     'Father': father_name,
+#                     'Mother': mother_name,
+#                     'Spouse Name': spouse_name,
+#                     'Spouse Father Name': spouse_fathername,
+#                     'Spouse Village': spouse_village,
+#                     'children': []  # Initialize an empty list for children
+#                 })
+            
+#             except Exception as e:
+#                 return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        
+#         # except Exception as e:
+#         #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        
+#         return redirect('tree_view')
+#         # return JsonResponse({'status': 'success', 'message': 'Data imported successfully'})
+    
+#     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
 global imported_data
 imported_data = []
 @transaction.atomic
@@ -285,48 +337,37 @@ def import_data_from_csv(request):
         csv_file = request.FILES.get('csv_file')
         if not csv_file or not csv_file.name.endswith('.csv'):
             return JsonResponse({'status': 'error', 'message': 'Please upload a valid CSV file'}, status=400)
-        
-        # try:
-        csv_data = csv_file.read().decode('utf-8').splitlines()
-        reader = csv.DictReader(csv_data)
-
-        imported_data.clear()  # Clear existing data to ensure fresh import
-        for row in reader:
-            try:
-                # if not row['ID']:
-                    # continue
-                person_id = row.get('ID')
-                child_id = row.get('child_id', '')
-                father_name = row.get('father', '')
-                mother_name = row.get('mother', '')
-                spouse_name = row.get('spouse_name', '')
-                spouse_fathername = row.get('spouse_fathername', '')
-                spouse_village = row.get('spouse_village', '')
-                
-                # Append each person's data to imported_data with an empty children list
-                imported_data.append({
-                    'ID': person_id,
-                    'child_id': child_id,
-                    'Name': row['Name'],
-                    'Gender': row['Gender'],
-                    'Father': father_name,
-                    'Mother': mother_name,
-                    'Spouse Name': spouse_name,
-                    'Spouse Father Name': spouse_fathername,
-                    'Spouse Village': spouse_village,
-                    'children': []  # Initialize an empty list for children
-                })
-            
-            except Exception as e:
-                return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-        
-        # except Exception as e:
-        #     return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-        
+        try:
+            # Ensure proper decoding and handle potential BOM
+            csv_data = csv_file.read().decode('utf-8-sig').splitlines()
+            reader = csv.DictReader(csv_data)
+            imported_data.clear()  # Clear existing data to ensure fresh import
+            for row in reader:
+                try:
+                    person_id = row.get('ID', '').strip()
+                    if not person_id:
+                        continue
+                    imported_data.append({
+                        'ID': person_id,
+                        'child_id': row.get('child_id', '').strip(),
+                        'Name': row.get('Name', '').strip(),
+                        'Gender': row.get('Gender', '').strip(),
+                        'Father': row.get('father', '').strip(),
+                        'Mother': row.get('mother', '').strip(),
+                        'Spouse Name': row.get('spouse_name', '').strip(),
+                        'Spouse Father Name': row.get('spouse_fathername', '').strip(),
+                        'Spouse Village': row.get('spouse_village', '').strip(),
+                        'children': []  # Initialize an empty list for children
+                    })
+                except Exception as e:
+                    # Log the error for debugging purposes
+                    print(f"Error processing row {row}: {e}")
+                    return JsonResponse({'status': 'error', 'message': f"Error processing row: {e}"}, status=500)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f"Error reading file: {e}"}, status=500)
         return redirect('tree_view')
-        # return JsonResponse({'status': 'success', 'message': 'Data imported successfully'})
-    
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
 
 
 def build_tree(person, data):
