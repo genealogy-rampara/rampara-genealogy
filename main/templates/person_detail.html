@@ -49,6 +49,10 @@
         a {
             text-decoration-line: none;
         }
+        .pagination-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 <body>
@@ -183,7 +187,7 @@
                                             <div class="card mb-3">
                                                 <div class="card-body">
                                                     <h6 class="card-title">
-                                                        <a href="{% url 'person_detail' family.child_ids2 %}">{{ family.children_name }}</a>                                             </h6>
+                                                        <p>{{ family.children_name }}</p></h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,10 +211,21 @@
             {% endif %}
             </div>
         </div>
-        
-        <center>
+        <div class="pagination-buttons">
+            {% if previous_person_id %}
+                <a class="btn btn-primary" href="{% url 'person_detail' previous_person_id %}">Previous</a>
+            {% else %}
+                <button class="btn btn-primary" disabled>Previous</button>
+            {% endif %}
+            
             <a class="btn btn-dark" href="{% url 'create_person' %}">Edit Data</a>
-        </center>
+            
+            {% if next_person_id %}
+                <a class="btn btn-primary" href="{% url 'person_detail' next_person_id %}">Next</a>
+            {% else %}
+                <button class="btn btn-primary" disabled>Next</button>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>
