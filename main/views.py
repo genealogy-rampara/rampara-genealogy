@@ -15,7 +15,6 @@ def render_tree_view(request):
 # Path to your CSV file
 
 file_path = 'main/genealogy.csv'
-
 def person_detail(request, person_id):
     # Load CSV data
     genealogy_data = load_csv_data(file_path)
@@ -33,9 +32,8 @@ def person_detail(request, person_id):
         print('==========================================================  FAMILIES  ===================================================================\n')
         print(families)
         print('=========================================================================================================================================\n\n')
-
-        # Convert children IDs to list of person dictionaries
         for family in families:
+            print('==================================== FAMILY : ', family)
             children = []
             # Check if 'children' key exists in the family dictionary
             if 'children' in family:
@@ -79,7 +77,7 @@ def person_detail(request, person_id):
 
                 # Check if 'child_id' key exists in the family dictionary
                 if 'child_id' in family:
-                    print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
+                    print('======================================== CHILD IDS >>>>>>>>>>>>>>>>>>>>>>>>>', family['child_id'])
                     child_ids = family['child_id'].split(';')
 
                     # Iterate through each child_id and create child_details dictionary
@@ -94,18 +92,99 @@ def person_detail(request, person_id):
                     print(child2)
                     print('=========================================================================================================================================\n\n')
 
-                # Iterate through childrens_ids and construct family_details for each children_name
-                for children_name in childrens_ids:
-                    family_details = {
-                        'children_name': children_name.strip(),
-                        'child_ids2': child2,  # Use the correct child_id list for each children_name
-                    }
-                    families.append(family_details)
+                # Initialize a list to store the final family details with children names and respective child IDs
+                final_family_details = []
 
-                    print('\n\n=========================================================================================================================================')
-                    print('=====================================================  FAMILY DETAILS CHILDREN NAME AND CHILD ID =====================================\n')
-                    print(families)
-                    print('=========================================================================================================================================\n\n')
+                # Iterate through childrens_ids and construct family_details for each children_name
+                for index, children_name in enumerate(childrens_ids):
+                    # Ensure that each child name gets the respective child ID
+                    if index < len(child2):
+                        family_details = {
+                            'children_name': children_name.strip(),
+                            'child_ids2': child2[index]['child_id'],  # Use the corresponding child_id for each children_name
+                        }
+                        final_family_details.append(family_details)
+
+                        print('\n\n=========================================================================================================================================')
+                        print('=====================================================  FAMILY DETAILS CHILDREN NAME AND CHILD ID =====================================\n')
+                        print(final_family_details)
+                        print('=========================================================================================================================================\n\n')
+
+                # Append the final family details to the families list
+                families.extend(final_family_details)
+                # Convert children IDs to list of person dictionaries
+        # for family in families:
+        #     print('==================================== FAMILY : ',family)
+        #     children = []
+        #     # Check if 'children' key exists in the family dictionary
+        #     if 'children' in family:
+        #         child = family['children']
+        #         print('\n\n=========================================================================================================================================')
+        #         print('==========================================================  CHILD  ======================================================================\n')
+        #         print(child)
+        #         print('=========================================================================================================================================\n\n')
+
+        #         # Split the children string into individual children
+        #         children_ids = child.split(";")
+        #         print('\n\n=========================================================================================================================================')
+        #         print('========================================================  CHILDREN IDS  =================================================================\n')
+        #         print(children_ids)
+        #         print('=========================================================================================================================================\n\n')
+
+        #         # Append each child to the children list
+        #         for c in children_ids:
+        #             children.append(c.strip())
+
+        #         print('\n\n=========================================================================================================================================')
+        #         print('=======================================================  LIST OF CHILDREN  ==============================================================\n')
+        #         print(children)
+        #         print('=========================================================================================================================================\n\n')
+
+        #         my_str = ';'.join(children)
+        #         print('\n\n=========================================================================================================================================')
+        #         print('=======================================================  LIST OF CHILDREN CONVERTED INTO STRING  ========================================\n')
+        #         print(my_str)
+        #         print('=========================================================================================================================================\n\n')
+
+        #         # Split the string back into a list
+        #         childrens_ids = my_str.split(';')
+        #         print('\n\n=========================================================================================================================================')
+        #         print('=======================================================  CHILDRENS IDS SPLIT THE STRING BACK INTO LIST  =================================\n')
+        #         print(childrens_ids)
+        #         print('=========================================================================================================================================\n\n')
+
+        #         # Initialize a list to store child details dictionaries
+        #         child2 = []
+
+        #         # Check if 'child_id' key exists in the family dictionary
+        #         if 'child_id' in family:
+        #             print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
+        #             child_ids = family['child_id'].split(';')
+
+        #             # Iterate through each child_id and create child_details dictionary
+        #             for c_id in child_ids:
+        #                 child_details = {
+        #                     'child_id': c_id.strip(),
+        #                 }
+        #                 child2.append(child_details)
+
+        #             print('\n\n=========================================================================================================================================')
+        #             print('=====================================================  CHILD 2 ===========================================================\n')
+        #             print(child2)
+        #             print('=========================================================================================================================================\n\n')
+
+        #         # Iterate through childrens_ids and construct family_details for each children_name
+        #         for children_name in childrens_ids:
+        #             family_details = {
+        #                 'children_name': children_name.strip(),
+        #                 'child_ids2': child2,  # Use the correct child_id list for each children_name
+        #             }
+        #             families.append(family_details)
+
+        #             print('\n\n=========================================================================================================================================')
+        #             print('=====================================================  FAMILY DETAILS CHILDREN NAME AND CHILD ID =====================================\n')
+        #             print(families)
+        #             print('=========================================================================================================================================\n\n')
 
         # Continue with spouse processing and rendering as per your existing logic
 
@@ -149,6 +228,220 @@ def person_detail(request, person_id):
         raise Http404("Person does not exist")
 
 
+
+# def person_detail(request, person_id):
+#     # Load CSV data
+#     genealogy_data = load_csv_data(file_path)
+#     # Find the person in CSV data
+#     person = find_person(genealogy_data, person_id)
+#     print('\n\n=========================================================================================================================================')
+#     print('==========================================================  PERSON  =====================================================================\n')
+#     print(person)
+#     print('=========================================================================================================================================\n\n')
+
+#     if person:
+#         families = []
+#         families.append(person)
+#         print('\n\n=========================================================================================================================================')
+#         print('==========================================================  FAMILIES  ===================================================================\n')
+#         print(families)
+#         print('=========================================================================================================================================\n\n')
+#         for family in families:
+#             print('==================================== FAMILY : ', family)
+#             children = []
+#             # Check if 'children' key exists in the family dictionary
+#             if 'children' in family:
+#                 child = family['children']
+#                 print('\n\n=========================================================================================================================================')
+#                 print('==========================================================  CHILD  ======================================================================\n')
+#                 print(child)
+#                 print('=========================================================================================================================================\n\n')
+
+#                 # Split the children string into individual children
+#                 children_ids = child.split(";")
+#                 print('\n\n=========================================================================================================================================')
+#                 print('========================================================  CHILDREN IDS  =================================================================\n')
+#                 print(children_ids)
+#                 print('=========================================================================================================================================\n\n')
+
+#                 # Append each child to the children list
+#                 for c in children_ids:
+#                     children.append(c.strip())
+
+#                 print('\n\n=========================================================================================================================================')
+#                 print('=======================================================  LIST OF CHILDREN  ==============================================================\n')
+#                 print(children)
+#                 print('=========================================================================================================================================\n\n')
+
+#                 my_str = ';'.join(children)
+#                 print('\n\n=========================================================================================================================================')
+#                 print('=======================================================  LIST OF CHILDREN CONVERTED INTO STRING  ========================================\n')
+#                 print(my_str)
+#                 print('=========================================================================================================================================\n\n')
+
+#                 # Split the string back into a list
+#                 childrens_ids = my_str.split(';')
+#                 print('\n\n=========================================================================================================================================')
+#                 print('=======================================================  CHILDRENS IDS SPLIT THE STRING BACK INTO LIST  =================================\n')
+#                 print(childrens_ids)
+#                 print('=========================================================================================================================================\n\n')
+
+#                 # Initialize a list to store child details dictionaries
+#                 child2 = []
+
+#                 # Check if 'child_id' key exists in the family dictionary
+#                 if 'child_id' in family:
+#                     print('======================================== CHILD IDS >>>>>>>>>>>>>>>>>>>>>>>>>', family['child_id'])
+#                     child_ids = family['child_id'].split(';')
+
+#                     # Iterate through each child_id and create child_details dictionary
+#                     for c_id in child_ids:
+#                         child_details = {
+#                             'child_id': c_id.strip(),
+#                         }
+#                         child2.append(child_details)
+
+#                     print('\n\n=========================================================================================================================================')
+#                     print('=====================================================  CHILD 2 ===========================================================\n')
+#                     print(child2)
+#                     print('=========================================================================================================================================\n\n')
+
+#                 # Initialize a list to store the final family details with children names and respective child IDs
+#                 final_family_details = []
+
+#                 # Iterate through childrens_ids and construct family_details for each children_name
+#                 for index, children_name in enumerate(childrens_ids):
+#                     # Ensure that each child name gets the respective child ID
+#                     if index < len(child2):
+#                         family_details = {
+#                             'children_name': children_name.strip(),
+#                             'child_ids2': child2[index],  # Use the corresponding child_id for each children_name
+#                         }
+#                         final_family_details.append(family_details)
+
+#                         print('\n\n=========================================================================================================================================')
+#                         print('=====================================================  FAMILY DETAILS CHILDREN NAME AND CHILD ID =====================================\n')
+#                         print(final_family_details)
+#                         print('=========================================================================================================================================\n\n')
+
+#                 # Append the final family details to the families list
+#                 families.extend(final_family_details)
+#                 # Convert children IDs to list of person dictionaries
+#         # for family in families:
+#         #     print('==================================== FAMILY : ',family)
+#         #     children = []
+#         #     # Check if 'children' key exists in the family dictionary
+#         #     if 'children' in family:
+#         #         child = family['children']
+#         #         print('\n\n=========================================================================================================================================')
+#         #         print('==========================================================  CHILD  ======================================================================\n')
+#         #         print(child)
+#         #         print('=========================================================================================================================================\n\n')
+
+#         #         # Split the children string into individual children
+#         #         children_ids = child.split(";")
+#         #         print('\n\n=========================================================================================================================================')
+#         #         print('========================================================  CHILDREN IDS  =================================================================\n')
+#         #         print(children_ids)
+#         #         print('=========================================================================================================================================\n\n')
+
+#         #         # Append each child to the children list
+#         #         for c in children_ids:
+#         #             children.append(c.strip())
+
+#         #         print('\n\n=========================================================================================================================================')
+#         #         print('=======================================================  LIST OF CHILDREN  ==============================================================\n')
+#         #         print(children)
+#         #         print('=========================================================================================================================================\n\n')
+
+#         #         my_str = ';'.join(children)
+#         #         print('\n\n=========================================================================================================================================')
+#         #         print('=======================================================  LIST OF CHILDREN CONVERTED INTO STRING  ========================================\n')
+#         #         print(my_str)
+#         #         print('=========================================================================================================================================\n\n')
+
+#         #         # Split the string back into a list
+#         #         childrens_ids = my_str.split(';')
+#         #         print('\n\n=========================================================================================================================================')
+#         #         print('=======================================================  CHILDRENS IDS SPLIT THE STRING BACK INTO LIST  =================================\n')
+#         #         print(childrens_ids)
+#         #         print('=========================================================================================================================================\n\n')
+
+#         #         # Initialize a list to store child details dictionaries
+#         #         child2 = []
+
+#         #         # Check if 'child_id' key exists in the family dictionary
+#         #         if 'child_id' in family:
+#         #             print('======================================== CHI<DDDDDDDDDDDDD >>>>>>>>>>>>>>>>>>>>>>>>>',family['child_id'])
+#         #             child_ids = family['child_id'].split(';')
+
+#         #             # Iterate through each child_id and create child_details dictionary
+#         #             for c_id in child_ids:
+#         #                 child_details = {
+#         #                     'child_id': c_id.strip(),
+#         #                 }
+#         #                 child2.append(child_details)
+
+#         #             print('\n\n=========================================================================================================================================')
+#         #             print('=====================================================  CHILD 2 ===========================================================\n')
+#         #             print(child2)
+#         #             print('=========================================================================================================================================\n\n')
+
+#         #         # Iterate through childrens_ids and construct family_details for each children_name
+#         #         for children_name in childrens_ids:
+#         #             family_details = {
+#         #                 'children_name': children_name.strip(),
+#         #                 'child_ids2': child2,  # Use the correct child_id list for each children_name
+#         #             }
+#         #             families.append(family_details)
+
+#         #             print('\n\n=========================================================================================================================================')
+#         #             print('=====================================================  FAMILY DETAILS CHILDREN NAME AND CHILD ID =====================================\n')
+#         #             print(families)
+#         #             print('=========================================================================================================================================\n\n')
+
+#         # Continue with spouse processing and rendering as per your existing logic
+
+#                 # Append family details to the families list
+#         spouses = []
+#         # Check if the person has a spouse_name
+#         if person.get('spouse_name'):
+#             # Iterate through genealogy_data to find spouses where spouse_name matches person's name
+#             for entry in genealogy_data:
+#                 if person['spouse_name'] in entry['spouse_name']:
+#                     spouse_names = entry['spouse_name'].split(';')
+                    
+#                     for idx, spouse_name in enumerate(spouse_names):
+#                         spouse_details = {
+#                             'spouse_name': spouse_name.strip(),
+#                             'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
+#                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
+#                         }
+                        
+#                         # Append spouse details to the spouses list
+#                         spouses.append(spouse_details)
+        
+#         # Print debug messages
+#         if not spouses:
+#             print('\n\n=========================================================================================================================================')
+#             print('==========================================================  NO SPOUSE FOUND!  ====================================================================\n')
+#             print('=========================================================================================================================================\n\n')
+        
+#         print('\n\n=========================================================================================================================================')
+#         print('==========================================================  SPOUSES  ====================================================================\n')
+#         print(spouses)
+#         print('=========================================================================================================================================\n\n')
+        
+#         return render(request, 'person_detail.html', {
+#             'person': person,
+#             'families': families,
+#             'spouses': spouses
+#         })
+        
+#     else:
+#         raise Http404("Person does not exist")
+
+
 # file_path='main/genealogy.csv'
 def load_csv_data(file_path):
     """
@@ -176,62 +469,142 @@ def find_person(data, person_id):
 # This view displays details of a child
 # file_path = '/Users/neel2004/Desktop/family/family/main/genealogy.csv'
 
-def find_child(data, child_id):
+# def find_child(data, child_id):
+#     """
+#     Find a child with the specified ID in the loaded genealogy data.
+#     """
+#     for child in data:
+#         if child['child_id'] == str(child_id):
+#             return child
+#         # print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child)
+#     if 'child_id' in child:
+#             children_ids = child['child_id'].split(";")
+#             for child_id in children_ids:
+#                 print('CHILD IDS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child_id)
+#             print('CHILDREN IDS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',children_ids)
+#                 # if child['child_id'] == children_ids:
+#                     # print('CHILD IDS AFTER SPLITTING >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child_id)
+#             # return child_id
+#             # print('CHILDREN IDS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',children_ids)
+#     return child_id
+
+    # for child in data:
+    #     if child['child_id'] == str(child_id):
+    #         return child
+    #         # print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child)
+
+
+# def find_child(data, target_child_id):
+#     """
+#     Find a child with the specified ID in the loaded genealogy data.
+#     """
+#     for record in data:
+#         if 'child_id' in record and record['child_id']:
+#             children_ids = record['child_id'].split(";")
+#             if target_child_id in children_ids:
+#                 return record
+#     return None
+
+
+def find_child(data, children_ids):
     """
     Find a child with the specified ID in the loaded genealogy data.
     """
     for child in data:
-        if child['child_id'] == str(child_id):
-            return child
-            # print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child)
+        print('=========================================CHILD+++++++++++++++++++++++++++++++++++++++++++',child)
+        if 'child_id' in child:
+            children_ids = child['child_id'].split(";")
+            for child_id in children_ids:
+                print('CHILD IDS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child_id)
+            print('CHILDREN IDS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',children_ids)
+                # if child['child_id'] == children_ids:
+                    # print('CHILD IDS AFTER SPLITTING >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',child_id)
+            # return child_id
+            # print('CHILDREN IDS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',children_ids)
+        return child
 
-def child_detail(request, child_id):
+
+def child_detail(request,child_id):
     # Load CSV data
     genealogy_data = load_csv_data(file_path)
     # Find the child in CSV data
     child = find_child(genealogy_data, child_id)
+    # person = find_person(genealogy_data, person_id)
     print('CHILD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>++++++++++++++++++++++++++++++', child)
+    # print('PERSON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>++++++++++++++++++++++++++++++', person)
     if child:
         # Initialize lists for families and spouses
         families = []
-        spouses = []
-
-        # Check if 'children' key exists in the child dictionary
-        if 'children' in child:
-            children_ids = child['children'].split(";")
-
-            # Iterate through children IDs and construct family_details for each children_name
-            for children_name in children_ids:
-                family_details = {
-                    'children_name': children_name.strip(),
-                }
-                families.append(family_details)
+        # spouses = []
+        for child_ren in child:
+            children = []
+            if 'child_id' in child_ren:
+                child3 = child_ren[1]
+                print('\n\n=========================================================================================================================================')
+                print('==========================================================  CHILD  ======================================================================\n')
+                print(child3)
+                print('=========================================================================================================================================\n\n')
+                # Split the children string into individual children
+                childrens_ids = child_ren.split(";")
+                print('\n\n=========================================================================================================================================')
+                print('========================================================  CHILDREN IDS  =================================================================\n')
+                print(childrens_ids)
+                print('=========================================================================================================================================\n\n')
+                # Append each child to the children list
+                for c in childrens_ids:
+                    children.append(c.strip())
+                print('\n\n=========================================================================================================================================')
+                print('=======================================================  LIST OF CHILDREN  ==============================================================\n')
+                print(children)
+                print('=========================================================================================================================================\n\n')
+                my_str = ';'.join(children)
+                print('\n\n=========================================================================================================================================')
+                print('=======================================================  LIST OF CHILDREN CONVERTED INTO STRING  ========================================\n')
+                print(my_str)
+                print('=========================================================================================================================================\n\n')
+                # Split the string back into a list
+                childrens_ids = my_str.split(';')
+                print('\n\n=========================================================================================================================================')
+                print('=======================================================  CHILDRENS IDS SPLIT THE STRING BACK INTO LIST  =================================\n')
+                print(childrens_ids)
+                print('=========================================================================================================================================\n\n')
+                # Check if 'children' key exists in the child dictionary
+                my_str = str(child)
+                children_id = my_str.split(";")
+                print('CHILDREN ID >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',children_id)
+                    # Iterate through children IDs and construct family_details for each children_name
+                for children_name in children_id:
+                        family_details = {
+                            'children_name': children_name.strip(),
+                        }
+                        families.append(family_details)
 
         # Check if the child has a spouse_name
-        if child.get('spouse_name'):
+        # if :
             # Iterate through genealogy_data to find spouses where spouse_name matches child's spouse_name
-            for entry in genealogy_data:
-                if child['spouse_name'] in entry['spouse_name']:
-                    spouse_names = entry['spouse_name'].split(';')
+    #         for entry in genealogy_data:
+    #             if child['spouse_name'] in entry['spouse_name']:
+    #                 spouse_names = entry['spouse_name'].split(';')
 
-                    for idx, spouse_name in enumerate(spouse_names):
-                        spouse_details = {
-                            'spouse_name': spouse_name.strip(),
-                            'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
-                            'spouse_village': entry['spouse_village'].split(';')[idx].strip()
-                        }
+    #                 for idx, spouse_name in enumerate(spouse_names):
+    #                     spouse_details = {
+    #                         'spouse_name': spouse_name.strip(),
+    #                         'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
+    #                         'spouse_village': entry['spouse_village'].split(';')[idx].strip()
+    #                     }
 
-                        # Append spouse details to the spouses list
-                        spouses.append(spouse_details)
+    #                     # Append spouse details to the spouses list
+    #                     spouses.append(spouse_details)
 
-        return render(request, 'child_detail.html', {
-            'child': child,
-            'families': families,
-            'spouses': spouses
-        })
+    #     return render(request, 'child_detail.html', {
+    #         'child': child,
+    #         'families': families,
+    #         'spouses': spouses
+    #     })
 
-    else:
-        raise Http404("Person does not exist")
+    # else:
+    #     raise Http404("Person does not exist")
+
 
 
 
@@ -251,7 +624,7 @@ def create_person(request):
             'spouse_village': ''
         }
         
-        # Save the person details to CSV file
+        # Save the person details to CSV 
         with open(file_path, 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([
