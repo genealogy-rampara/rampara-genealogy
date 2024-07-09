@@ -1,5 +1,5 @@
-from django.shortcuts import render, Http404, redirect
-from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
 import csv
 from django.db import transaction
 from django.http import JsonResponse
@@ -7,8 +7,8 @@ from django.http import JsonResponse
 # This view renders the tree.html template
 def render_tree_view(request):
     global imported_data
-    # Retrieve imported_data from session
-    print("Imported Data:", imported_data)  # Debug statement
+    imported_data = request.session.get('imported_data', [])
+    print("Imported Data : ", imported_data)
     return render(request, 'tree.html', {'imported_data': imported_data})
 
 def note(request):
@@ -18,15 +18,11 @@ def search_person(request):
     query = request.GET.get('q')
     print("QUERY : ",query)
     genealogy_data = load_csv_data(file_path)
-    # person = query
-    # print("PERSON : ",person)
     if query:
         try:
-            # Assuming 'persons_data' is the list of dictionaries with person details
             person = next(item for item in genealogy_data if item["Name"].lower() == query.lower()) 
             return redirect('person_detail', person_id=person["ID"])
         except StopIteration:
-            # return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/">HOME</a></center>')
             return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
     return redirect('home')  
 # This view displays details of a person
@@ -38,10 +34,8 @@ file_path = 'main/genealogy.csv'
 def person_detail(request, person_id):
     # Load CSV data
     genealogy_data = load_csv_data(file_path)
-
     # Find the person in CSV data
     person = find_person(genealogy_data, person_id)
-
     if person:
         print('\n\n=========================================================================================================================================')
         print('==========================================================  PERSON  =====================================================================\n')
@@ -139,7 +133,7 @@ def count_unique_ids(genealogy_data):
         ids.add(entry['ID'])
     return len(ids), sorted(ids)
 
-# file_path='main/genealogy.csv'
+
 def load_csv_data(file_path):
     """
     Load genealogy data from CSV file into a list of dictionaries.
@@ -240,7 +234,7 @@ def import_data_from_csv(request):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f"Error reading or processing CSV file: {e}"}, status=500)
         # Store imported_data in session for future access
-        # request.session['imported_data'] = imported_data
+        request.session['imported_data'] = imported_data
         return redirect('tree_view')
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 

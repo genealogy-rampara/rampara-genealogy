@@ -75,45 +75,18 @@ WSGI_APPLICATION = 'family.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.dummy',
 #     }
 # }
-# # import os
-
-# import os
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'URL': os.getenv('POSTGRES_URL'),
-#         'NAME': os.getenv('PGNAME'),
-#         'USER': os.getenv('PGUSER'),
-#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-#         'HOST': os.getenv('PGHOST'),
-#         'PORT': os.getenv('PGPORT'),
-#     }
-# }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": os.environ.get("DB_NAME"),
-#         "USER": os.environ.get("DB_USER"),
-#         "PASSWORD": os.environ.get("DB_PASSWORD"),
-#         "HOST": os.environ.get("DB_HOST"),
-#         "PORT": os.environ.get("DB_PORT"),
-#         "SECRET_KEY": os.environ.get("SECRET_KEY"),
-#     }
-# }
-# from dotenv import load_dotenv
-# load_dotenv()
+# DATABASES = {}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -160,14 +133,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ramparagenealogy@gmail.com'
-EMAIL_HOST_PASSWORD = 'pzkq adso icms rjed'
-EMAIL_USE_SSL = False
-EMAIL_TIMEOUT = 20  # Increased timeout for network delays
-EMAIL_DEBUG = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
