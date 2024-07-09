@@ -89,9 +89,49 @@
                 padding: 40px 15px 15px 15px;
             }
         }
+        .container {
+            max-width: 1200px;
+        }
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: #f0f0f0;
+            padding: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .marquee span {
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+        .marquee {
+            color: red;
+        }
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        a {
+            text-decoration-line: none;
+        }
     </style>
 </head>
 <body>
+    <div class="marquee">
+        <span>
+            <strong>DONT DELETE OTHER DATA ON CSV (બીજો કોઇ પણ ડેટા ડિલીટ કરવો નહીં !)</strong><br>
+            <strong>Note : </strong> When you add data from CSV, follow the proper format. If you add child_id, write the ID of that child (Person). Click here for more information.<br>
+            <strong>નોંધ : </strong> જ્યારે તમે csv માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો CLICK HERE બટન પર દબાવી વધુ જાણો.<br>&emsp;&emsp;&emsp;&emsp;
+        </span>
+        <center><a href="{% url 'note' %}" class="btn btn-primary">CLICK HERE</a></center>
+    </div>
     <div class="wrapper">
         <div class="logo">
             <img src="https://www.indianrajputs.com/i/t/dhrangadhra_coa.png" alt="Logo">

@@ -53,9 +53,42 @@
             display: flex;
             justify-content: space-between;
         }
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: #f0f0f0;
+            padding: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .marquee span {
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+        .marquee
+        {
+            color: red;
+        }
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="marquee">
+        <span>  <strong>Note :</strong> When you add data from csv follow the proper format, if you add child_id then write ID of that child (person) press CLICK HERE for more information.<br>
+                <strong>નોંધ: </strong>જ્યારે તમે csv માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો CLICK HERE બટન પર દબાવી વધુ જાણો.<br>&emsp;&emsp;&emsp;&emsp;
+        </span>
+        <center><a href="{% url 'note' %}" class="btn btn-primary">CLICK HERE</a></center>
+    </div>
     <nav class="breadcrumb navbar">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item active" aria-current="page">
@@ -138,7 +171,15 @@
                             <h2 class="card-title">Spouse Information</h2><hr>
                             {% for spouse in spouses %}
                                 <div class="small-card">
-                                    <hr><h3>Spouse {{ forloop.counter }}</h3><hr>
+                                    <hr>
+                                    <h3>
+                                        {% if spouses|length > 1 %}
+                                            Spouse {{ forloop.counter }}
+                                        {% else %}
+                                            Spouse
+                                        {% endif %}
+                                    </h3>
+                                    <hr>
                                     <strong>
                                         <center>
                                             <p class="card-text">Spouse Name: {{ spouse.spouse_name }}</p>
@@ -232,6 +273,8 @@
                 <button class="btn btn-primary" disabled>Next</button>
             {% endif %}
         </div>
+        
+        
     </div>
 </body>
 </html>
