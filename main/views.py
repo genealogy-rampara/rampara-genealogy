@@ -8,7 +8,6 @@ from django.http import JsonResponse
 def render_tree_view(request):
     global imported_data
     # Retrieve imported_data from session
-    imported_data = request.session.get('imported_data', [])
     print("Imported Data:", imported_data)  # Debug statement
     return render(request, 'tree.html', {'imported_data': imported_data})
 
