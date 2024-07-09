@@ -241,7 +241,7 @@ def import_data_from_csv(request):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f"Error reading or processing CSV file: {e}"}, status=500)
         # Store imported_data in session for future access
-        request.session['imported_data'] = imported_data
+        # request.session['imported_data'] = imported_data
         return redirect('tree_view')
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
