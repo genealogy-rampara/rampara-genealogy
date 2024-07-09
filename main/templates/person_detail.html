@@ -172,43 +172,49 @@
                 {% endif %}
             </div>
         </div>
-        
         <div class="row">
             <div class="col-md-12">
                 {% if families %}
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Children Information</h2><hr>
-                        <div class="container">
-                            <div class="row">
-                                {% for family in families %}
-                                    {% if family.children_name %}
-                                        <div class="col-md-6">
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">
-                                                        <p>{{ family.children_name }}</p></h6>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Children Information</h2>
+                            <hr>
+                            <div class="container">
+                                <div class="row">
+                                    {% for family in families %}
+                                        {% if family.children_name %}
+                                            <div class="col-md-6">
+                                                <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title">
+                                                            {% if family.family_type == 'father' %}
+                                                                <a href="{% url 'person_detail' family.child_ids2 %}">{{ family.children_name }}</a>
+                                                            {% else %}
+                                                                {{ family.children_name }}
+                                                            {% endif %}
+                                                        </h6>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% else %}
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Children Information</h2><hr>
-                        <strong>
-                            <center>
-                                <p class="card-text">No Children Information Available!</p>
-                            </center>
-                        </strong>
+                {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Children Information</h2>
+                            <hr>
+                            <strong>
+                                <center>
+                                    <p class="card-text">No Children Information Available!</p>
+                                </center>
+                            </strong>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
             </div>
         </div>
         <div class="pagination-buttons">
