@@ -3,12 +3,13 @@ from django.http import HttpResponse, JsonResponse
 import csv
 from django.db import transaction
 from django.http import JsonResponse
-
+from django.core.cache import cache
 # This view renders the tree.html template
 def render_tree_view(request):
-    global imported_data
-    # imported_data = request.session.get('imported_data', [])
-    print("Imported Data : ", imported_data)
+    imported_data = cache.get('imported_data')
+    if not imported_data:
+        imported_data = []
+    print("Imported Data:", imported_data)
     return render(request, 'tree.html', {'imported_data': imported_data})
 
 def note(request):
@@ -203,10 +204,8 @@ def create_person(request):
     # return redirect('tree_view')
     return render(request, 'person_form.html')
 
-imported_data = []
 
 def import_data_from_csv(request):
-    global imported_data
     if request.method == 'POST':
         csv_file = request.FILES.get('csv_file')
         if not csv_file or not csv_file.name.endswith('.csv'):
@@ -215,8 +214,9 @@ def import_data_from_csv(request):
             # Ensure proper decoding and handle potential BOM
             csv_data = csv_file.read().decode('utf-8-sig').splitlines()
             reader = csv.DictReader(csv_data)
+            imported_data = []
             # Clear existing data to ensure fresh import
-            imported_data.clear()
+            # imported_data.clear()
             for row in reader:
                 # Append each row from CSV to imported_data list
                 imported_data.append({
@@ -231,6 +231,7 @@ def import_data_from_csv(request):
                     'Spouse Village': row.get('spouse_village', '').strip(),
                     'children': []  # Initialize an empty list for children
                 })
+                cache.set('imported_data', imported_data, timeout=None)
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f"Error reading or processing CSV file: {e}"}, status=500)
         # Store imported_data in session for future access
@@ -296,26 +297,31 @@ def get_tree_data(request):
 
 
 def d3_collapsible_tree(request):
-    global imported_data
-    if not imported_data:
-        return JsonResponse({"error": "No data available"}, status=400)
-    root_person_name = "Anandsinhji"
-    root_person = next((item for item in imported_data if item['Name'] == root_person_name), None)
-    if not root_person:
-        return JsonResponse({"error": "Root person not found"}, status=404)
-    # Function to recursively filter and build the tree with male individuals
-    def build_tree_with_male(person):
-        return {
-            'name': person['Name'],
-            'id': person['ID'],
-            'child_id': person['child_id'],
-            'gender': person['Gender'],
-            'children': [
-                build_tree_with_male(child)
-                for child in imported_data
-                if child['Father'] == person['Name'] and child['Gender'] == 'M'
-            ]
-        }
-    # Generate the tree data starting from the root person
-    tree_data = build_tree_with_male(root_person)
-    return JsonResponse(tree_data)
+    try:
+        imported_data = cache.get('imported_data')
+        if not imported_data:
+            return JsonResponse({"error": "No data available"}, status=400)
+        
+        root_person_name = "Anandsinhji"
+        root_person = next((item for item in imported_data if item['Name'] == root_person_name), None)
+        if not root_person:
+            return JsonResponse({"error": "Root person not found"}, status=404)
+        
+        def build_tree_with_male(person):
+            return {
+                'name': person['Name'],
+                'id': person['ID'],
+                'child_id': person['child_id'],
+                'gender': person['Gender'],
+                'children': [
+                    build_tree_with_male(child)
+                    for child in imported_data
+                    if child['Father'] == person['Name'] and child['Gender'] == 'M'
+                ]
+            }
+        
+        tree_data = build_tree_with_male(root_person)
+        return JsonResponse(tree_data)
+    
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
