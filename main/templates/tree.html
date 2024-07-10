@@ -128,6 +128,12 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <form class="d-flex" method="get" action="{% url 'search_person'  %}">
+                            <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
                         <center>
                             <button onclick="window.print()" class="btn btn-secondary">Print Details</button>
                         </center>

@@ -10,5 +10,5 @@ urlpatterns = [
     # path('build_tree/', views.build_tree, name='build_tree'),    
     path('import_data_from_csv/', views.import_data_from_csv, name='import_data_from_csv'),  
     path('generate_tree_data/', views.generate_tree_data, name='generate_tree_data'),
-    # path('search/', views.search_person, name='search_person'),
+    path('search/', views.search_person, name='search_person'),
 ]

@@ -66,6 +66,19 @@ def import_data_from_drive(request):
 def render_tree_view(request):
     return render(request, 'tree.html')
 
+def search_person(request):
+    query = request.GET.get('q')
+    print("QUERY : ", query)
+    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+    if query:
+        query = query.strip()
+        try:
+            person = next(item for item in genealogy_data if item["Name"].lower() == query.lower())
+            return redirect('person_detail', person_id=person["ID"])
+        except StopIteration:
+            return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
+    return redirect('tree_view')
+
 # Function to build the family tree structure
 def build_tree(person, data):
     person_tree = {
