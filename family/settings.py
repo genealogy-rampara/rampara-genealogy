@@ -93,7 +93,10 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': tempfile.gettempdir(),  # Specify a directory for file-based caching
-        'TIMEOUT': None,  # Cache timeout in seconds (1 hour in this example)
+        'TIMEOUT': None,  # Cache timeout in seconds, None means cache will never expire
+        'OPTIONS': {
+            'MAX_ENTRIES': 100000  # Optional: Limit the maximum number of entries in the cache
+        }
     }
 }
 
