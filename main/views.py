@@ -287,7 +287,7 @@ def get_tree_data(request):
         return JsonResponse({'status': 'error', 'message': 'No data available'}, status=400)
     try:
         # Find the root person with the name "Anandsinhji"
-        root_person = next((person for person in imported_data if person['Name'] == 'Anandsinhji'), None)
+        root_person = next((person for person in imported_data if person['Name'] == 'Vakhatsinhji'), None)
         if root_person:
             # Return only the name of the root person
             return JsonResponse({'name': root_person['Name']}, status=200)
@@ -303,7 +303,7 @@ def d3_collapsible_tree(request):
         if not imported_data:
             return JsonResponse({"error": "No data available"}, status=400)
         
-        root_person_name = "Anandsinhji"
+        root_person_name = "Vakhatsinhji"
         root_person = next((item for item in imported_data if item['Name'] == root_person_name), None)
         if not root_person:
             return JsonResponse({"error": "Root person not found"}, status=404)
