@@ -87,7 +87,7 @@
         <span>  <strong>Note : </strong> When you add data from csv follow the proper format, if you add child_id then write ID of that child (person) press CLICK HERE for more information.<br>
                 <strong>નોંધ : </strong>જ્યારે તમે csv માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો CLICK HERE બટન પર દબાવી વધુ જાણો.<br>&emsp;&emsp;&emsp;&emsp;
         </span>
-        <center><a href="{% url 'note' %}" class="btn btn-primary">CLICK HERE</a></center>
+        <center><a href="{% url 'note' %}" class="btn btn-primary" target="_blank">CLICK HERE</a></center>
     </div>
     <nav class="breadcrumb navbar">
         <ol class="breadcrumb mb-0">
@@ -229,7 +229,7 @@
                                                     <div class="card-body">
                                                         <h6 class="card-title">
                                                             {% if family.family_type == 'father' %}
-                                                                <a href="{% url 'person_detail' family.child_ids2 %}">{{ family.children_name }}</a>
+                                                                <a href="{% url 'person_detail' family.child_ids2 %}" target="_blank">{{ family.children_name }}</a>
                                                             {% else %}
                                                                 {{ family.children_name }}
                                                             {% endif %}
@@ -271,7 +271,7 @@
                 <button class="btn btn-primary" disabled>Previous</button>
             {% endif %}
             
-            <a class="btn btn-dark" href="{% url 'create_person' %}">Edit Data</a>
+            <a class="btn btn-dark" href="{% url 'tree_view' %}">HOME</a>
             
             {% if next_person_id %}
                 <a class="btn btn-primary" href="{% url 'person_detail' next_person_id %}">Next</a>
@@ -279,8 +279,6 @@
                 <button class="btn btn-primary" disabled>Next</button>
             {% endif %}
         </div>
-        
-        
     </div>
 </body>
 </html>

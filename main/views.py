@@ -1,41 +1,96 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 import csv
-from django.db import transaction
-from django.http import JsonResponse
-from django.core.cache import cache
-# This view renders the tree.html template
-def render_tree_view(request):
-    imported_data = cache.get('imported_data')
-    if not imported_data:
-        imported_data = []
-    print("Imported Data:", imported_data)
-    return render(request, 'tree.html', {'imported_data': imported_data})
+import requests
 
+# Path to your CSV file
+csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'
+
+# Function to fetch CSV data from Google Drive URL
+# View to fetch updated data
+    
+def fetch_csv_data_from_drive(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            # Decode and split lines of CSV data
+            csv_data = response.content.decode('utf-8-sig').splitlines()
+            return csv_data
+        else:
+            print(f"Failed to fetch data from Google Drive. Status code: {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Error fetching data from Google Drive: {e}")
+        return None
+
+# Function to process and import CSV data
+def import_data_from_csv(csv_data):
+    imported_data = []
+    try:
+        reader = csv.DictReader(csv_data)
+        for row in reader:
+            print('Processing row:', row)  # Add this line to debug
+            imported_data.append({
+                'ID': row.get('ID', '').strip(),
+                'child_id': row.get('child_id', '').strip(),
+                'Name': row.get('Name', '').strip(),
+                'Gender': row.get('Gender', '').strip(),
+                'father': row.get('father', '').strip(),
+                'mother': row.get('mother', '').strip(),
+                'spouse_name': row.get('spouse_name', '').strip(),
+                'spouse_fathername': row.get('spouse_fathername', '').strip(),
+                'spouse_village': row.get('spouse_village', '').strip(),
+                'children': row.get('children', '').strip() 
+            })
+        return imported_data
+    except Exception as e:
+        error_message = f"Error reading or processing CSV data: {e}"
+        print(error_message)
+        return None
+
+# View to import data from CSV file
+def import_data_from_drive(request):
+    if request.method == 'POST':
+        csv_data = fetch_csv_data_from_drive(csv_file_url)
+        if csv_data:
+            imported_data = import_data_from_csv(csv_data)
+            if imported_data:
+                return redirect('tree_view')
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Failed to import data from CSV'}, status=500)
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Failed to fetch CSV data from Google Drive'}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+# Example view to render a template (replace with your actual views)
+def render_tree_view(request):
+    return render(request, 'tree.html')
+
+# Function to build the family tree structure
+def build_tree(person, data):
+    person_tree = {
+        'name': person['Name'],
+        'id': person['ID'],
+        'child_id': person['child_id'],
+        'gender': person['Gender'],
+        'children': []
+    }
+    children = [child for child in data if child['father'] == person['Name']]
+    for child in children:
+        person_tree['children'].append(build_tree(child, data))
+    female_children_with_children = [child for child in data if child['mother'] == person['Name']]
+    for female_child in female_children_with_children:
+        person_tree['children'].append(build_tree(female_child, data))
+    return person_tree
+
+# View to render the note.html template
 def note(request):
     return render(request, 'note.html')
 
-def search_person(request):
-    query = request.GET.get('q')
-    print("QUERY : ",query)
-    genealogy_data = load_csv_data(file_path)
-    if query:
-        query = query.strip()
-        try:
-            person = next(item for item in genealogy_data if item["Name"].lower() == query.lower()) 
-            return redirect('person_detail', person_id=person["ID"])
-        except StopIteration:
-            return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
-    return redirect('home')  
-# This view displays details of a person
-
-# Path to your CSV file
-
-file_path = 'main/genealogy.csv'
-
+# View to display detailed information about a person
 def person_detail(request, person_id):
     # Load CSV data
-    genealogy_data = load_csv_data(file_path)
+    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
     # Find the person in CSV data
     person = find_person(genealogy_data, person_id)
     if person:
@@ -70,12 +125,16 @@ def person_detail(request, person_id):
         print('======================================================  NEXT PERSON ID  =================================================================\n')
         print(next_person_id)
         print('=========================================================================================================================================\n\n')
-        
+
         families = []
 
         # Check if 'children' key exists in the person dictionary
         if 'children' in person:
-            children = person['children'].split(';')
+            print('\n\n=========================================================================================================================================')
+            print('====================================================  CHILDREN KEY EXISTS  ==============================================================\n')
+            print(person['children'])
+            print('=========================================================================================================================================\n\n')
+            children = person['children'].split(';') if person['children'] else []
             print('\n\n=========================================================================================================================================')
             print('=======================================================  CHILDREN NAMES  ================================================================\n')
             print(children)
@@ -101,6 +160,20 @@ def person_detail(request, person_id):
                 print('====================================================  FAMILIES DETAILS  =================================================================\n')
                 print(families)
                 print('=========================================================================================================================================\n\n')
+        else:
+            print("No children key found in the person dictionary.")
+
+        # Ensure children are correctly linked to their parent
+        for family in families:
+            child_id = family['child_ids2']
+            if child_id:
+                child_person = find_person(genealogy_data, child_id)
+                print(f"Finding child person with ID {child_id}: {child_person}")
+                if child_person:
+                    family['children_name'] = child_person['Name']
+                else:
+                    family['children_name'] = "Unknown"
+
         spouses = []
         if person.get('spouse_name'):
             for entry in genealogy_data:
@@ -117,7 +190,7 @@ def person_detail(request, person_id):
                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
                         }
                         spouses.append(spouse_details)
-        
+
         return render(request, 'person_detail.html', {
             'person': person,
             'families': families,
@@ -128,26 +201,6 @@ def person_detail(request, person_id):
     else:
         return HttpResponse('<center><h1>PERSON DOES NOT EXIST</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
 
-    
-def count_unique_ids(genealogy_data):
-    ids = set()
-    for entry in genealogy_data:
-        ids.add(entry['ID'])
-    return len(ids), sorted(ids)
-
-
-def load_csv_data(file_path):
-    """
-    Load genealogy data from CSV file into a list of dictionaries.
-    Assumes the CSV file has headers: ID, Name, Gender, father, mother, children, spouse_name, spouse_fathername, spouse_village.
-    """
-    data = []
-    with open(file_path, mode='r', newline='', encoding='utf-8-sig') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            data.append(row)
-    return data
-
 def find_person(data, person_id):
     """
     Find a person with the specified ID in the loaded genealogy data.
@@ -156,156 +209,46 @@ def find_person(data, person_id):
         if person['ID'] == str(person_id):
             return person
 
-def load_csv_data(file_path):
-    """
-    Load genealogy data from CSV file into a list of dictionaries.
-    Assumes the CSV file has headers: ID, Name, Gender, father, mother, children, spouse_name, spouse_fathername, spouse_village.
-    """
-    data = []
-    with open(file_path, mode='r', newline='', encoding='utf-8-sig') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            data.append(row)
-    return data
-
-def create_person(request):
-    if request.method == 'POST':
-        # Extract data from POST request
-        new_person_data = {
-            'ID': request.POST.get('ID'),
-            'child_id': request.POST.get('child_id'),
-            'Name': request.POST.get('Name'),
-            'Gender': request.POST.get('Gender'),
-            'father': '',
-            'mother': '',
-            'children': '',
-            'spouse_name': '',
-            'spouse_fathername': '',
-            'spouse_village': ''
-        }
         
-        # Save the person details to CSV 
-        with open(file_path, 'a', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([
-                new_person_data['ID'],
-                new_person_data['child_id'],
-                new_person_data['Name'],
-                new_person_data['Gender'],
-                new_person_data['father'],
-                new_person_data['mother'],
-                new_person_data['children'],
-                new_person_data['spouse_name'],
-                new_person_data['spouse_fathername'],
-                new_person_data['spouse_village']
-            ])
-        
-        # Redirect to create spouse view or any other relevant view
-        return redirect('tree_view')
-    # return redirect('tree_view')
-    return render(request, 'person_form.html')
+# Function to count unique IDs in the genealogy data
+def count_unique_ids(genealogy_data):
+    ids = set()
+    for entry in genealogy_data:
+        ids.add(entry['ID'])
+    return len(ids), sorted(ids)
 
+# Function to find a person by ID in the genealogy data
+# def find_person(data, person_id):
+#     for person in data:
+#         if person['ID'] == str(person_id):
+#             return person
 
-def import_data_from_csv(request):
-    if request.method == 'POST':
-        csv_file = request.FILES.get('csv_file')
-        if not csv_file or not csv_file.name.endswith('.csv'):
-            return JsonResponse({'status': 'error', 'message': 'Please upload a valid CSV file'}, status=400)
-        try:
-            # Ensure proper decoding and handle potential BOM
-            csv_data = csv_file.read().decode('utf-8-sig').splitlines()
-            reader = csv.DictReader(csv_data)
-            imported_data = []
-            # Clear existing data to ensure fresh import
-            # imported_data.clear()
-            for row in reader:
-                # Append each row from CSV to imported_data list
-                imported_data.append({
-                    'ID': row.get('ID', '').strip(),
-                    'child_id': row.get('child_id', '').strip(),
-                    'Name': row.get('Name', '').strip(),
-                    'Gender': row.get('Gender', '').strip(),
-                    'Father': row.get('father', '').strip(),
-                    'Mother': row.get('mother', '').strip(),
-                    'Spouse Name': row.get('spouse_name', '').strip(),
-                    'Spouse Father Name': row.get('spouse_fathername', '').strip(),
-                    'Spouse Village': row.get('spouse_village', '').strip(),
-                    'children': []  # Initialize an empty list for children
-                })
-                cache.set('imported_data', imported_data, timeout=None)
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': f"Error reading or processing CSV file: {e}"}, status=500)
-        # Store imported_data in session for future access
-        # request.session['imported_data'] = imported_data
-        return redirect('tree_view')
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
-
-
-def build_tree(person, data):
-    # Initialize the tree structure for the current person
-    person_tree = {
-        'name': person['Name'],
-        'id': person['ID'],
-        'child_id': person['child_id'],
-        'gender': person['Gender'],
-        'children': []
-    }
-    
-    # Find children of the current person
-    children = [child for child in data if child['Father'] == person['Name']]
-    
-    # Recursively build the tree for each child
-    for child in children:
-        person_tree['children'].append(build_tree(child, data))
-    
-    # Additionally, find female children who have children and add their children
-    female_children_with_children = [child for child in data if child['Mother'] == person['Name']]
-    
-    for female_child in female_children_with_children:
-        person_tree['children'].append(build_tree(female_child, data))
-    return person_tree
-
+# View to generate family tree data
 def generate_tree_data(request):
-    global imported_data
-    
-    # Ensure imported_data is populated before accessing it
-    if not imported_data:
+    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+    print("GENEALOGY DATA : ",genealogy_data)
+    if not genealogy_data:
         return JsonResponse({'status': 'error', 'message': 'Data not imported yet'}, status=404)
-    
     try:
         if request.method == 'GET':
-            root_person = imported_data[0]
-            tree_data = build_tree(root_person, imported_data)
+            root_person = genealogy_data[0]
+            tree_data = build_tree(root_person, genealogy_data)
             return JsonResponse(tree_data, safe=False)
-    
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)  
-    
-def get_tree_data(request):
-    global imported_data
-    if not imported_data:
-        return JsonResponse({'status': 'error', 'message': 'No data available'}, status=400)
-    try:
-        # Find the root person with the name "Anandsinhji"
-        root_person = next((person for person in imported_data if person['Name'] == 'Vakhatsinhji'), None)
-        if root_person:
-            # Return only the name of the root person
-            return JsonResponse({'name': root_person['Name']}, status=200)
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Root person not found'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
-
+# View to get tree data for D3 collapsible tree visualization
 def d3_collapsible_tree(request):
     try:
-        imported_data = cache.get('imported_data')
-        if not imported_data:
+        genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+        print("GENEALOGY DATA : ",genealogy_data)
+        if not genealogy_data:
             return JsonResponse({"error": "No data available"}, status=400)
         
         root_person_name = "Vakhatsinhji"
-        root_person = next((item for item in imported_data if item['Name'] == root_person_name), None)
-        if not root_person:
+        root_person = next((item for item in genealogy_data if item['Name'] == root_person_name), None)
+        
+        if root_person is None:
             return JsonResponse({"error": "Root person not found"}, status=404)
         
         def build_tree_with_male(person):
@@ -316,13 +259,12 @@ def d3_collapsible_tree(request):
                 'gender': person['Gender'],
                 'children': [
                     build_tree_with_male(child)
-                    for child in imported_data
-                    if child['Father'] == person['Name'] and child['Gender'] == 'M'
+                    for child in genealogy_data
+                    if child['father'] == person['Name'] and child['Gender'] == 'M'
                 ]
             }
-        
+
         tree_data = build_tree_with_male(root_person)
-        return JsonResponse(tree_data)
-    
+        return JsonResponse(tree_data)  
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

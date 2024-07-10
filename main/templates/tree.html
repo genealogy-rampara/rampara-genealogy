@@ -110,27 +110,23 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dataDropdown">
                             <li>
-                                <a class="dropdown-item" href="{% url 'd3_collapsible_tree' %}">Collapsible Tree</a>
+                                <a class="dropdown-item" href="{% url 'd3_collapsible_tree' %}" target="_blank">Collapsible Tree</a>
                             </li>
                         </ul>
                     </li>
                     <!-- Dropdown for Create -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            Add Data Through CSV
+                            Add Data Through Drive
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
-                            <li><a class="dropdown-item" href="{% url 'create_person' %}">Add Data</a></li>
+                            <li>
+                                <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1cdJ5ltqKkHZowauaquRqHbV_si85qV9Zrq3JtMmu3Cw/edit?gid=778839574#gid=778839574" target="_blank">Add Data</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <form class="d-flex" method="get" action="{% url 'search_person'  %}">
-                            <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </li>
                     <li class="nav-item">
                         <center>
                             <button onclick="window.print()" class="btn btn-secondary">Print Details</button>
@@ -149,6 +145,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions
         var margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -248,7 +245,7 @@
                     if (d.gender === "M") 
                     {
                         d3.event.stopPropagation();
-                        window.location.href = "/person/" + d.id + "/";
+                        window.open("/person/" + d.id + "/", "_blank");
                     }
                 });
 

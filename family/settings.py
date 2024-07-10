@@ -86,19 +86,19 @@ WSGI_APPLICATION = 'family.wsgi.application'
 #         'ENGINE': 'django.db.backends.dummy',
 #     }
 # }
-import tempfile
+# import tempfile
 DATABASES = {}
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': tempfile.gettempdir(),  
-        'TIMEOUT': None, 
-        'OPTIONS': {
-            'MAX_ENTRIES': 100000  
-        }
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': tempfile.gettempdir(),  
+#         'TIMEOUT': None, 
+#         'OPTIONS': {
+#             'MAX_ENTRIES': 100000  
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
