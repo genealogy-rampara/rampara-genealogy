@@ -92,7 +92,7 @@
         .container {
             max-width: 1200px;
         }
-        .marquee {
+        .note {
             width: 100%;
             overflow: hidden;
             position: relative;
@@ -101,16 +101,16 @@
             margin-top: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .marquee span {
+        .note span {
             display: block;
             width: 100%;
             white-space: nowrap;
-            animation: marquee 20s linear infinite;
+            animation: note 25s linear infinite;
         }
-        .marquee {
+        .note {
             color: red;
         }
-        @keyframes marquee {
+        @keyframes note {
             0% {
                 transform: translateX(100%);
             }
@@ -124,7 +124,7 @@
     </style>
 </head>
 <body>
-    <div class="marquee">
+    <div class="note">
         <span>
             <strong>DONT DELETE OTHER DATA ON CSV (બીજો કોઇ પણ ડેટા ડિલીટ કરવો નહીં !)</strong><br>
             <strong>Note : </strong> When you add data from CSV, follow the proper format. If you add child_id, write the ID of that child (Person). Click here for more information.<br>

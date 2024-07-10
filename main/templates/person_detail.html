@@ -53,7 +53,7 @@
             display: flex;
             justify-content: space-between;
         }
-        .marquee {
+        .note {
             width: 100%;
             overflow: hidden;
             position: relative;
@@ -62,17 +62,17 @@
             margin-top: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .marquee span {
+        .note span {
             display: block;
             width: 100%;
             white-space: nowrap;
-            animation: marquee 20s linear infinite;
+            animation: note 25s linear infinite;
         }
-        .marquee
+        .note
         {
             color: red;
         }
-        @keyframes marquee {
+        @keyframes note {
             0% {
                 transform: translateX(100%);
             }
@@ -83,9 +83,9 @@
     </style>
 </head>
 <body>
-    <div class="marquee">
-        <span>  <strong>Note :</strong> When you add data from csv follow the proper format, if you add child_id then write ID of that child (person) press CLICK HERE for more information.<br>
-                <strong>નોંધ: </strong>જ્યારે તમે csv માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો CLICK HERE બટન પર દબાવી વધુ જાણો.<br>&emsp;&emsp;&emsp;&emsp;
+    <div class="note">
+        <span>  <strong>Note : </strong> When you add data from csv follow the proper format, if you add child_id then write ID of that child (person) press CLICK HERE for more information.<br>
+                <strong>નોંધ : </strong>જ્યારે તમે csv માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો CLICK HERE બટન પર દબાવી વધુ જાણો.<br>&emsp;&emsp;&emsp;&emsp;
         </span>
         <center><a href="{% url 'note' %}" class="btn btn-primary">CLICK HERE</a></center>
     </div>
