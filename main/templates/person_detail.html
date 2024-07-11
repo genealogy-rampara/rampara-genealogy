@@ -10,50 +10,79 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link rel="icon" href="https://www.indianrajputs.com/i/t/dhrangadhra_coa.png" type="image/icon type">
     <style>
-        body {
+        body 
+        {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             padding: 20px;
         }
-        h1, h2, h3 {
+        h1, h2, h3 
+        {
             color: #007bff;
-            text-align: center;
         }
-        hr {
+        p 
+        {
+            margin-bottom: 0.5rem;
+        }
+        hr 
+        {
             margin-top: 20px;
             margin-bottom: 20px;
             border-top: 1px solid #007bff;
         }
-        .card {
+        .card 
+        {
             margin-bottom: 20px;
             border: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .small-card {
+        .small-card 
+        {
             margin-bottom: 10px;
+            text-align: center;
         }
-        .card-title, .card-text {
+        .card-title
+        {
             margin-bottom: 10px;
+            text-align: center;
         }
-        .btn {
+        .card-text 
+        {
+            margin-bottom: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .card-title1 
+        {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .card-text1 
+        {
+            text-align: left;
+            font-size: 14px;
+        }
+        .btn 
+        {
             margin-top: 10px;
         }
-        .text-center {
-            margin-top: 20px;
-        }
-        .container {
+        .container 
+        {
             max-width: 1200px;
         }
-        a {
-            text-decoration-line: none;
+        a 
+        {
+            text-decoration: none;
         }
-        .pagination-buttons {
+        .pagination-buttons 
+        {
             display: flex;
             justify-content: space-between;
         }
-        .note {
+        .note 
+        {
             width: 100%;
             overflow: hidden;
             position: relative;
@@ -61,140 +90,111 @@
             padding: 10px;
             margin-top: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: red;
         }
-        .note span {
+        .note span 
+        {
             display: block;
             width: 100%;
             white-space: nowrap;
             animation: note 25s linear infinite;
         }
-        .note
+        @keyframes note 
         {
-            color: red;
-        }
-        @keyframes note {
-            0% {
+            0% 
+            {
                 transform: translateX(100%);
             }
-            100% {
+            100% 
+            {
                 transform: translateX(-100%);
             }
         }
     </style>
 </head>
 <body>
-    <div class="note">
-        <span>  <strong>Note : </strong> When you add data from csv follow the proper format, if you add child_id then write ID of that child (person) press CLICK HERE for more information.<br>
-                <strong>નોંધ : </strong>જ્યારે તમે csv માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો CLICK HERE બટન પર દબાવી વધુ જાણો.<br>&emsp;&emsp;&emsp;&emsp;
-        </span>
-        <center><a href="{% url 'note' %}" class="btn btn-primary" target="_blank">CLICK HERE</a></center>
-    </div>
     <nav class="breadcrumb navbar">
         <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item active" aria-current="page">
-                Person Detail
-            </li>
+            <li class="breadcrumb-item active" aria-current="page">Person Detail</li>
             <li class="breadcrumb-item">
                 <a href="{% url 'tree_view' %}">Home</a>
             </li>
         </ol>
-        <div class="d-flex justify-content-center mt-5">
-            <button onclick="window.print()" class="btn btn-secondary">Print Details</button>
-        </div>
     </nav>
     
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <h1 class="card-title">{{ person.Name }} | Details</h1>
+                <h1 class="card-title1">{{ person.Name }}</h1>
                 <hr>
-                <strong>
-                    <center>
-                        <p class="card-text">Date of Birth: {{ person.DOB }}</p>
-                    </center>
-                </strong>
-                <strong>
-                    <center>
-                        <p class="card-text">Gender: {{ person.Gender }}</p>
-                    </center>
-                </strong>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2>Parents Information</h2>
-                        <hr>
-                        {% if person.father %}
-                            <div class="small-card">
-                                <strong>
-                                    <center>
-                                        <p class="card-text">Father: {{ person.father }}</p><br>
-                                    </center>
-                                </strong>
-                            </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if person.DOB %}
+                            <p class="card-text1"> જન્મ તારીખ : {{ person.DOB }}</p>
                         {% else %}
-                            <div class="small-card">
-                                <strong>
-                                    <center>
-                                        <p class="card-text">Father: Unknown</p><br>
-                                    </center>
-                                </strong>
-                            </div>
+                            <p class="card-text1"> જન્મ તારીખ : - </p>
                         {% endif %}
-                        {% if person.mother %}
-                            <div class="small-card">
-                                <strong>
-                                    <center>
-                                        <p class="card-text">Mother: {{ person.mother }}</p><br>
-                                    </center>
-                                </strong>
-                            </div>
+                        {% if person.Gender == 'M' %}
+                            <p class="card-text1"> જાતિ : પુરુષ</p>
+                        {% elif person.Gender == 'F' %}
+                            <p class="card-text1"> જાતિ : સ્ત્રી</p>
                         {% else %}
-                            <div class="small-card">
-                                <strong>
-                                    <center>
-                                        <p class="card-text">Mother: Unknown</p><br>
-                                    </center>
-                                </strong>
-                            </div>
+                            <p class="card-text1"> જાતિ : - (લખેલ નથી!) </p>
                         {% endif %}
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <div class="vr"></div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="small-card">
+                            <p class="card-text">
+                                બાપુ સાહેબ : {{ person.father|default:"Unknown" }}
+                            </p>
+                        </div>
+                        <div class="small-card">
+                            <p class="card-text">
+                                બા સાહેબ : {{ person.mother|default:"Unknown" }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-6">
                 {% if spouses %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">Spouse Information</h2><hr>
+                            <h2 class="card-title"></h2>
                             {% for spouse in spouses %}
                                 <div class="small-card">
                                     <hr>
                                     <h3>
                                         {% if spouses|length > 1 %}
-                                            Spouse {{ forloop.counter }}
+                                            {% if person.Gender == 'M' %}
+                                                રાણી સાહેબ {{ forloop.counter }}
+                                            {% elif person.Gender == 'F' %}
+                                                જમાઈ સાહેબ {{ forloop.counter }}
+                                            {% endif %}
                                         {% else %}
-                                            Spouse
+                                            {% if person.Gender == 'M' %}
+                                                રાણી સાહેબ 
+                                            {% elif person.Gender == 'F' %}
+                                                જમાઈ સાહેબ
+                                            {% endif %}    
                                         {% endif %}
                                     </h3>
                                     <hr>
-                                    <strong>
-                                        <center>
-                                            <p class="card-text">Spouse Name: {{ spouse.spouse_name }}</p>
-                                        </center>
-                                    </strong>
-                                    <strong>
-                                        <center>
-                                            <p class="card-text">Spouse Father's Name: {{ spouse.spouse_fathername }}</p>
-                                        </center>
-                                    </strong>
-                                    <strong>
-                                        <center>
-                                            <p class="card-text">Spouse Village: {{ spouse.spouse_village }}</p>
-                                        </center>
-                                    </strong>
+                                    <center>
+                                        <p class="card-text"> નામ : {{ spouse.spouse_name }}</p>
+                                    </center>
+                                    <center>
+                                        <p class="card-text"> બાપુ સાહેબ : {{ spouse.spouse_fathername }}</p>
+                                    </center>
+                                    <center>
+                                        <p class="card-text"> વતન : {{ spouse.spouse_village }}</p>
+                                    </center>
                                 </div>
                             {% endfor %}
                         </div>
@@ -202,48 +202,36 @@
                 {% else %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">Spouse Information</h2><hr>
-                            <strong>
-                                <center>
-                                    <p class="card-text">No Spouse Information Available!</p>
-                                </center>
-                            </strong>
+                            <h2 class="card-title">રાણી સાહેબ / જમાઈ સાહેબ</h2><hr>
+                            <p class="card-text" style="text-align: center; color: cadetblue;">અપરિણીત</p>
                         </div>
                     </div>
                 {% endif %}
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+
+            <div class="col-md-6">
                 {% if families %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">Children Information</h2>
-                            <hr>
+                            <h2 class="card-title">કુંવર સાહેબ / કુંવરીબા</h2><hr>
                             <div class="container">
                                 <div class="row">
                                     {% for family in families %}
                                         {% if family.children_name %}
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="card mb-3">
                                                     <div class="card-body">
-                                                        <h6 class="card-title">
+                                                        <p class="card-title" style="font-size: 14px;">
                                                             {% if family.family_type == 'father' %}
                                                                 <a href="{% url 'person_detail' family.child_ids2 %}" target="_blank">{{ family.children_name }}</a>
                                                             {% else %}
                                                                 {{ family.children_name }}
                                                             {% endif %}
-                                                        </h6>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% else %}
-                                                <strong>
-                                                        <p>
-                                                            <center>NO CHILDREN FOUND!</center>
-                                                        </p>
-                                                </strong>
-                                            {% endif %}
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -252,33 +240,39 @@
                 {% else %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">Children Information</h2>
-                            <hr>
-                            <strong>
-                                <center>
-                                    <p class="card-text">No Children Information Available!</p>
-                                </center>
-                            </strong>
+                            <h2 class="card-title">કુંવર સાહેબ / કુંવરીબા</h2><hr>
+                            <p class="card-text" style="text-align: center;">કોઇ સંતાન નથી! </p>
                         </div>
                     </div>
                 {% endif %}
             </div>
         </div>
-        <div class="pagination-buttons">
+
+        <div class="pagination-buttons mt-3">
             {% if previous_person_id %}
                 <a class="btn btn-primary" href="{% url 'person_detail' previous_person_id %}">Previous</a>
             {% else %}
                 <button class="btn btn-primary" disabled>Previous</button>
             {% endif %}
-            
-            <a class="btn btn-dark" href="{% url 'tree_view' %}">HOME</a>
-            
+            <a class="btn btn-warning" href="{% url 'tree_view' %}">Home</a>
+            <button onclick="window.print()" class="btn btn-warning">Print Details</button>
             {% if next_person_id %}
                 <a class="btn btn-primary" href="{% url 'person_detail' next_person_id %}">Next</a>
             {% else %}
                 <button class="btn btn-primary" disabled>Next</button>
             {% endif %}
         </div>
-    </div>
-</body>
+        </div>
+        <div class="note">
+            <span>
+                <strong> Please don't delete any kind of data!<br></strong>
+                <strong>Note : </strong> When you add data from CSV, follow the proper format. If you add child_id, then write the ID of that child (person). Press "સૂચના" for more information.<br>
+                <strong>કોઇ પણ ડેટા કાઢવો નહીં!<br></strong> 
+                <strong>નોંધ : </strong> જ્યારે તમે CSV માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો. સૂચના બટન પર દબાવી વધુ જાણો.<br>
+            </span>
+            <center>
+                <a href="{% url 'note' %}" class="btn btn-danger">સૂચના</a>
+            </center>
+        </div>
+    </body>
 </html>

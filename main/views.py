@@ -7,6 +7,9 @@ import requests
 def render_tree_view(request):
     return render(request, 'tree.html')
 
+def tree_with_female(request):
+    return render(request, 'v2.html')
+
 csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'    
 def fetch_csv_data_from_drive(url):
     try:
@@ -31,6 +34,7 @@ def import_data_from_csv(csv_data):
                 'ID': row.get('ID', '').strip(),
                 'child_id': row.get('child_id', '').strip(),
                 'Name': row.get('Name', '').strip(),
+                'DOB': row.get('DOB', '').strip(),
                 'Gender': row.get('Gender', '').strip(),
                 'father': row.get('father', '').strip(),
                 'mother': row.get('mother', '').strip(),
@@ -81,6 +85,7 @@ def build_tree(person, data):
         'name': person['Name'],
         'id': person['ID'],
         'child_id': person['child_id'],
+        'DOB': person['DOB'],
         'gender': person['Gender'],
         'children': []
     }
@@ -108,6 +113,8 @@ def person_detail(request, person_id):
         print(person)
         print('=========================================================================================================================================\n\n')
         # Get all person IDs
+        DOB = person['DOB']
+        print(DOB)
         total_count_ids, total_ids = count_unique_ids(genealogy_data)
         total_ids = sorted(map(int, total_ids))
         print('\n\n=========================================================================================================================================')
@@ -188,6 +195,7 @@ def person_detail(request, person_id):
         if person.get('spouse_name'):
             for entry in genealogy_data:
                 if person['spouse_name'] in entry['spouse_name']:
+                    print('GENDER : ',person['Gender'])
                     spouse_names = entry['spouse_name'].split(';')
                     print('\n\n=========================================================================================================================================')
                     print('====================================================  SPOUSE NAME OR NAMES  =============================================================\n')
@@ -199,10 +207,10 @@ def person_detail(request, person_id):
                             'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
                         }
-                        spouses.append(spouse_details)
-
+                    spouses.append(spouse_details)
         return render(request, 'person_detail.html', {
             'person': person,
+            'DOB':DOB,
             'families': families,
             'spouses': spouses,
             'previous_person_id': previous_person_id,
