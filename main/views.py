@@ -207,7 +207,11 @@ def person_detail(request, person_id):
                             'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
                             'spouse_village': entry['spouse_village'].split(';')[idx].strip()
                         }
-                    spouses.append(spouse_details)
+                        spouses.append(spouse_details)
+                    print('\n\n=========================================================================================================================================')
+                    print('====================================================  SPOUSES DETAILS  =============================================================\n')
+                    print(spouses)
+                    print('=========================================================================================================================================\n\n')
         return render(request, 'person_detail.html', {
             'person': person,
             'DOB':DOB,
