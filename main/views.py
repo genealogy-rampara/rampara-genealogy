@@ -4,16 +4,14 @@ import csv
 import requests
 
 # Path to your CSV file
-csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'
+def render_tree_view(request):
+    return render(request, 'tree.html')
 
-# Function to fetch CSV data from Google Drive URL
-# View to fetch updated data
-    
+csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'    
 def fetch_csv_data_from_drive(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            # Decode and split lines of CSV data
             csv_data = response.content.decode('utf-8-sig').splitlines()
             return csv_data
         else:
@@ -29,7 +27,6 @@ def import_data_from_csv(csv_data):
     try:
         reader = csv.DictReader(csv_data)
         for row in reader:
-            print('Processing row:', row)  # Add this line to debug
             imported_data.append({
                 'ID': row.get('ID', '').strip(),
                 'child_id': row.get('child_id', '').strip(),
@@ -62,13 +59,12 @@ def import_data_from_drive(request):
             return JsonResponse({'status': 'error', 'message': 'Failed to fetch CSV data from Google Drive'}, status=500)
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
-# Example view to render a template (replace with your actual views)
-def render_tree_view(request):
-    return render(request, 'tree.html')
-
 def search_person(request):
     query = request.GET.get('q')
-    print("QUERY : ", query)
+    print('\n\n=========================================================================================================================================')
+    print('=================================================================  QUERY  ===============================================================\n')
+    print(query)
+    print('=========================================================================================================================================\n\n')
     genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
     if query:
         query = query.strip()
@@ -138,9 +134,7 @@ def person_detail(request, person_id):
         print('======================================================  NEXT PERSON ID  =================================================================\n')
         print(next_person_id)
         print('=========================================================================================================================================\n\n')
-
         families = []
-
         # Check if 'children' key exists in the person dictionary
         if 'children' in person:
             print('\n\n=========================================================================================================================================')
@@ -181,7 +175,10 @@ def person_detail(request, person_id):
             child_id = family['child_ids2']
             if child_id:
                 child_person = find_person(genealogy_data, child_id)
-                print(f"Finding child person with ID {child_id}: {child_person}")
+                print('\n\n=========================================================================================================================================')
+                print('=================================================================  FINDING CHILD PERSON WITH ID  ===============================================================\n')
+                print(f'Finding child person with ID - {child_id} : {child_person}')
+                print('=========================================================================================================================================\n\n')
                 if child_person:
                     family['children_name'] = child_person['Name']
                 else:
@@ -230,16 +227,13 @@ def count_unique_ids(genealogy_data):
         ids.add(entry['ID'])
     return len(ids), sorted(ids)
 
-# Function to find a person by ID in the genealogy data
-# def find_person(data, person_id):
-#     for person in data:
-#         if person['ID'] == str(person_id):
-#             return person
-
 # View to generate family tree data
 def generate_tree_data(request):
     genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
-    print("GENEALOGY DATA : ",genealogy_data)
+    print('\n\n=========================================================================================================================================')
+    print('=============================================================  GENEALOGY DATA  ==========================================================\n')
+    print(genealogy_data)
+    print('=========================================================================================================================================\n\n')
     if not genealogy_data:
         return JsonResponse({'status': 'error', 'message': 'Data not imported yet'}, status=404)
     try:
@@ -254,7 +248,10 @@ def generate_tree_data(request):
 def d3_collapsible_tree(request):
     try:
         genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
-        print("GENEALOGY DATA : ",genealogy_data)
+        print('\n\n=========================================================================================================================================')
+        print('=============================================================  GENEALOGY DATA  ==========================================================\n')
+        print(genealogy_data)
+        print('=========================================================================================================================================\n\n')
         if not genealogy_data:
             return JsonResponse({"error": "No data available"}, status=400)
         
