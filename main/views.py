@@ -267,9 +267,9 @@ def d3_collapsible_tree(request):
         if not genealogy_data:
             return JsonResponse({"error": "No data available"}, status=400)
         
-        root_person_name = "Vakhatsinhji"
-        root_person = next((item for item in genealogy_data if item['Name'] == root_person_name), None)
-        
+        # root_person_name = "Vakhatsinhji"
+        root_person = genealogy_data[0]
+        # root_person = next((item for item in genealogy_data if item['Name'] == root_person_name), None)
         if root_person is None:
             return JsonResponse({"error": "Root person not found"}, status=404)
         
