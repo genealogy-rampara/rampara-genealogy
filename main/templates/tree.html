@@ -15,28 +15,32 @@
 
     <style>
         /* Styles for edges */
-        .link {
+        .link 
+        {
             fill: none;
             stroke: #888; /* Default edge color */
             stroke-width: 2px;
             transition: stroke 0.3s, stroke-width 0.3s;
         }
 
-        .link:hover {
+        .link:hover 
+        {
             stroke: #ff4500; /* Change edge color on hover */
             stroke-width: 3px;
         }
 
         /* Styles for nodes */
-        .node circle {
+        .node circle 
+        {
             fill: #fff;
             stroke: steelblue;
-            stroke-width: 2px;
+            stroke-width: 3px;
             transition: stroke 0.3s, stroke-width 0.3s;
         }
 
-        .node text {
-            font: 18px sans-serif;
+        .node text 
+        {
+            font: 20px sans-serif;
             transition: font-weight 0.3s;
             pointer-events: all; /* Enable pointer events for text */
         }
@@ -52,14 +56,15 @@
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .node text {
-                font-size: 16px;
+            .node text 
+            {
+                font-size: 20px;
             }
             .link {
-                stroke-width: 1.3px;
+                stroke-width: 3px;
             }
             .node circle {
-                stroke-width: 1.3px;
+                stroke-width: 4px;
             }
             .node:hover circle {
                 stroke: #ff4500;
@@ -185,7 +190,7 @@
         var svg = d3.select("svg")
             .attr("width", canvas_width)
             .attr("height", canvas_height)
-            .call(d3.behavior.zoom().scaleExtent([0.5, 3]).on("zoom", zoom)) // Add zoom and pan functionality
+            .call(d3.behavior.zoom().scaleExtent([0.5, 4]).on("zoom", zoom)) // Add zoom and pan functionality
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         var g = svg.append("g");
