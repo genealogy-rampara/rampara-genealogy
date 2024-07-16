@@ -12,77 +12,53 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" href="https://www.indianrajputs.com/i/t/dhrangadhra_coa.png" type="image/icon type">
     <style>
-        body 
-        {
+        body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             padding: 20px;
         }
-        h1, h2, h3 
-        {
+        h1, h2, h3 {
             color: #007bff;
         }
-        p 
-        {
+        p {
             margin-bottom: 0.5rem;
         }
-        hr 
-        {
+        hr {
             margin-top: 20px;
             margin-bottom: 20px;
             border-top: 1px solid #007bff;
         }
-        .card 
-        {
+        .card {
             margin-bottom: 20px;
             border: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .small-card 
-        {
+        .small-card {
             margin-bottom: 10px;
             text-align: center;
         }
-        .card-title
-        {
+        .card-title1 {
             margin-bottom: 10px;
             text-align: center;
         }
-        .card-text 
-        {
-            margin-bottom: 10px;
+        .card-text1 {
             text-align: left;
             font-size: 14px;
         }
-        .card-title1 
-        {
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .card-text1 
-        {
-            text-align: left;
-            font-size: 14px;
-        }
-        .btn 
-        {
+        .btn {
             margin-top: 10px;
         }
-        .container 
-        {
+        .container {
             max-width: 1200px;
         }
-        a 
-        {
+        a {
             text-decoration: none;
         }
-        .pagination-buttons 
-        {
+        .pagination-buttons {
             display: flex;
             justify-content: space-between;
         }
-        .note 
-        {
+        .note {
             width: 100%;
             overflow: hidden;
             position: relative;
@@ -92,21 +68,17 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             color: red;
         }
-        .note span 
-        {
+        .note span {
             display: block;
             width: 100%;
             white-space: nowrap;
             animation: note 25s linear infinite;
         }
-        @keyframes note 
-        {
-            0% 
-            {
+        @keyframes note {
+            0% {
                 transform: translateX(100%);
             }
-            100% 
-            {
+            100% {
                 transform: translateX(-100%);
             }
         }
@@ -147,20 +119,15 @@
                     </div>
                     <div class="col-md-5">
                         <div class="small-card">
-                            <p class="card-text">
-                                બાપુ સાહેબ : {{ person.father|default:"Unknown" }}
-                            </p>
+                            <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ person.father|default:"Unknown" }}</p>
                         </div>
                         <div class="small-card">
-                            <p class="card-text">
-                                બા સાહેબ : {{ person.mother|default:"Unknown" }}
-                            </p>
+                            <p class="card-text" style="text-align: left;"> બા સાહેબ : {{ person.mother|default:"Unknown" }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-6">
                 {% if spouses %}
@@ -168,7 +135,8 @@
                         <div class="card-body">
                             <h2 class="card-title"></h2>
                             {% for spouse in spouses %}
-                                <div class="small-card"><hr>
+                                <div class="small-card">
+                                    <hr>
                                     <h3>
                                         {% if spouses|length > 1 %}
                                             {% if person.Gender == 'M' %}
@@ -186,16 +154,67 @@
                                     </h3>
                                     <hr>
                                     <center>
-                                        <p class="card-text"> નામ : {{ spouse.spouse_name }}</p>
+                                        <p class="card-text" style="text-align: left;"> નામ : {{ spouse.spouse_name }}</p>
                                     </center>
                                     <center>
-                                        <p class="card-text"> બાપુ સાહેબ : {{ spouse.spouse_fathername }}</p>
+                                        <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ spouse.spouse_fathername }}</p>
                                     </center>
                                     <center>
-                                        <p class="card-text"> વતન : {{ spouse.spouse_village }}</p>
+                                        <p class="card-text" style="text-align: left;"> વતન : {{ spouse.spouse_village }}</p>
                                     </center>
                                 </div>
                             {% endfor %}
+                        </div>
+                    </div>
+                {% elif person.Name == 'રાયસિંહજી - ૩' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">મહારાણા રાજ સાહેબ ધ્રાંગધ્રા</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'કાકોભાઈ' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">નાની ઉંમર એ અવસાન.</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'સાંગાજી' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">રાયસંગપુર</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'જેસંગજી' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">રાયસંગપુર</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'અદાભાઈ' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">વાવડી</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'સુરાભાઈ' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">વાવડી</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી બાજુબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજીબા લાલ શ્રી હજુબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી બાઇજીબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી તાજુબા કુંવરબા' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">H.H. Saramad-i-Raja-i-Hindustan, રાજ રાજેશ્વર શ્રી મહારાજાધિરાજા મહારાજા સવાઈ શ્રી પ્રતાપ સિંહ બહાદુર, મહારાજા જયપુર</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી રૂપાલીબા કુંવરબા' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">H.H. મહારાજાધિરાજ મહારાજ મહારાણા શ્રી ભીમ સિંહ બહાદુર, મહારાણા ઉદયપુર</h2>
                         </div>
                     </div>
                 {% else %}
@@ -207,7 +226,6 @@
                     </div>
                 {% endif %}
             </div>
-
             <div class="col-md-6">
                 {% if families %}
                     <div class="card">
@@ -236,6 +254,17 @@
                             </div>
                         </div>
                     </div>
+                {% elif person.Name == 'રાયસિંહજી - ૩' %}
+                {% elif person.Name == 'કાકોભાઈ' %}
+                {% elif person.Name == 'સાંગાજી' %}
+                {% elif person.Name == 'જેસંગજી' %}
+                {% elif person.Name == 'અદાભાઈ' %}
+                {% elif person.Name == 'સુરાભાઈ' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી બાજુબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજીબા લાલ શ્રી હજુબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી બાઇજીબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી તાજુબા કુંવરબા' %}
+                {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી રૂપાલીબા કુંવરબા' %}
                 {% else %}
                     <div class="card">
                         <div class="card-body">

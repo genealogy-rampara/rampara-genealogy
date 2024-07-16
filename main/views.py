@@ -10,6 +10,11 @@ def render_tree_view(request):
 def tree_with_female(request):
     return render(request, 'v2.html')
 
+def login(request):
+    email = 'ramparagenealogy@gmail.com'
+    password = 'Rampara@2024'
+    return render(request, 'login.html',{'email':email, 'password' : password})
+
 csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'    
 def fetch_csv_data_from_drive(url):
     try:
@@ -33,15 +38,15 @@ def import_data_from_csv(csv_data):
             imported_data.append({
                 'ID': row.get('ID', '').strip(),
                 'child_id': row.get('child_id', '').strip(),
-                'Name': row.get('Name', '').strip(),
+                'Name': row.get('Name', ''),
                 'DOB': row.get('DOB', '').strip(),
                 'Gender': row.get('Gender', '').strip(),
-                'father': row.get('father', '').strip(),
-                'mother': row.get('mother', '').strip(),
+                'father': row.get('father', ''),
+                'mother': row.get('mother', ''),
                 'spouse_name': row.get('spouse_name', '').strip(),
                 'spouse_fathername': row.get('spouse_fathername', '').strip(),
                 'spouse_village': row.get('spouse_village', '').strip(),
-                'children': row.get('children', '').strip() 
+                'children': row.get('children', '') 
             })
         return imported_data
     except Exception as e:
@@ -71,7 +76,7 @@ def search_person(request):
     print('=========================================================================================================================================\n\n')
     genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
     if query:
-        query = query.strip()
+        # query = query.strip()
         try:
             person = next(item for item in genealogy_data if item["Name"].lower() == query.lower())
             return redirect('person_detail', person_id=person["ID"])

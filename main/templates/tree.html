@@ -140,7 +140,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
                             <li>
-                                <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1cdJ5ltqKkHZowauaquRqHbV_si85qV9Zrq3JtMmu3Cw/edit?gid=778839574#gid=778839574" target="_blank">Add Data</a>
+                                <a class="dropdown-item" href="{% url 'login' %}" target="_blank">Add Data</a>
                             </li>
                         </ul>
                     </li>
@@ -173,7 +173,7 @@
     </nav>
     <!-- SVG element -->
     <div class="container-fluid">
-        <svg width="10000px" height="10000px"></svg>
+        <svg width="7000px" height="3000px"></svg>
     </div>
     <!-- Include Bootstrap JS and D3 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
@@ -184,11 +184,11 @@
     <script>
         // Set up the SVG canvas dimensions
         var margin = {top: 20, right: 120, bottom: 20, left: 120},
-            canvas_height = 1000,
-            canvas_width = document.querySelector("svg").clientWidth,
+            canvas_height = 3000,
+            canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
-            tree_level_depth = 400;
+            tree_level_depth = 1000;
         var i = 0,
             duration = 1400,
             root;
@@ -200,7 +200,7 @@
         var svg = d3.select("svg")
             .attr("width", canvas_width)
             .attr("height", canvas_height)
-            .call(d3.behavior.zoom().scaleExtent([0.5, 4]).on("zoom", zoom)) // Add zoom and pan functionality
+            .call(d3.behavior.zoom().scaleExtent([0.2, 4]).on("zoom", zoom)) // Add zoom and pan functionality
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         var g = svg.append("g");

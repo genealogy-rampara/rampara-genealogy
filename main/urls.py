@@ -9,4 +9,5 @@ urlpatterns = [
     path('generate_tree_data/', views.generate_tree_data, name='generate_tree_data'),
     path('search/', views.search_person, name='search_person'),
     path('tree_with_female/', views.tree_with_female, name='tree_with_female'),
+    path('login/', views.login, name='login'),
 ]
