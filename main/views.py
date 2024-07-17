@@ -206,11 +206,19 @@ def person_detail(request, person_id):
                     print('====================================================  SPOUSE NAME OR NAMES  =============================================================\n')
                     print(spouse_names)
                     print('=========================================================================================================================================\n\n')
+                    # for idx, spouse_name in enumerate(spouse_names):
+                    #     spouse_details = {
+                    #         'spouse_name': spouse_name.strip(),
+                    #         'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
+                    #         'spouse_village': entry['spouse_village'].split(';')[idx].strip()
+                    #     }
+                    #     spouses.append(spouse_details)
                     for idx, spouse_name in enumerate(spouse_names):
                         spouse_details = {
-                            'spouse_name': spouse_name.strip(),
-                            'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
-                            'spouse_village': entry['spouse_village'].split(';')[idx].strip()
+                        'spouse_name': spouse_name.strip(),
+                        'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
+                        'spouse_village': entry['spouse_village'].split(';')[idx].strip(),
+                        'spouse_village_map': f"https://www.google.com/maps/search/?api=1&query={entry['spouse_village'].split(';')[idx].strip()}"
                         }
                         spouses.append(spouse_details)
                     print('\n\n=========================================================================================================================================')

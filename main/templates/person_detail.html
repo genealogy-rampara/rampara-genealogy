@@ -160,7 +160,8 @@
                                         <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ spouse.spouse_fathername }}</p>
                                     </center>
                                     <center>
-                                        <p class="card-text" style="text-align: left;"> વતન : {{ spouse.spouse_village }}</p>
+                                        <p class="card-text" style="text-align: left;"> વતન : <a href="{{ spouse.spouse_village_map }}" target="_blank">{{ spouse.spouse_village }}</a></p>
+                                        <!-- <p class="card-text" style="text-align: left;"> વતન : {{ spouse.spouse_village }}</p> -->
                                     </center>
                                 </div>
                             {% endfor %}
