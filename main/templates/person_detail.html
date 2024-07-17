@@ -135,7 +135,7 @@
                         <div class="card-body">
                             <h2 class="card-title"></h2>
                             {% for spouse in spouses %}
-                                <div class="small-card">
+                                <div class="small-card" style="text-align: center;">
                                     <hr>
                                     <h3>
                                         {% if spouses|length > 1 %}
@@ -169,37 +169,43 @@
                 {% elif person.Name == 'રાયસિંહજી - ૩' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">મહારાણા રાજ સાહેબ ધ્રાંગધ્રા</h2>
+                            <h2 class="card-title" style="text-align: center;">મહારાણા રાજ સાહેબ ધ્રાંગધ્રા</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'કાકોભાઈ' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">નાની ઉંમર એ અવસાન.</h2>
+                            <h2 class="card-title" style="text-align: center;">નાની ઉંમર એ અવસાન.</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'સાંગાજી' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">રાયસંગપુર</h2>
+                            <h2 class="card-title" style="text-align: center;">રાયસંગપુર</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'જેસંગજી' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">રાયસંગપુર</h2>
+                            <h2 class="card-title" style="text-align: center;">રાયસંગપુર</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'અદાભાઈ' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">વાવડી</h2>
+                            <h2 class="card-title" style="text-align: center;">વાવડી</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'સુરાભાઈ' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">વાવડી</h2>
+                            <h2 class="card-title" style="text-align: center;">વાવડી</h2>
+                        </div>
+                    </div>
+                {% elif person.Name == 'રાણોજી' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title" style="text-align: center;">નાની ઉંમર એ અવસાન (રામપરા)</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી બાજુબા કુંવરબા' %}
@@ -208,19 +214,31 @@
                 {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી તાજુબા કુંવરબા' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">H.H. Saramad-i-Raja-i-Hindustan, રાજ રાજેશ્વર શ્રી મહારાજાધિરાજા મહારાજા સવાઈ શ્રી પ્રતાપ સિંહ બહાદુર, મહારાજા જયપુર</h2>
+                            <h2 class="card-title" style="text-align: center;">H.H. Saramad-i-Raja-i-Hindustan, રાજ રાજેશ્વર શ્રી મહારાજાધિરાજા મહારાજા સવાઈ શ્રી પ્રતાપ સિંહ બહાદુર, મહારાજા જયપુર</h2>
                         </div>
                     </div>
                 {% elif person.Name == 'રાજકુમારી બાઇજી લાલ શ્રી રૂપાલીબા કુંવરબા' %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">H.H. મહારાજાધિરાજ મહારાજ મહારાણા શ્રી ભીમ સિંહ બહાદુર, મહારાણા ઉદયપુર</h2>
+                            <h2 class="card-title" style="text-align: center;">H.H. મહારાજાધિરાજ મહારાજ મહારાણા શ્રી ભીમ સિંહ બહાદુર, મહારાણા ઉદયપુર</h2>
                         </div>
                     </div>
                 {% else %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">રાણી સાહેબ / જમાઈ સાહેબ</h2><hr>
+                            <h2 class="card-title" style="text-align: center;">{% if spouses|length > 1 %}
+                                {% if person.Gender == 'M' %}
+                                    રાણી સાહેબ {{ forloop.counter }}
+                                {% elif person.Gender == 'F' %}
+                                    જમાઈ સાહેબ {{ forloop.counter }}
+                                {% endif %}
+                            {% else %}
+                                {% if person.Gender == 'M' %}
+                                    રાણી સાહેબ 
+                                {% elif person.Gender == 'F' %}
+                                    જમાઈ સાહેબ
+                                {% endif %}    
+                            {% endif %}</h2><hr>
                             <p class="card-text" style="text-align: center;">અપરિણીત</p>
                         </div>
                     </div>
@@ -230,7 +248,7 @@
                 {% if families %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">કુંવર સાહેબ / કુંવરીબા</h2><hr>
+                            <h2 class="card-title" style="text-align: center;">કુંવર સાહેબ / કુંવરીબા</h2><hr>
                             <div class="container">
                                 <div class="row">
                                     {% for family in families %}
@@ -268,7 +286,7 @@
                 {% else %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">કુંવર સાહેબ / કુંવરીબા</h2><hr>
+                            <h2 class="card-title" style="text-align: center;">કુંવર સાહેબ / કુંવરીબા</h2><hr>
                             <p class="card-text" style="text-align: center;">કોઇ સંતાન નથી! </p>
                         </div>
                     </div>

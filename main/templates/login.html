@@ -149,16 +149,18 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        document.getElementById('loginForm').addEventListener('submit', function(event) 
+        {
             event.preventDefault();
-
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
-
-            if (email === 'ramparagenealogy@gmail.com' && password === 'Rampara@2024') {
+            if (email === 'ramparagenealogy@gmail.com' && password === 'Rampara@2024') 
+            {
                 window.location.href = 'https://docs.google.com/spreadsheets/d/1cdJ5ltqKkHZowauaquRqHbV_si85qV9Zrq3JtMmu3Cw/edit?gid=778839574#gid=778839574';
-            } else {
+            } 
+            else 
+            {
                 errorMessage.textContent = 'PLEASE ENTER CORRECT EMAIL ADDRESS AND PASSWORD!';
             }
         });
