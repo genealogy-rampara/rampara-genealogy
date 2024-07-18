@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Version - 2</title>
+    <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="icon" href="https://www.indianrajputs.com/i/t/dhrangadhra_coa.png" type="image/icon type">
 
     <style>
-        /* Styles for edges */
-        .link 
+         /* Styles for edges */
+         .link 
         {
             fill: none;
             stroke: #888; /* Default edge color */
@@ -30,64 +29,93 @@
         }
 
         /* Styles for nodes */
-        .node circle {
+        .node circle 
+        {
             fill: #fff;
             stroke: steelblue;
-            stroke-width: 2px;
+            stroke-width: 3px;
             transition: stroke 0.3s, stroke-width 0.3s;
         }
 
         .node text 
         {
-            font: 18px sans-serif;
+            font: 20px sans-serif;
             transition: font-weight 0.3s;
             pointer-events: all; /* Enable pointer events for text */
         }
 
-        .node:hover circle {
+        .node:hover circle 
+        {
             stroke: #ff4500;
             stroke-width: 4px;
         }
 
-        .node:hover text {
+        .node:hover text 
+        {
             font-weight: bold;
         }
 
         /* Responsive styles */
-        @media (max-width: 768px) {
-            .node text {
-                font-size: 16px;
+        @media (max-width: 768px) 
+        {
+            .node text 
+            {
+                font-size: 20px;
             }
-            .link {
-                stroke-width: 1.3px;
+            .link 
+            {
+                stroke-width: 3px;
             }
-            .node circle {
-                stroke-width: 1.3px;
+            .node circle 
+            {
+                stroke-width: 4px;
             }
-            .node:hover circle {
+            .node:hover circle 
+            {
                 stroke: #ff4500;
             }
-            .node:hover text {
+            .node:hover text 
+            {
                 font-weight: bold;
             }
         }
-        @media (max-width: 786px) {
-            svg {
-                width:7000px;
-                height: 3000px;
+        @media (max-width: 786px) 
+        {
+            svg 
+            {
+                width: 10000px;
+                height: 10000px;
             }
         }
-        
         /* Add margin to nav items */
-        .navbar-nav .nav-item {
+        .navbar-nav .nav-item 
+        {
             margin-right: 20px;
             z-index: 0;
         }
 
-        .avatar {
+        .avatar 
+        {
             border-radius: 50%;
             width: 30px;
             height: 24px;
+        }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important; /* Ensure colors are printed as they appear on screen */
+            }
+            .navbar {
+                display: none; /* Hide navbar when printing */
+            }
+            .container-fluid {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+            svg {
+                width: 7000px !important;
+                height: 3000px !important;
+            }
         }
     </style>
 </head>
