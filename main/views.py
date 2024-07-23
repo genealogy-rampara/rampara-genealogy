@@ -285,7 +285,6 @@ def d3_collapsible_tree(request):
         # root_person = next((item for item in genealogy_data if item['Name'] == root_person_name), None)
         if root_person is None:
             return JsonResponse({"error": "Root person not found"}, status=404)
-        
         def build_tree_with_male(person):
             return {
                 'name': person['Name'],
