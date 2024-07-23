@@ -75,7 +75,7 @@
             }
             svg 
             {
-                width: 4000px;
+                width: 7000px;
                 height: 3000px;
             }
             .navbar-nav .nav-item 
@@ -406,6 +406,19 @@
                 this.parentNode.appendChild(this);
             });
         }
+        function adjustZoomButtonPosition() {
+    const zoomButtonContainer = document.querySelector('.zoom-button-container');
+    if (zoomButtonContainer) {
+        zoomButtonContainer.style.bottom = '10px'; // Fixed bottom position
+        zoomButtonContainer.style.right = '10px'; // Fixed right position
+    }
+}
+
+// Adjust position on window resize to ensure it stays in place
+window.addEventListener('resize', adjustZoomButtonPosition);
+
+// Call once to set initial position
+adjustZoomButtonPosition();
         // Function to handle node click event
         function click(d) 
         {
