@@ -337,11 +337,8 @@
                 .style("fill-opacity", 1e-6)
                 .on("click", function(d) 
                 {
-                    if (d.gender === "M") 
-                    {
                         d3.event.stopPropagation();
                         window.open("/person/" + d.id + "/", "_blank");
-                    }
                 });
 
             // Transition nodes to their new position
