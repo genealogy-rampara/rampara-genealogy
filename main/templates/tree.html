@@ -85,13 +85,12 @@
             {
                 width: 7000px;
                 height: 3000px;
-                padding: 10px;
             }
             .zoom-button-container {
         bottom: 10px !important;
         right: 10px !important;
-        width: auto; /* Adjust container width for smaller screens */
-        height: auto; /* Adjust container height for smaller screens */
+        width: 10px; /* Adjust container width for smaller screens */
+        height: 10px; /* Adjust container height for smaller screens */
     }
             .navbar-nav .nav-item 
             {
@@ -129,7 +128,6 @@
             {
                 width: 7000px !important;
                 height: 3000px !important;
-                padding: 10px;
             }
         }
         .zoom-button-container {
@@ -146,10 +144,6 @@
         .zoom-button 
         {
             margin: 5px;
-        }
-        svg
-        {
-            padding: 10px;
         }
     </style>
 </head>
@@ -237,7 +231,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions
-        var margin = {top: 20, right: 180, bottom: 20, left: 180},
+        var margin = {top: 20, right: 200, bottom: 20, left: 200},
             canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
