@@ -27,7 +27,6 @@
             stroke: #ff4500; /* Change edge color on hover */
             stroke-width: 3px;
         }
-
         /* Styles for nodes */
         .node circle 
         {
@@ -36,25 +35,21 @@
             stroke-width: 3px;
             transition: stroke 0.3s, stroke-width 0.3s;
         }
-
         .node text 
         {
             font: 20px sans-serif;
             transition: font-weight 0.3s;
             pointer-events: all; /* Enable pointer events for text */
         }
-
         .node:hover circle 
         {
             stroke: #ff4500;
             stroke-width: 4px;
         }
-
         .node:hover text 
         {
             font-weight: bold;
         }
-
         /* Responsive styles */
         @media (max-width: 768px) 
         {
@@ -78,25 +73,22 @@
             {
                 font-weight: bold;
             }
-        }
-        @media (max-width: 768px) 
-        {
             svg 
             {
-                width: 7000px;
+                width: 4000px;
                 height: 3000px;
-            }
-            .zoom-button-container 
-            {
-                bottom: 20px !important; /* Increase spacing on mobile */
-                right: 20px !important;
-                width: auto; /* Adjust width if needed */
-                height: auto; /* Adjust height if needed */
             }
             .navbar-nav .nav-item 
             {
                 margin-right: 20px;
                 z-index: 0;
+            }
+            .zoom-button-container 
+            {
+                top: 50px !important; /* Keep bottom position */
+                right: 10px !important;  /* Keep right position */
+                width: auto; /* Allow container width to adjust */
+                height: auto; /* Allow container height to adjust */
             }
         }
         /* Add margin to nav items */
@@ -105,18 +97,20 @@
             margin-right: 20px;
             z-index: 0;
         }
-
         .avatar 
         {
             border-radius: 50%;
             width: 30px;
             height: 26px;
         }
-        @media print {
-            body {
+        @media print 
+        {
+            body 
+            {
                 -webkit-print-color-adjust: exact !important; /* Ensure colors are printed as they appear on screen */
             }
-            .navbar {
+            .navbar 
+            {
                 display: none; /* Hide navbar when printing */
             }
             .container-fluid 
@@ -131,18 +125,21 @@
                 height: 3000px !important;
             }
         }
-        .zoom-button-container {
-    position: fixed !important;
-    bottom: 5vh; /* 5% of viewport height */
-    right: 5vw;  /* 5% of viewport width */
-    z-index: 1000 !important;
-}
-
+        .zoom-button-container 
+        {
+            position: fixed !important;
+            bottom: 10px !important; /* Distance from the bottom */
+            right: 10px !important;  /* Distance from the right */
+            z-index: 1000 !important;
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 10px; /* Space between buttons */
+        }
+        /* Ensure buttons have proper styling */
         .zoom-button 
         {
-            margin: 5px;
+            margin: 0;
         }
-        
     </style>
 </head>
 <body>
@@ -409,19 +406,6 @@
                 this.parentNode.appendChild(this);
             });
         }
-        function adjustZoomButtonPosition() {
-    const zoomButtonContainer = document.querySelector('.zoom-button-container');
-    if (zoomButtonContainer) {
-        zoomButtonContainer.style.bottom = '10px'; // Fixed bottom position
-        zoomButtonContainer.style.right = '10px'; // Fixed right position
-    }
-}
-
-// Adjust position on window resize to ensure it stays in place
-window.addEventListener('resize', adjustZoomButtonPosition);
-
-// Call once to set initial position
-adjustZoomButtonPosition();
         // Function to handle node click event
         function click(d) 
         {
