@@ -76,7 +76,8 @@
             svg 
             {
                 width: 7000px;
-                height: 3000px;
+                height: 7000px;
+                /* border: 2px solid black; */
             }
             .navbar-nav .nav-item 
             {
@@ -113,16 +114,11 @@
             {
                 display: none; /* Hide navbar when printing */
             }
-            .container-fluid 
-            {
-                margin: 0;
-                padding: 10px;
-                width: 100%;
-            }
             svg 
             {
                 width: 7000px !important;
-                height: 3000px !important;
+                height: 7000px !important;
+
             }
         }
         .zoom-button-container 
@@ -135,10 +131,15 @@
             flex-direction: column; /* Stack buttons vertically */
             gap: 10px; /* Space between buttons */
         }
-        /* Ensure buttons have proper styling */
         .zoom-button 
         {
             margin: 0;
+        }
+        svg 
+        {
+            width: 7000px !important;
+            height: 7000px !important;
+            /* border: 2px solid black; */
         }
     </style>
 </head>
@@ -216,7 +217,7 @@
         <button class="btn btn-primary zoom-button" onclick="zoomOut()">Zoom Out</button>
     </div>
     <div class="container-fluid">
-        <svg width="7000px" height="3000px"></svg>
+        <svg width="7000px" height="7000px"></svg>
     </div>
     <!-- Include Bootstrap JS and D3 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
