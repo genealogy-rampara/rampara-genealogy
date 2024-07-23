@@ -12,7 +12,7 @@
     <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="icon" href="https://www.royalark.net/India/dhrangadhra-arms.jpg" type="image/icon type">
-    <style>
+    <!-- <style>
         /* Styles for edges */
         .link 
         {
@@ -86,10 +86,14 @@
             }
             .zoom-button-container 
             {
-                top: 50px !important; /* Keep bottom position */
-                right: 10px !important;  /* Keep right position */
-                width: auto; /* Allow container width to adjust */
-                height: auto; /* Allow container height to adjust */
+                bottom: 10px; /* Adjust distance from the bottom */
+                left: 10px;  /* Distance from the left */
+            }
+            .zoom-button 
+            {
+                width: auto; /* Ensure buttons do not take the width of the SVG */
+                padding: 10px 20px; /* Add padding for better touch targets */
+                text-align: center; /* Center text inside buttons */
             }
         }
         /* Add margin to nav items */
@@ -123,10 +127,10 @@
         }
         .zoom-button-container 
         {
-            position: fixed !important;
-            bottom: 10px !important; /* Distance from the bottom */
-            right: 10px !important;  /* Distance from the right */
-            z-index: 1000 !important;
+            position: fixed;
+            bottom: 10px; /* Distance from the bottom */
+            right: 10px;  /* Distance from the right */
+            z-index: 1000;
             display: flex;
             flex-direction: column; /* Stack buttons vertically */
             gap: 10px; /* Space between buttons */
@@ -134,9 +138,140 @@
         .zoom-button 
         {
             margin: 0;
+            width: auto; /* Ensure buttons do not take the width of the SVG */
+            padding: 10px 20px; /* Add padding for better touch targets */
+            text-align: center; /* Center text inside buttons */
         }
         svg 
         {
+            width: 7000px !important;
+            height: 7000px !important;
+            /* border: 2px solid black; */
+        }
+    </style> -->
+    <style>
+        /* Styles for edges */
+        .link {
+            fill: none;
+            stroke: #888; /* Default edge color */
+            stroke-width: 2px;
+            transition: stroke 0.3s, stroke-width 0.3s;
+        }
+    
+        .link:hover {
+            stroke: #ff4500; /* Change edge color on hover */
+            stroke-width: 3px;
+        }
+    
+        /* Styles for nodes */
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 3px;
+            transition: stroke 0.3s, stroke-width 0.3s;
+        }
+    
+        .node text {
+            font: 20px sans-serif;
+            transition: font-weight 0.3s;
+            pointer-events: all; /* Enable pointer events for text */
+        }
+    
+        .node:hover circle {
+            stroke: #ff4500;
+            stroke-width: 4px;
+        }
+    
+        .node:hover text {
+            font-weight: bold;
+        }
+    
+        /* Add margin to nav items */
+        .navbar-nav .nav-item {
+            margin-right: 20px;
+            z-index: 0;
+        }
+    
+        .avatar {
+            border-radius: 50%;
+            width: 30px;
+            height: 26px;
+        }
+    
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important; /* Ensure colors are printed as they appear on screen */
+            }
+            .navbar {
+                display: none; /* Hide navbar when printing */
+            }
+            svg {
+                width: 7000px !important;
+                height: 7000px !important;
+            }
+        }
+    
+        /* Base styles for zoom button container */
+        .zoom-button-container 
+        {
+            position: fixed; /* Use fixed positioning to keep it in place relative to the viewport */
+            bottom: 10px; /* Distance from the bottom */
+            right: 10px;  /* Distance from the right */
+            z-index: 1000;
+            display: flex;
+            gap: 10px; /* Space between buttons */
+        }
+
+        /* Base styles for zoom buttons */
+        .zoom-button 
+        {
+            margin: 0;
+            width: auto; /* Ensure buttons do not take the width of the SVG */
+            padding: 10px 20px; /* Add padding for better touch targets */
+            text-align: center; /* Center text inside buttons */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor for clickable buttons */
+        }
+    
+        /* Responsive styles for smaller screens */
+        @media (max-width: 768px) {
+            .node text {
+                font-size: 20px;
+            }
+            .link {
+                stroke-width: 3px;
+            }
+            .node circle {
+                stroke-width: 4px;
+            }
+            .node:hover circle {
+                stroke: #ff4500;
+            }
+            .node:hover text {
+                font-weight: bold;
+            }
+            svg {
+                width: 7000px;
+                height: 7000px;
+            }
+            .navbar-nav .nav-item {
+                margin-right: 20px;
+                z-index: 0;
+            }
+            .zoom-button-container 
+            {
+                bottom: 10px; /* Ensure it's always visible from the bottom */
+                right: 10px;  /* Ensure it's always visible from the right */
+            }
+            .zoom-button 
+            {
+                padding: 10px 20px; /* Add padding for better touch targets */
+                text-align: center; /* Center text inside buttons */
+                font-size: 14px; /* Adjust font size for smaller screens */
+            }
+        }
+    
+        svg {
             width: 7000px !important;
             height: 7000px !important;
             /* border: 2px solid black; */
@@ -253,7 +388,6 @@
         function zoomed() 
         {
             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-            d3.select('.zoom-button-container').style('transform', 'translate(0, 0)');
         }
         function zoomIn() 
         {
@@ -407,19 +541,6 @@
                 this.parentNode.appendChild(this);
             });
         }
-        function adjustZoomButtonPosition() {
-    const zoomButtonContainer = document.querySelector('.zoom-button-container');
-    if (zoomButtonContainer) {
-        zoomButtonContainer.style.bottom = '10px'; // Fixed bottom position
-        zoomButtonContainer.style.right = '10px'; // Fixed right position
-    }
-}
-
-// Adjust position on window resize to ensure it stays in place
-window.addEventListener('resize', adjustZoomButtonPosition);
-
-// Call once to set initial position
-adjustZoomButtonPosition();
         // Function to handle node click event
         function click(d) 
         {

@@ -86,10 +86,13 @@
             }
             .zoom-button-container 
             {
-                top: 50px !important; /* Keep bottom position */
-                right: 10px !important;  /* Keep right position */
-                width: auto; /* Allow container width to adjust */
-                height: auto; /* Allow container height to adjust */
+                position: sticky !important;
+                bottom: 10px !important; /* Distance from the bottom */
+                right: 10px !important;  /* Distance from the right */
+                z-index: 1000 !important;
+                display: flex;
+                flex-direction: column; /* Stack buttons vertically */
+                gap: 10px; /* Space between buttons */
             }
         }
         /* Add margin to nav items */
@@ -217,7 +220,8 @@
         <button class="btn btn-primary zoom-button" onclick="zoomOut()">Zoom Out</button>
     </div>
     <div class="container-fluid">
-        <svg width="7000px" height="7000px"></svg>
+        <svg width="7000px" height="7000px">
+        </svg>
     </div>
     <!-- Include Bootstrap JS and D3 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
@@ -227,7 +231,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions
-        var margin = {top: 20, right: 200, bottom: 20, left: 200},
+        var margin = {top: 10, right: 200, bottom: 10, left: 200},
             canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
@@ -253,7 +257,7 @@
         function zoomed() 
         {
             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-            d3.select('.zoom-button-container').style('transform', 'translate(0, 0)');
+            // d3.select('.zoom-button-container').style('transform', 'translate(0, 0)');
         }
         function zoomIn() 
         {
@@ -404,19 +408,6 @@
                 this.parentNode.appendChild(this);
             });
         }
-        function adjustZoomButtonPosition() {
-    const zoomButtonContainer = document.querySelector('.zoom-button-container');
-    if (zoomButtonContainer) {
-        zoomButtonContainer.style.bottom = '10px'; // Fixed bottom position
-        zoomButtonContainer.style.right = '10px'; // Fixed right position
-    }
-}
-
-// Adjust position on window resize to ensure it stays in place
-window.addEventListener('resize', adjustZoomButtonPosition);
-
-// Call once to set initial position
-adjustZoomButtonPosition();
         // Function to handle node click event
         function click(d) 
         {
