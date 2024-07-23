@@ -86,12 +86,13 @@
                 width: 7000px;
                 height: 3000px;
             }
-            .zoom-button-container {
-        bottom: 10px !important;
-        right: 10px !important;
-        width: 10px; /* Adjust container width for smaller screens */
-        height: 10px; /* Adjust container height for smaller screens */
-    }
+            .zoom-button-container 
+            {
+                bottom: 20px !important; /* Increase spacing on mobile */
+                right: 20px !important;
+                width: auto; /* Adjust width if needed */
+                height: auto; /* Adjust height if needed */
+            }
             .navbar-nav .nav-item 
             {
                 margin-right: 20px;
@@ -132,19 +133,16 @@
         }
         .zoom-button-container {
     position: fixed !important;
-    bottom: 10px !important; 
-    right: 10px !important; 
+    bottom: 5vh; /* 5% of viewport height */
+    right: 5vw;  /* 5% of viewport width */
     z-index: 1000 !important;
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    width: auto; /* Allow container to resize with content */
-    height: auto; /* Allow container to resize with content */
 }
 
         .zoom-button 
         {
             margin: 5px;
         }
+        
     </style>
 </head>
 <body>
@@ -257,6 +255,7 @@
         function zoomed() 
         {
             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            d3.select('.zoom-button-container').style('transform', 'translate(0, 0)');
         }
         function zoomIn() 
         {
@@ -410,7 +409,19 @@
                 this.parentNode.appendChild(this);
             });
         }
+        function adjustZoomButtonPosition() {
+    const zoomButtonContainer = document.querySelector('.zoom-button-container');
+    if (zoomButtonContainer) {
+        zoomButtonContainer.style.bottom = '10px'; // Fixed bottom position
+        zoomButtonContainer.style.right = '10px'; // Fixed right position
+    }
+}
 
+// Adjust position on window resize to ensure it stays in place
+window.addEventListener('resize', adjustZoomButtonPosition);
+
+// Call once to set initial position
+adjustZoomButtonPosition();
         // Function to handle node click event
         function click(d) 
         {
