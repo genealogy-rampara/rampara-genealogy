@@ -13,14 +13,15 @@ def tree_with_female(request):
 def login(request):
     email = 'ramparagenealogy@gmail.com'
     password = 'Rampara@2024'
-    return render(request, 'login.html', {'email':email, 'password' : password})
-
+    return render(request, 'login.html', {'email': email, 'password': password})
 csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'    
+
+# Function to fetch CSV data from Google Drive
 def fetch_csv_data_from_drive(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            csv_data = response.content.decode('utf-8-sig').splitlines()
+            csv_data = response.content.decode('utf-8-sig').splitlines()  # Decode the content and split into lines
             return csv_data
         else:
             print(f"Failed to fetch data from Google Drive. Status code: {response.status_code}")
@@ -33,8 +34,8 @@ def fetch_csv_data_from_drive(url):
 def import_data_from_csv(csv_data):
     imported_data = []
     try:
-        reader = csv.DictReader(csv_data)
-        for row in reader:
+        reader = csv.DictReader(csv_data)  # Create a CSV reader object
+        for row in reader:  # Iterate over each row in the CSV data
             imported_data.append({
                 'ID': row.get('ID', '').strip(),
                 'child_id': row.get('child_id', '').strip(),
@@ -46,7 +47,7 @@ def import_data_from_csv(csv_data):
                 'spouse_name': row.get('spouse_name', '').strip(),
                 'spouse_fathername': row.get('spouse_fathername', '').strip(),
                 'spouse_village': row.get('spouse_village', '').strip(),
-                'children': row.get('children', '') 
+                'children': row.get('children', '')
             })
         return imported_data
     except Exception as e:
@@ -57,9 +58,9 @@ def import_data_from_csv(csv_data):
 # View to import data from CSV file
 def import_data_from_drive(request):
     if request.method == 'POST':
-        csv_data = fetch_csv_data_from_drive(csv_file_url)
+        csv_data = fetch_csv_data_from_drive(csv_file_url)  # Fetch CSV data from Google Drive
         if csv_data:
-            imported_data = import_data_from_csv(csv_data)
+            imported_data = import_data_from_csv(csv_data)  # Import data from the fetched CSV data
             if imported_data:
                 return redirect('tree_view')
             else:
@@ -68,15 +69,15 @@ def import_data_from_drive(request):
             return JsonResponse({'status': 'error', 'message': 'Failed to fetch CSV data from Google Drive'}, status=500)
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
+# View to search for a person in the genealogy data
 def search_person(request):
-    query = request.GET.get('q')
+    query = request.GET.get('q')  
     print('\n\n=========================================================================================================================================')
     print('=================================================================  QUERY  ===============================================================\n')
     print(query)
     print('=========================================================================================================================================\n\n')
-    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url)) 
     if query:
-        # query = query.strip()
         try:
             person = next(item for item in genealogy_data if item["Name"].lower() == query.lower())
             return redirect('person_detail', person_id=person["ID"])
@@ -94,12 +95,14 @@ def build_tree(person, data):
         'gender': person['Gender'],
         'children': []
     }
+    # Find all children where the father is the current person
     children = [child for child in data if child['father'] == person['Name']]
     for child in children:
-        person_tree['children'].append(build_tree(child, data))
+        person_tree['children'].append(build_tree(child, data))  # Recursively build the tree for each child
+    # Find all children where the mother is the current person
     female_children_with_children = [child for child in data if child['mother'] == person['Name']]
     for female_child in female_children_with_children:
-        person_tree['children'].append(build_tree(female_child, data))
+        person_tree['children'].append(build_tree(female_child, data))  # Recursively build the tree for each child
     return person_tree
 
 # View to render the note.html template
@@ -280,7 +283,7 @@ def d3_collapsible_tree(request):
         if not genealogy_data:
             return JsonResponse({"error": "No data available"}, status=400)
         
-        # root_person_name = "Vakhatsinhji"
+        # root_person_name = "Raj Jaswantsinhji - 2"
         root_person = genealogy_data[0]
         # root_person = next((item for item in genealogy_data if item['Name'] == root_person_name), None)
         if root_person is None:

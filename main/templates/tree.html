@@ -360,51 +360,58 @@
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Set up the SVG canvas dimensions
+        // Set up the SVG canvas dimensions and margins
         var margin = {top: 20, right: 200, bottom: 20, left: 200},
             canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
-            tree_level_depth = 1000;
-        var i = 0,
-            duration = 1400,
-            root;
-        // Create a tree layout
+            tree_level_depth = 1000; // Depth of each tree level
+        
+        var i = 0, // Node index counter
+            duration = 1400, // Transition duration for node movements
+            root; // Root node of the tree
+    
+        // Create a tree layout with the specified size
         var tree = d3.layout.tree().size([tree_height, tree_width]);
-        // Define a diagonal projection
+    
+        // Define a diagonal projection for the links between nodes
         var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
+    
         // Select the SVG element and set its dimensions
         var svg = d3.select("svg")
             .attr("width", canvas_width)
             .attr("height", canvas_height)
-            // .call(d3.behavior.zoom().scaleExtent([0.2, 4]).on("zoom", zoom)) // Add zoom and pan functionality
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        var g = svg.append("g");
+    
+        var g = svg.append("g"); // Group for the tree
+    
+        // Set up zoom behavior
         var zoom = d3.behavior.zoom().scaleExtent([0.1, 4]).on("zoom", zoomed);
-        svg.call(zoom);
+        svg.call(zoom); // Apply zoom behavior to the SVG
+    
+        // Zoom event handler
         function zoomed() 
         {
             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         }
+    
+        // Zoom in function
         function zoomIn() 
         {
             zoom.scale(zoom.scale() * 1.2);
             zoom.event(svg);
         }
+    
+        // Zoom out function
         function zoomOut() 
         {
             zoom.scale(zoom.scale() / 1.2);
             zoom.event(svg);
         }
-        // Zoom function
-        // function zoom() 
-        // {
-        //     g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-        // }
-
-        // Fetch tree data from Django views
+    
+        // Fetch tree data from the Django view and render the tree
         d3.json("{% url 'd3_collapsible_tree' %}", function(error, treeData) 
         {
             if (error) 
@@ -412,12 +419,13 @@
                 console.error("Error fetching tree data:", error);
                 return;
             }
-            // Proceed with rendering the tree using the fetched treeData
+    
+            // Set up the root node
             root = treeData;
             root.x0 = tree_height / 2;
             root.y0 = 0;
-
-            // Collapse function to close all nodes except the root
+    
+            // Collapse all nodes except the root
             function collapse(d) 
             {
                 if (d.children) 
@@ -430,41 +438,39 @@
             root.children.forEach(collapse);
             update(root);
         });
-
+    
         // Set the height of the iframe
         d3.select(self.frameElement).style("height", "3000px");
-
+    
         // Function to update the tree layout
         function update(source) 
         {
             // Compute the new tree layout
             var nodes = tree.nodes(root),
                 links = tree.links(nodes);
-
+    
             // Update the y-coordinate of each node based on its depth
             nodes.forEach(function(d) { d.y = d.depth * tree_level_depth; });
-
+    
             // Update the nodes
             var node = g.selectAll("g.node")
-                        .data(nodes, function(d) { return d.id || (d.id = ++i);
-
-});
-
+                        .data(nodes, function(d) { return d.id || (d.id = ++i); });
+    
             // Enter new nodes at the parent's previous position
             var new_nodes = node.enter().append("g")
                 .attr("class", "node")
                 .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
                 .on("click", click);
-
+    
             // Add circles to represent nodes
             new_nodes.append("circle")
                 .attr("r", 1e-6)
                 .style("fill", function(d) { return getRandomColor(); });
-
-            // Add text to nodes and set up click event for males only
+    
+            // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -15 : 15; }) // Increase the distance from the circle
-                .attr("y", -20) // Adjust y-position to move text above the edges
+                .attr("x", function(d) { return d.children || d._children ? -15 : 15; }) // Distance from the circle
+                .attr("y", -20) // Move text above the circle
                 .attr("dy", ".35em")
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
@@ -477,35 +483,35 @@
                         window.open("/person/" + d.id + "/", "_blank");
                     }
                 });
-
+    
             // Transition nodes to their new position
             var moved_node = node.transition().duration(duration)
                 .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-
+    
             // Update circle size and color
             moved_node.select("circle")
                 .attr("r", 12)
                 .style("fill", function(d) { return getRandomColor(); });
-
+    
             // Update text opacity
             moved_node.select("text")
                 .style("fill-opacity", 1);
-
+    
             // Transition nodes to be removed
             var hidden_nodes = node.exit().transition().duration(duration)
                 .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
                 .remove();
-
+    
             hidden_nodes.select("circle")
                 .attr("r", 12);
-
+    
             hidden_nodes.select("text")
                 .style("fill-opacity", 13);
-
+    
             // Update the links
             var link = g.selectAll("path.link")
                 .data(links, function(d) { return d.target.id; });
-
+    
             // Enter new links at the parent's previous position
             link.enter().insert("path", "g")
                 .attr("class", "link")
@@ -514,11 +520,11 @@
                     var o = { x: source.x0, y: source.y0 };
                     return diagonal({ source: o, target: o });
                 });
-
+    
             // Transition links to their new position
             link.transition().duration(duration)
                 .attr("d", diagonal);
-
+    
             // Transition links to be removed
             link.exit().transition().duration(duration)
                 .attr("d", function(d) 
@@ -526,21 +532,22 @@
                     var o = { x: source.x, y: source.y };
                     return diagonal({ source: o, target: o });
                 }).remove();
-
+    
             // Store the old positions for transition
             nodes.forEach(function(d) 
             {
                 d.x0 = d.x;
                 d.y0 = d.y;
             });
-
+    
             // Bring the text to the front
             g.selectAll("g.node").each(function(d) 
             {
                 this.parentNode.appendChild(this);
             });
         }
-        // Function to handle node click event
+    
+        // Function to handle node click event (toggle children visibility)
         function click(d) 
         {
             if (d.children) 
@@ -555,7 +562,7 @@
             }
             update(d);
         }
-
+    
         // Function to generate random color
         function getRandomColor() 
         {
@@ -567,9 +574,10 @@
             }
             return color;
         }
-
+    
         // Recalculate tree size on window resize
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function() 
+        {
             canvas_width = document.querySelector("svg").clientWidth;
             tree_width = canvas_width - margin.right - margin.left;
             tree.size([tree_height, tree_width]);
