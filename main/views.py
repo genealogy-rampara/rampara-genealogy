@@ -20,7 +20,7 @@ csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSW
 def fetch_csv_data_from_drive(url):
     try:
         response = requests.get(url)
-        if response.status_code == 200:
+        if response.status_code == 200:     # The HTTP 200 OK success status response code indicates that the request has succeeded.
             csv_data = response.content.decode('utf-8-sig').splitlines()  # Decode the content and split into lines
             return csv_data
         else:
