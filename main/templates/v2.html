@@ -121,7 +121,7 @@
             }
             .zoom-button-container 
             {
-                top: 50px; /* Ensure it's always visible from the bottom */
+                top: 100px; /* Ensure it's always visible from the bottom */
                 right: 10px;  /* Ensure it's always visible from the right */
             }
             .zoom-button 
@@ -148,7 +148,7 @@
                 Genealogy
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon" aria-expanded="true"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -181,10 +181,10 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        <a class="nav-link dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
                             Version - 2
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="createDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="versionDropdown">
                             <li>
                                 <a class="dropdown-item" href="{% url 'tree_view' %}" target="_blank">Version - 1</a>
                             </li>

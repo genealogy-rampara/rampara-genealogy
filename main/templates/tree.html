@@ -273,6 +273,7 @@
                 font-weight: bold;
             }
             svg {
+                margin-left: 200px ;
                 width: 7000px;
                 height: 7000px;
             }
@@ -283,10 +284,8 @@
             .zoom-button-container 
             {
                 position: fixed; /* Change to sticky for mobile */
-                top: 50px; /* Ensure it's always visible from the top */
-                left: 10px;
-                bottom: 10px;
-                right: 10px;  /* Ensure it's always visible from the right */
+                top: 300px; /* Ensure it's always visible from the top */
+                left: 10px;  /* Ensure it's always visible from the right */
             }
             .zoom-button 
             {
@@ -345,10 +344,10 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        <a class="nav-link dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
                             Version - 1
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="createDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="versionDropdown">
                             <li>
                                 <a class="dropdown-item" href="{% url 'tree_with_female' %}" target="_blank">Version - 2</a>
                             </li>
@@ -387,7 +386,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions and margins
-        var margin = {top: 20, right: 200, bottom: 20, left: 200},
+        var margin = {top: 100, right: 200, bottom: 20, left: 200},
             canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
