@@ -217,8 +217,8 @@
         .zoom-button-container 
         {
             position: fixed; /* Use fixed positioning to keep it in place relative to the viewport */
-            top: 300px; /* Distance from the bottom */
-            left: 10px;  /* Distance from the right */
+            top: 10px; /* Distance from the bottom */
+            right: 10px;  /* Distance from the right */
         }
     
         /* Base styles for zoom buttons */
@@ -237,6 +237,7 @@
             .node text 
             {
                 font-size: 30px; /* Increase font size for smaller screens */
+                font-weight: bolder; /* Make text bold */
             }
             .link 
             {
@@ -359,7 +360,7 @@
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
             tree_level_depth = 2000; // Depth of each tree level
-        
+    
         var i = 0, // Node index counter
             duration = 1500, // Transition duration for node movements
             root; // Root node of the tree
@@ -381,33 +382,39 @@
     
         // Set up zoom behavior
         var zoom = d3.behavior.zoom().scaleExtent([0.1, 0.5]).on("zoom", zoomed);
+    
+        // Function to check if the device is mobile
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+    
+        // Initial zoom scale based on device type
+        if (isMobileDevice()) {
+            zoom.scale(0.1); // Zoom out for mobile devices
+        }
+    
         svg.call(zoom); // Apply zoom behavior to the SVG
     
         // Zoom event handler
-        function zoomed() 
-        {
+        function zoomed() {
             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         }
     
         // Zoom in function
-        function zoomIn() 
-        {
+        function zoomIn() {
             zoom.scale(zoom.scale() * 1.2);
             zoom.event(svg);
         }
     
         // Zoom out function
-        function zoomOut() 
-        {
-            zoom.scale(zoom.scale() / 2);
+        function zoomOut() {
+            zoom.scale(zoom.scale() / 1);
             zoom.event(svg);
         }
     
         // Fetch tree data from the Django view and render the tree
-        d3.json("{% url 'd3_collapsible_tree' %}", function(error, treeData) 
-        {
-            if (error) 
-            {
+        d3.json("{% url 'd3_collapsible_tree' %}", function(error, treeData) {
+            if (error) {
                 console.error("Error fetching tree data:", error);
                 return;
             }
@@ -418,10 +425,8 @@
             root.y0 = 0;
     
             // Collapse all nodes except the root
-            function collapse(d) 
-            {
-                if (d.children) 
-                {
+            function collapse(d) {
+                if (d.children) {
                     d._children = d.children;
                     d._children.forEach(collapse);
                     d.children = null;
@@ -439,25 +444,25 @@
             // Compute the new tree layout
             var nodes = tree.nodes(root),
                 links = tree.links(nodes);
-
+    
             // Update the y-coordinate of each node based on its depth
             nodes.forEach(function(d) { d.y = d.depth * tree_level_depth; });
-
+    
             // Update the nodes
             var node = g.selectAll("g.node")
                         .data(nodes, function(d) { return d.id || (d.id = ++i); });
-
+    
             // Enter new nodes at the parent's previous position
             var new_nodes = node.enter().append("g")
                 .attr("class", "node")
                 .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
                 .on("click", click);
-
+    
             // Add circles to represent nodes
             new_nodes.append("circle")
                 .attr("r", 1e-6)
                 .style("fill", function(d) { return getRandomColor(); });
-
+    
             // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
                 .attr("x", function(d) { return d.children || d._children ? -50 : 80; }) // Adjust distance from the circle
@@ -474,37 +479,37 @@
                         window.open("/person/" + d.id + "/", "_blank");
                     }
                 });
-
+    
             // Transition nodes to their new position
             var moved_node = node.transition().duration(duration)
                 .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-
+    
             // Update circle size and color
             moved_node.select("circle")
                 .attr("r", 30)
                 .style("fill", function(d) { return getRandomColor(); });
-
+    
             // Update text opacity and size
             moved_node.select("text")
                 .style("fill-opacity", 1)
                 .style("font-size", "30px") // Ensure font size is consistent
                 .style("font-weight", "bold"); // Ensure text is bold
-
+    
             // Transition nodes to be removed
             var hidden_nodes = node.exit().transition().duration(duration)
                 .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
                 .remove();
-
+    
             hidden_nodes.select("circle")
                 .attr("r", 12);
-
+    
             hidden_nodes.select("text")
                 .style("fill-opacity", 1e-6);
-
+    
             // Update the links
             var link = g.selectAll("path.link")
                 .data(links, function(d) { return d.target.id; });
-
+    
             // Enter new links at the parent's previous position
             link.enter().insert("path", "g")
                 .attr("class", "link")
@@ -512,24 +517,24 @@
                     var o = { x: source.x0, y: source.y0 };
                     return diagonal({ source: o, target: o });
                 });
-
+    
             // Transition links to their new position
             link.transition().duration(duration)
                 .attr("d", diagonal);
-
+    
             // Transition links to be removed
             link.exit().transition().duration(duration)
                 .attr("d", function(d) {
                     var o = { x: source.x, y: source.y };
                     return diagonal({ source: o, target: o });
                 }).remove();
-
+    
             // Store the old positions for transition
             nodes.forEach(function(d) {
                 d.x0 = d.x;
                 d.y0 = d.y;
             });
-
+    
             // Bring the text to the front
             g.selectAll("g.node").each(function(d) {
                 this.parentNode.appendChild(this);
@@ -537,15 +542,11 @@
         }
     
         // Function to handle node click event (toggle children visibility)
-        function click(d) 
-        {
-            if (d.children) 
-            {
+        function click(d) {
+            if (d.children) {
                 d._children = d.children;
                 d.children = null;
-            } 
-            else 
-            {
+            } else {
                 d.children = d._children;
                 d._children = null;
             }
@@ -553,20 +554,17 @@
         }
     
         // Function to generate random color
-        function getRandomColor() 
-        {
+        function getRandomColor() {
             var letters = '0123456789ABCDEF';
             var color = '#';
-            for (var i = 0; i < 6; i++) 
-            {
+            for (var i = 0; i < 6; i++) {
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
         }
     
         // Recalculate tree size on window resize
-        window.addEventListener('resize', function() 
-        {
+        window.addEventListener('resize', function() {
             canvas_width = document.querySelector("svg").clientWidth;
             tree_width = canvas_width - margin.right - margin.left;
             tree.size([tree_height, tree_width]);
