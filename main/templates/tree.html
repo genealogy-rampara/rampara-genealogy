@@ -257,6 +257,12 @@
                 width: 7000px; /* Ensure the SVG fits within the view */
                 height: 7000px; /* Adjust height to maintain aspect ratio */
             }
+            .zoom-button-container 
+            {
+                position: fixed; /* Use fixed positioning to keep it in place relative to the viewport */
+                top: 300px; /* Distance from the bottom */
+                left: 10px;  /* Distance from the right */
+            }
             .zoom-button 
             {
                 padding: 10px 20px; /* Add padding for better touch targets */
@@ -567,7 +573,7 @@
         // Recalculate tree size on window resize
         window.addEventListener('resize', function() 
         {
-            canvas_width = document.querySelector("svg").clientWidth;
+            canvas_width = "7000px";
             tree_width = canvas_width - margin.right - margin.left;
             tree.size([tree_height, tree_width]);
             update(root);
