@@ -273,7 +273,6 @@
                 font-weight: bold;
             }
             svg {
-                margin-left: 200px ;
                 width: 7000px;
                 height: 7000px;
             }
@@ -296,6 +295,7 @@
         }
     
         svg {
+            overflow:visible;
             width: 7000px !important;
             height: 7000px !important;
             /* border: 2px solid black; */
@@ -413,7 +413,7 @@
         var g = svg.append("g"); // Group for the tree
     
         // Set up zoom behavior
-        var zoom = d3.behavior.zoom().scaleExtent([0.1, 4]).on("zoom", zoomed);
+        var zoom = d3.behavior.zoom().scaleExtent([0.1, 0.9]).on("zoom", zoomed);
         svg.call(zoom); // Apply zoom behavior to the SVG
     
         // Zoom event handler
