@@ -152,33 +152,34 @@
     </style> -->
     <style>
         /* Styles for edges */
-        .link {
+        .link 
+        {
             fill: none;
             stroke: #888; /* Default edge color */
             stroke-width: 2px;
             transition: stroke 0.3s, stroke-width 0.3s;
+            z-index: 0; /* Ensure edges appear below the text */
         }
     
-        .link:hover {
+        .link:hover 
+        {
             stroke: #ff4500; /* Change edge color on hover */
             stroke-width: 3px;
         }
     
         /* Styles for nodes */
-        .node circle {
-            fill: #fff;
-            stroke: steelblue;
-            stroke-width: 3px;
-            transition: stroke 0.3s, stroke-width 0.3s;
-        }
-    
-        .node text {
-            font: 20px sans-serif;
+        .node text 
+        {
+            font-size: 30px;
+            font-family: sans-serif;
+            font-weight: bold; /* Make text bold */
             transition: font-weight 0.3s;
             pointer-events: all; /* Enable pointer events for text */
         }
+
     
-        .node:hover circle {
+        .node:hover circle 
+        {
             stroke: #ff4500;
             stroke-width: 4px;
         }
@@ -207,8 +208,8 @@
                 display: none; /* Hide navbar when printing */
             }
             svg {
-                width: 7000px !important;
-                height: 7000px !important;
+                width: 7000px;
+                height: 7000px;
             }
         }
     
@@ -216,11 +217,10 @@
         .zoom-button-container 
         {
             position: fixed; /* Use fixed positioning to keep it in place relative to the viewport */
-            bottom: 10px; /* Distance from the bottom */
-            right: 10px;  /* Distance from the right */
-            z-index: 1000;
+            top: 300px; /* Distance from the bottom */
+            left: 10px;  /* Distance from the right */
         }
-
+    
         /* Base styles for zoom buttons */
         .zoom-button 
         {
@@ -234,57 +234,28 @@
     
         /* Responsive styles for smaller screens */
         @media (max-width: 768px) {
-            .navbar {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
+            .node text 
+            {
+                font-size: 30px; /* Increase font size for smaller screens */
             }
-
-            .navbar-nav {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .navbar-nav .nav-item {
-                margin-right: 0;
-                width: 100%;
-            }
-
-            .navbar-nav .nav-item a {
-                display: block;
-                width: 100%;
-                padding: 10px 20px;
-                text-align: left;
-            }
-            .node text {
-                font-size: 20px;
-            }
-            .link {
-                stroke-width: 3px;
+            .link 
+            {
+                stroke-width: 4px; /* Increase edge width for smaller screens */
             }
             .node circle {
-                stroke-width: 4px;
+                stroke-width: 3px; /* Increase circle stroke width for smaller screens */
+                border-radius: 3px; /* Increase circle radius for smaller screens */
             }
             .node:hover circle {
                 stroke: #ff4500;
+                stroke-width: 3px;
             }
             .node:hover text {
                 font-weight: bold;
             }
             svg {
-                width: 7000px;
-                height: 7000px;
-            }
-            .navbar-nav .nav-item {
-                margin-right: 20px;
-                z-index: 0;
-            }
-            .zoom-button-container 
-            {
-                position: fixed; /* Change to sticky for mobile */
-                top: 300px; /* Ensure it's always visible from the top */
-                left: 10px;  /* Ensure it's always visible from the right */
+                width: 7000px; /* Ensure the SVG fits within the view */
+                height: auto; /* Adjust height to maintain aspect ratio */
             }
             .zoom-button 
             {
@@ -295,10 +266,8 @@
         }
     
         svg {
-            overflow:visible;
-            width: 7000px !important;
-            height: 7000px !important;
-            /* border: 2px solid black; */
+            width: 7000px;
+            height: auto;
         }
     </style>
 </head>
@@ -375,9 +344,7 @@
         <button class="btn btn-primary zoom-button" onclick="zoomIn()">Zoom In</button>
         <button class="btn btn-primary zoom-button" onclick="zoomOut()">Zoom Out</button>
     </div>
-    <div class="container-fluid">
-        <svg width="7000px" height="7000px"></svg>
-    </div>
+    <svg width="7000px" height="7000px"></svg>
     <!-- Include Bootstrap JS and D3 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -386,15 +353,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions and margins
-        var margin = {top: 100, right: 200, bottom: 20, left: 200},
+        var margin = {top: 5, right: 200, bottom: 20, left: 400},
             canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
-            tree_level_depth = 1000; // Depth of each tree level
+            tree_level_depth = 2000; // Depth of each tree level
         
         var i = 0, // Node index counter
-            duration = 1400, // Transition duration for node movements
+            duration = 1500, // Transition duration for node movements
             root; // Root node of the tree
     
         // Create a tree layout with the specified size
@@ -413,7 +380,7 @@
         var g = svg.append("g"); // Group for the tree
     
         // Set up zoom behavior
-        var zoom = d3.behavior.zoom().scaleExtent([0.1, 0.9]).on("zoom", zoomed);
+        var zoom = d3.behavior.zoom().scaleExtent([0.1, 0.5]).on("zoom", zoomed);
         svg.call(zoom); // Apply zoom behavior to the SVG
     
         // Zoom event handler
@@ -432,7 +399,7 @@
         // Zoom out function
         function zoomOut() 
         {
-            zoom.scale(zoom.scale() / 1.2);
+            zoom.scale(zoom.scale() / 2);
             zoom.event(svg);
         }
     
@@ -468,106 +435,103 @@
         d3.select(self.frameElement).style("height", "3000px");
     
         // Function to update the tree layout
-        function update(source) 
-        {
+        function update(source) {
             // Compute the new tree layout
             var nodes = tree.nodes(root),
                 links = tree.links(nodes);
-    
+
             // Update the y-coordinate of each node based on its depth
             nodes.forEach(function(d) { d.y = d.depth * tree_level_depth; });
-    
+
             // Update the nodes
             var node = g.selectAll("g.node")
                         .data(nodes, function(d) { return d.id || (d.id = ++i); });
-    
+
             // Enter new nodes at the parent's previous position
             var new_nodes = node.enter().append("g")
                 .attr("class", "node")
                 .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
                 .on("click", click);
-    
+
             // Add circles to represent nodes
             new_nodes.append("circle")
                 .attr("r", 1e-6)
                 .style("fill", function(d) { return getRandomColor(); });
-    
+
             // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -15 : 15; }) // Distance from the circle
-                .attr("y", -20) // Move text above the circle
-                .attr("dy", ".35em")
+                .attr("x", function(d) { return d.children || d._children ? -50 : 80; }) // Adjust distance from the circle
+                .attr("y", -30) // Move text above the circle
+                .attr("dy", "30px") // Adjust vertical alignment
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)
-                .on("click", function(d) 
-                {
-                    if (d.gender === "M") 
-                    {
+                .style("font-size", "30px") // Increase font size
+                .style("font-weight", "bolder") // Make text bold
+                .on("click", function(d) {
+                    if (d.gender === "M") {
                         d3.event.stopPropagation();
                         window.open("/person/" + d.id + "/", "_blank");
                     }
                 });
-    
+
             // Transition nodes to their new position
             var moved_node = node.transition().duration(duration)
                 .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-    
+
             // Update circle size and color
             moved_node.select("circle")
-                .attr("r", 12)
+                .attr("r", 30)
                 .style("fill", function(d) { return getRandomColor(); });
-    
-            // Update text opacity
+
+            // Update text opacity and size
             moved_node.select("text")
-                .style("fill-opacity", 1);
-    
+                .style("fill-opacity", 1)
+                .style("font-size", "30px") // Ensure font size is consistent
+                .style("font-weight", "bold"); // Ensure text is bold
+
             // Transition nodes to be removed
             var hidden_nodes = node.exit().transition().duration(duration)
                 .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
                 .remove();
-    
+
             hidden_nodes.select("circle")
                 .attr("r", 12);
-    
+
             hidden_nodes.select("text")
-                .style("fill-opacity", 13);
-    
+                .style("fill-opacity", 1e-6);
+
             // Update the links
             var link = g.selectAll("path.link")
                 .data(links, function(d) { return d.target.id; });
-    
+
             // Enter new links at the parent's previous position
             link.enter().insert("path", "g")
                 .attr("class", "link")
-                .attr("d", function(d) 
-                {
+                .attr("d", function(d) {
                     var o = { x: source.x0, y: source.y0 };
                     return diagonal({ source: o, target: o });
                 });
-    
+
             // Transition links to their new position
             link.transition().duration(duration)
                 .attr("d", diagonal);
-    
+
             // Transition links to be removed
             link.exit().transition().duration(duration)
-                .attr("d", function(d) 
-                {
+                .attr("d", function(d) {
                     var o = { x: source.x, y: source.y };
                     return diagonal({ source: o, target: o });
                 }).remove();
-    
+
             // Store the old positions for transition
-            nodes.forEach(function(d) 
-            {
+            nodes.forEach(function(d) {
                 d.x0 = d.x;
                 d.y0 = d.y;
             });
-    
+
             // Bring the text to the front
-            g.selectAll("g.node").each(function(d) 
-            {
+            g.selectAll("g.node").each(function(d) {
                 this.parentNode.appendChild(this);
             });
         }
