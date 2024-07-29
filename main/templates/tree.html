@@ -116,9 +116,10 @@
             .node:hover text {
                 font-weight: bold;
             }
-            .zoom-button-container {
-        display: none; /* Hide zoom buttons on devices smaller than 1024px */
-    }
+            .zoom-button-container 
+            {
+                display: none; /* Hide zoom buttons on devices smaller than 1024px */
+            }
             svg {
                 width: 7000px; /* Ensure the SVG fits within the view */
                 height: 7000px; /* Adjust height to maintain aspect ratio */
@@ -240,28 +241,22 @@
         var g = svg.append("g"); // Group for the tree
     
         // Set up zoom behavior
-        var zoom = d3.behavior.zoom().scaleExtent([0.1, 1.2]).on("zoom", zoomed);
-        svg.call(zoom); // Apply zoom behavior to the SVG
-    
-        // Zoom event handler
-        function zoomed() 
-        {
-            g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-        }
-    
-        // Zoom in function
-        function zoomIn() 
-        {
-            zoom.scale(zoom.scale() * 1.2);
-            zoom.event(svg);
-        }
-    
-        // Zoom out function
-        function zoomOut() 
-        {
-            zoom.scale(zoom.scale() / 1.5);
-            zoom.event(svg);
-        }
+        var zoom = d3.zoom()
+        .scaleExtent([0.5, 3]) // Set the zoom scale range
+        .on("zoom", function(event) {
+            svg.attr("transform", event.transform);
+        });
+
+    svg.call(zoom);
+
+    // Example zoom functions
+    function zoomIn() {
+        svg.transition().duration(750).call(zoom.scaleBy, 1.2);
+    }
+
+    function zoomOut() {
+        svg.transition().duration(750).call(zoom.scaleBy, 0.8);
+    }
     
         // Fetch tree data from the Django view and render the tree
         d3.json("{% url 'd3_collapsible_tree' %}", function(error, treeData) 
