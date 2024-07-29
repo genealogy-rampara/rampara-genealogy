@@ -63,14 +63,22 @@
             height: 26px;
         }
     
-        @media print {
-            body {
+        @media print 
+        {
+            body 
+            {
                 -webkit-print-color-adjust: exact !important; /* Ensure colors are printed as they appear on screen */
             }
-            .navbar {
+            .navbar 
+            {
                 display: none; /* Hide navbar when printing */
             }
-            svg {
+            .zoom-button-container
+            {
+                display: none;
+            }
+            svg 
+            {
                 width: 7000px;
                 height: 7000px;
             }
@@ -96,7 +104,8 @@
         }
     
         /* Responsive styles for smaller screens */
-        @media (max-width: 768px) {
+        @media (max-width: 768px) 
+        {
             .node text 
             {
                 font-size: 30px; /* Increase font size for smaller screens */
@@ -105,34 +114,41 @@
             {
                 stroke-width: 4px; /* Increase edge width for smaller screens */
             }
-            .node circle {
+            .node circle 
+            {
                 stroke-width: 3px; /* Increase circle stroke width for smaller screens */
                 border-radius: 3px; /* Increase circle radius for smaller screens */
             }
-            .node:hover circle {
+            .node:hover circle 
+            {
                 stroke: #ff4500;
                 stroke-width: 3px;
             }
-            .node:hover text {
+            .node:hover text 
+            {
                 font-weight: bold;
             }
-            .zoom-button-container {
+            .zoom-button-container 
+            {
                 display: none; /* Hide zoom buttons on devices smaller than 1024px */
             }
-            svg {
+            svg 
+            {
                 width: 7000px; /* Ensure the SVG fits within the view */
                 height: 7000px; /* Adjust height to maintain aspect ratio */
             }
         }
     
-        svg {
+        svg 
+        {
             width: 7000px;
             height: 7000px;
         }
     </style>
     <script>
         // Redirect mobile users
-        (function() {
+        (function() 
+        {
             var width = window.innerWidth;
             if (width <= 768) { // Adjust the width as needed
                 window.location.href = "{% url 'mobile_template' %}"; // URL to redirect to
@@ -201,7 +217,7 @@
                     </li>
                     <li class="nav-item">
                         <center>
-                            <button onclick="window.print()" class="btn btn-secondary">Print Details</button>
+                            <button onclick="window.print()" class="btn btn-secondary">Print Details</button
                         </center>
                     </li>
                 </ul>
