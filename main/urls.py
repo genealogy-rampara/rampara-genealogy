@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 urlpatterns = [
     path('', views.render_tree_view, name='tree_view'),
+    path('mobile_template', views.mobile_template, name='mobile_template'),
     path('note/', views.note, name='note'),
     path('person/<int:person_id>/', views.person_detail, name='person_detail'),
     path('d3-collapsible-tree/', views.d3_collapsible_tree, name='d3_collapsible_tree'),

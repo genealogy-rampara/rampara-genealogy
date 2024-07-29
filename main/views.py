@@ -7,6 +7,9 @@ import requests
 def render_tree_view(request):
     return render(request, 'tree.html')
 
+def mobile_template(request):
+    return render(request, 'mobile_template.html')
+
 def tree_with_female(request):
     return render(request, 'v2.html')
 
