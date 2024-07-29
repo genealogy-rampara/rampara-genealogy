@@ -62,6 +62,18 @@
             width: 30px;
             height: 26px;
         }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important; /* Ensure colors are printed as they appear on screen */
+            }
+            .navbar {
+                display: none; /* Hide navbar when printing */
+            }
+            svg {
+                width: 7000px;
+                height: 7000px;
+            }
+        }
 
         /* Responsive styles */
         @media (max-width: 768px) 
