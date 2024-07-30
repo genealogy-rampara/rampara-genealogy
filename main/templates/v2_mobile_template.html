@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home (Version - 2)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -104,7 +104,7 @@
         (function() {
             var width = window.innerWidth;
             if (width >= 768) { // Adjust the width as needed
-                window.location.href = "{% url 'tree_view' %}"; // URL to redirect to
+                window.location.href = "{% url 'tree_with_female' %}"; // URL to redirect to
             }
         })();
     </script>
@@ -152,11 +152,11 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            Version - 1
+                            Version - 2
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
                             <li>
-                                <a class="dropdown-item" href="{% url 'tree_with_female' %}" target="_blank">Version - 2</a>
+                                <a class="dropdown-item" href="{% url 'mobile_template' %}" target="_blank">Version - 1</a>
                             </li>
                         </ul>
                     </li>
@@ -217,7 +217,7 @@
         }
 
         // Fetch tree data from Django views
-        d3.json("{% url 'd3_collapsible_tree' %}", function(error, treeData) 
+        d3.json("{% url 'generate_tree_data' %}", function(error, treeData) 
         {
             if (error) 
             {
@@ -284,10 +284,8 @@
                 .style("font-size", "30px") // Increase font size
                 .style("font-weight", "bolder") // Make text bold
                 .on("click", function(d) {
-                    if (d.gender === "M") {
                         d3.event.stopPropagation();
                         window.open("/person/" + d.id + "/", "_blank");
-                    }
                 });
 
             // Transition nodes to their new position

@@ -13,6 +13,9 @@ def mobile_template(request):
 def tree_with_female(request):
     return render(request, 'v2.html')
 
+def v2_mobile_template(request):
+    return render(request, 'v2_mobile_template.html')
+
 def login(request):
     email = 'ramparagenealogy@gmail.com'
     password = 'Rampara@2024'
