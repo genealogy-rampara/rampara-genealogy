@@ -50,8 +50,8 @@ def import_data_from_csv(csv_data):
                 'Gender': row.get('Gender', '').strip(),
                 'father': row.get('father', ''),
                 'mother': row.get('mother', ''),
-                'spouse_name': row.get('spouse_name', '').strip(),
-                'spouse_fathername': row.get('spouse_fathername', '').strip(),
+                'spouse_name': row.get('spouse_name', ''),
+                'spouse_fathername': row.get('spouse_fathername', ''),
                 'spouse_village': row.get('spouse_village', '').strip(),
                 'children': row.get('children', '')
             })
@@ -224,7 +224,7 @@ def person_detail(request, person_id):
                     #     spouses.append(spouse_details)
                     for idx, spouse_name in enumerate(spouse_names):
                         spouse_details = {
-                        'spouse_name': spouse_name.strip(),
+                        'spouse_name': spouse_name,
                         'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
                         'spouse_village': entry['spouse_village'].split(';')[idx].strip(),
                         'spouse_village_map': f"https://www.google.com/maps/search/?api=1&query={entry['spouse_village'].split(';')[idx].strip()}"
@@ -242,6 +242,7 @@ def person_detail(request, person_id):
             'previous_person_id': previous_person_id,
             'next_person_id': next_person_id
         })
+        
     else:
         return HttpResponse('<center><h1>PERSON DOES NOT EXIST</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
 

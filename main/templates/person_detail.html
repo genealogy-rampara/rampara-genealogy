@@ -154,13 +154,13 @@
                                     </h3>
                                     <hr>
                                     <center>
-                                        <p class="card-text" style="text-align: left;"> નામ : {{ spouse.spouse_name }}</p>
+                                        <p class="card-text" style="text-align: left;"> નામ : {{ spouse.spouse_name|default:"Unknown" }}</p>
                                     </center>
                                     <center>
-                                        <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ spouse.spouse_fathername }}</p>
+                                        <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ spouse.spouse_fathername|default:"Unknown" }}</p>
                                     </center>
                                     <center>
-                                        <p class="card-text" style="text-align: left;"> વતન : <a href="{{ spouse.spouse_village_map }}" target="_blank">{{ spouse.spouse_village }}</a></p>
+                                        <p class="card-text" style="text-align: left;"> વતન : <a href="{{ spouse.spouse_village_map }}" target="_blank">{{ spouse.spouse_village|default:"Unknown" }}</a></p>
                                         <!-- <p class="card-text" style="text-align: left;"> વતન : {{ spouse.spouse_village }}</p> -->
                                     </center>
                                 </div>
