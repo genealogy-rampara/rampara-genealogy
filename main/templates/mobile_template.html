@@ -189,14 +189,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions
-        var margin = {top: 20, right: 120, bottom: 20, left: 400},
+        var margin = {top: 200, right: 120, bottom: 20, left: 400},
             canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
-            tree_level_depth = 2000;
+            tree_level_depth = 500;
         var i = 0,
-            duration = 1500,
+            duration = 100,
             root;
         // Create a tree layout
         var tree = d3.layout.tree().size([tree_height, tree_width]);
@@ -275,13 +275,13 @@
 
             // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -50 : 80; }) // Adjust distance from the circle
-                .attr("y", -30) // Move text above the circle
-                .attr("dy", "30px") // Adjust vertical alignment
+                .attr("x", function(d) { return d.children || d._children ? -30 : 30; }) // Adjust distance from the circle
+                .attr("y", -10) // Move text above the circle
+                .attr("dy", ".15em") // Adjust vertical alignment
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)
-                .style("font-size", "30px") // Increase font size
+                .style("font-size", "25px") // Increase font size
                 .style("font-weight", "bolder") // Make text bold
                 .on("click", function(d) {
                     if (d.gender === "M") {
@@ -296,13 +296,13 @@
 
             // Update circle size and color
             moved_node.select("circle")
-                .attr("r", 30)
+                .attr("r", 15)
                 .style("fill", function(d) { return getRandomColor(); });
 
             // Update text opacity and size
             moved_node.select("text")
                 .style("fill-opacity", 1)
-                .style("font-size", "30px") // Ensure font size is consistent
+                .style("font-size", "25px") // Ensure font size is consistent
                 .style("font-weight", "bold"); // Ensure text is bold
 
             // Transition nodes to be removed
