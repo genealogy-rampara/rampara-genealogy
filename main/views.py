@@ -77,20 +77,28 @@ def import_data_from_drive(request):
 
 # View to search for a person in the genealogy data
 def search_person(request):
-    query = request.GET.get('q')  
+    query = request.GET.get('q')
     print('\n\n=========================================================================================================================================')
     print('=================================================================  QUERY  ===============================================================\n')
     print(query)
     print('=========================================================================================================================================\n\n')
-    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url)) 
-    if query:
-        try:
-            person = next(item for item in genealogy_data if item["Name"].lower() == query.lower())
-            return redirect('person_detail', person_id=person["ID"])
-        except StopIteration:
-            return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
-    return redirect('tree_view')
 
+    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+    if query:
+        # Find all persons matching the query by Name or spouse_village
+        matching_persons = [item for item in genealogy_data if item["Name"].lower() == query.lower() or item.get("spouse_village", "").lower() == query.lower()]
+
+        if matching_persons:
+            if len(matching_persons) == 1:
+                # If exactly one match is found, redirect to the person's detail page
+                return redirect('person_detail', person_id=matching_persons[0]["ID"])
+            else:
+                # If multiple matches are found, display a list of possible matches
+                return render(request, 'multiple_matches.html', {'persons': matching_persons})
+        else:
+            return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
+
+    return redirect('tree_view')
 # Function to build the family tree structure
 def build_tree(person, data):
     person_tree = {
