@@ -85,9 +85,8 @@ def search_person(request):
 
     genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
     if query:
-        # Find all persons matching the query by Name or spouse_village
-        matching_persons = [item for item in genealogy_data if item["Name"].lower() == query.lower() or item.get("spouse_village", "").lower() == query.lower()]
-
+        # Find all persons where the Name or spouse_village contains the query string
+        matching_persons = [item for item in genealogy_data if query.lower() in item["Name"].lower() or query.lower() in item.get("spouse_village", "").lower()]
         if matching_persons:
             if len(matching_persons) == 1:
                 # If exactly one match is found, redirect to the person's detail page
@@ -99,6 +98,7 @@ def search_person(request):
             return HttpResponse('<center><h1>PERSON NOT FOUND</h1></center><br><center><a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">HOME</a></center>')
 
     return redirect('tree_view')
+
 # Function to build the family tree structure
 def build_tree(person, data):
     person_tree = {
@@ -233,7 +233,7 @@ def person_detail(request, person_id):
                     for idx, spouse_name in enumerate(spouse_names):
                         spouse_details = {
                         'spouse_name': spouse_name,
-                        'spouse_fathername': entry['spouse_fathername'].split(';')[idx].strip(),
+                        'spouse_fathername': entry['spouse_fathername'].split(';')[idx],
                         'spouse_village': entry['spouse_village'].split(';')[idx].strip(),
                         'spouse_village_map': f"https://www.google.com/maps/search/?api=1&query={entry['spouse_village'].split(';')[idx].strip()}"
                         }

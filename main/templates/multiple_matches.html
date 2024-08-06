@@ -63,13 +63,15 @@
                     {% for person in persons %}
                         <li class="list-group-item">
                             <a href="{% url 'person_detail' person_id=person.ID %}">
-                                {{ person.Name }} -
-                                {% if person.Gender == "M" %}
-                                    રાણી સાહેબ નું વતન : {{ person.spouse_village }}
-                                {% elif person.Gender == "F" %}
-                                    જમાઈસાહેબ  વતન : {{ person.spouse_village }}
+                                {% if person.spouse_name %}
+                                    {{ person.Name }} - {{ person.father }}<br>
+                                    {% if person.Gender == "M" %}
+                                        રાણી સાહેબ નું વતન : {{ person.spouse_village }}
+                                    {% elif person.Gender == "F" %}
+                                        જમાઈસાહેબ  વતન : {{ person.spouse_village }}
+                                    {% endif %}
                                 {% else %}
-                                    સ્પાઉસ વિલેજ: {{ person.spouse_village }}
+                                    {{ person.Name }} - {{ person.father }}
                                 {% endif %}
                             </a>
                         </li>
