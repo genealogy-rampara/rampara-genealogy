@@ -265,7 +265,7 @@
         var g = svg.append("g"); // Group for the tree
     
         // Set up zoom behavior
-        var zoom = d3.behavior.zoom().scaleExtent([0.1, 1.2]).on("zoom", zoomed);
+        var zoom = d3.behavior.zoom().scaleExtent([0.1, 1]).on("zoom", zoomed);
         svg.call(zoom); // Apply zoom behavior to the SVG
     
         // Zoom event handler

@@ -254,7 +254,7 @@
         var svg = d3.select("svg")
             .attr("width", canvas_width)
             .attr("height", canvas_height)
-            .call(d3.behavior.zoom().scaleExtent([0.1, 4]).on("zoom", zoom)) // Add zoom and pan functionality
+            .call(d3.behavior.zoom().scaleExtent([0.1, 1]).on("zoom", zoom)) // Add zoom and pan functionality
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         var g = svg.append("g");
