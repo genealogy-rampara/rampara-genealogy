@@ -121,9 +121,43 @@
                 padding: 40px 15px 15px 15px;
             }
         }
+        .note {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: #f0f0f0;
+            padding: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: red;
+        }
+        .note span {
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            animation: note 25s linear infinite;
+        }
+        @keyframes note {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        a 
+        {
+            color: red;
+        }
     </style>
 </head>
 <body>
+    <div class="note">
+        <span>
+            <strong>જો તમારે ડેટા ને add અથવા તો edit કરવો હોય તો <a href="https://forms.gle/9GswokLjnpzTNGo96"> અહીં ક્લિક </a>કરો <br></strong>
+            <strong>જો તમારે ડેટા ને જોવો હોય તો લૉગિન કરો<br></strong>
+        </span>
+    </div>
     <div class="wrapper">
         <div class="logo">
             <img src="https://i.postimg.cc/fyFgbPyx/dhrangadhra-arms.jpg" alt="Dhrangadhra State">
