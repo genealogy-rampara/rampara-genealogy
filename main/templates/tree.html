@@ -45,7 +45,7 @@
         .node:hover circle 
         {
             stroke: #ff4500;
-            stroke-width: 4px;
+            stroke-width: 2px;
         }
     
         .node:hover text {
@@ -117,13 +117,13 @@
             }
             .node circle 
             {
-                stroke-width: 3px; /* Increase circle stroke width for smaller screens */
+                stroke-width: 2px; /* Increase circle stroke width for smaller screens */
                 border-radius: 3px; /* Increase circle radius for smaller screens */
             }
             .node:hover circle 
             {
                 stroke: #ff4500;
-                stroke-width: 3px;
+                stroke-width: 2px;
             }
             .node:hover text 
             {
@@ -352,7 +352,7 @@
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)
-                .style("font-size", "25px") // Increase font size
+                .style("font-size", "18px") // Increase font size
                 .style("font-weight", "bolder") // Make text bold
                 .on("click", function(d) {
                     if (d.gender === "M") {
@@ -367,7 +367,7 @@
 
             // Update circle size and color
             moved_node.select("circle")
-                .attr("r", 15)
+                .attr("r", 10)
                 .style("fill", function(d) { return getRandomColor(); });
 
             // Update text opacity and size
