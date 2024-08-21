@@ -1,0 +1,298 @@
+<html>
+<head>
+    <style>
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .btn {
+            margin-top: 10px;
+        }
+        .child-info, .spouse-info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="multiStepForm" method="post">
+        {% csrf_token %}
+
+        <!-- Section 1: Your Details -->
+        <div id="section1" class="form-section">
+            <h3>તમારી માહિતી નીચે દાખલ કરો</h3>
+            <div class="mb-3">
+                {{ form.your_name.label_tag }}&emsp;
+                {{ form.your_name }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.your_email.label_tag }}&emsp;
+                {{ form.your_email }}&emsp;<br><br>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="reset" class="btn btn-secondary">Reset</button>&emsp;
+                <button type="button" class="btn btn-primary" onclick="nextSection(2)">Next</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Person's Details to Add to CSV -->
+        <div id="section2" class="form-section" style="display:none;">
+            <h3>જેમનો ડેટા ઉમેરવા નો હોય તેમની માહિતી નીચે દાખલ કરો</h3>
+            <div class="mb-3">
+                {{ form.person_name.label_tag }}&emsp;
+                {{ form.person_name }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.dob.label_tag }}&emsp;
+                {{ form.dob }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.gender.label_tag }}&emsp;
+                {{ form.gender }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.father_name.label_tag }}&emsp;
+                {{ form.father_name }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.mother_name.label_tag }}&emsp;
+                {{ form.mother_name }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.marital_status.label_tag }}&emsp;
+                {{ form.marital_status }}&emsp;<br><br>
+            </div>
+            <div class="mb-3">
+                {{ form.num_spouse.label_tag }}&emsp;&emsp;
+                {{ form.num_spouse }}&emsp;<br><br>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(1)">Previous</button>&emsp;
+                <button type="button" class="btn btn-primary" onclick="nextSection(3)">Next</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Spouse Information -->
+        <div id="section3" class="form-section" style="display:none;">
+            <h3><span id="section3Heading">રાણીસાહેબ / જમાઈસાહેબ ની માહિતી નીચે દાખલ કરો</span></h3>
+            <div id="spouseDetails"></div>
+            <div class="mb-3">
+                {{ form.num_children.label_tag }}&emsp;
+                {{ form.num_children }}&emsp;<br><br>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(2)">Previous</button>&emsp;
+                <button type="button" class="btn btn-primary" onclick="nextSection(4)">Next</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Children Information -->
+        <div id="section4" class="form-section" style="display:none;">
+            <h3>સંતાન ની માહિતી નીચે દાખલ કરો</h3>
+            <div id="childrenDetails"></div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(3)">Previous</button>&emsp;
+                <button type="button" class="btn btn-success" onclick="validateAndNext()">Next</button>
+            </div>
+        </div>
+        
+        <div id="section5" class="form-section" style="display:none;">
+            <h3>Review and Save</h3>
+            <div id="reviewContent"></div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(4)">Previous</button>&emsp;
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+        
+        <script>
+            function nextSection(sectionNumber) {
+                var currentSection = document.querySelector('.form-section:not([style*="display: none"])');
+                if (!currentSection) {
+                    console.error('Current section not found.');
+                    return;
+                }
+        
+                if (sectionNumber === 3) {
+                    var maritalStatus = document.querySelector('input[name="marital_status"]:checked');
+                    if (!maritalStatus) {
+                        alert("Please select marital status.");
+                        return;
+                    }
+                    if (maritalStatus.value === "not_married") {
+                        document.getElementById('multiStepForm').submit();
+                        return;
+                    } else {
+                        var personName = document.querySelector('input[name="person_name"]').value;
+                        var gender = document.querySelector('input[name="gender"]:checked').value;
+                        var section3Heading = document.getElementById('section3Heading');
+                        if (gender === 'Male') 
+                        {
+                            section3Heading.innerText = personName + " ના રાણીસાહેબ ની માહિતી નીચે દાખલ કરો";
+                        } else if (gender === 'Female') {
+                            section3Heading.innerText = personName + " ના જમાઈસાહેબ ની માહિતી નીચે દાખલ કરો";
+                        } else {
+                            section3Heading.innerText = personName + "'s Spouse Information";
+                        }
+        
+                        // Add spouse fields dynamically
+                        var numSpouses = document.querySelector('select[name="num_spouse"]').value;
+                        var spouseDetailsDiv = document.getElementById('spouseDetails');
+                        spouseDetailsDiv.innerHTML = ''; // Clear previous content
+        
+                        for (let i = 1; i <= numSpouses; i++) {
+                            spouseDetailsDiv.innerHTML += `
+                                <div class="spouse-info">
+                                    <h4>Spouse ${i} Information</h4>
+                                    <div class="mb-3">
+                                        <label for="id_spouse_name_${i}">Spouse ${i}'s Full Name</label>&emsp;
+                                        <input type="text" id="id_spouse_name_${i}" name="spouse_name_${i}" class="form-control" placeholder="Enter spouse's full name">&emsp;<br><br>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="id_spouse_father_name_${i}">Spouse ${i}'s Father's Full Name</label>&emsp;
+                                        <input type="text" id="id_spouse_father_name_${i}" name="spouse_father_name_${i}" class="form-control" placeholder="Enter spouse's father's full name">&emsp;<br><br>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="id_spouse_village_${i}">Spouse ${i}'s Village</label>&emsp;
+                                        <input type="text" id="id_spouse_village_${i}" name="spouse_village_${i}" class="form-control" placeholder="Enter spouse's village">&emsp;<br><br><br>
+                                    </div>
+                                </div>
+                            `;
+                        }
+        
+                        // Show the spouse details
+                        document.querySelectorAll('.spouse-info').forEach(function(spouseInfo) {
+                            spouseInfo.style.display = 'block';
+                        });
+                    }
+                }
+        
+                if (sectionNumber === 4) {
+                    var numChildren = document.querySelector('select[name="num_children"]').value;
+                    var childrenDetailsDiv = document.getElementById('childrenDetails');
+                    childrenDetailsDiv.innerHTML = ''; // Clear previous content
+        
+                    if (numChildren == 0) {
+                        // If no children, hide the section and submit the form
+                        document.getElementById('multiStepForm').submit();
+                        return;
+                    }
+        
+                    let maxChildren = numChildren === '4+' ? 7 : parseInt(numChildren); // Adjust maximum number if needed
+        
+                    for (let i = 1; i <= maxChildren; i++) {
+                        childrenDetailsDiv.innerHTML += `
+                            <div class="mb-3">
+                                <label for="id_child_name_${i}">Child ${i}'s Full Name</label>&emsp;<br><br>
+                                <input type="text" id="id_child_name_${i}" name="child_name_${i}" class="form-control" placeholder="Enter child's full name">&emsp;
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_child_gender_${i}">Child ${i}'s Gender</label>&emsp;<br><br>
+                                <input type="radio" id="id_child_gender_${i}_male" name="child_gender_${i}" value="male" class="form-check-input">
+                                <label for="id_child_gender_${i}_male">Male</label>&emsp;
+                                <input type="radio" id="id_child_gender_${i}_female" name="child_gender_${i}" value="female" class="form-check-input">
+                                <label for="id_child_gender_${i}_female">Female</label>&emsp;<br><br>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_child_marital_status_${i}">Child ${i}'s Marital Status</label>&emsp;<br><br>
+                                <input type="radio" id="id_child_marital_status_${i}_married" name="child_marital_status_${i}" value="married" class="form-check-input">
+                                <label for="id_child_marital_status_${i}_married">Married</label>&emsp;
+                                <input type="radio" id="id_child_marital_status_${i}_not_married" name="child_marital_status_${i}" value="not_married" class="form-check-input">
+                                <label for="id_child_marital_status_${i}_not_married">Not Married</label>&emsp;
+                            </div>
+                        `;
+                    }
+                }
+        
+                if (sectionNumber === 5) {
+                    generateReview();
+                }
+        
+                // Hide current section and show the next section
+                currentSection.style.display = 'none';
+                document.getElementById('section' + sectionNumber).style.display = 'block';
+            }
+        
+            function previousSection(sectionNumber) {
+                var currentSection = document.querySelector('.form-section:not([style*="display: none"])');
+                if (!currentSection) {
+                    console.error('Current section not found.');
+                    return;
+                }
+        
+                // Hide current section and show the previous section
+                currentSection.style.display = 'none';
+                document.getElementById('section' + sectionNumber).style.display = 'block';
+            }
+        
+            function validateAndNext() {
+                var childrenDetailsDiv = document.getElementById('childrenDetails');
+                var childInputs = childrenDetailsDiv.querySelectorAll('input[name^="child_name_"]');
+                var allFieldsFilled = Array.from(childInputs).every(input => input.value.trim() !== '');
+        
+                if (!allFieldsFilled) {
+                    alert("Please fill out the details for all children.");
+                    return;
+                }
+        
+                nextSection(5); // Move to Section 5
+            }
+        
+            function generateReview() {
+                var reviewContent = document.getElementById('reviewContent');
+        
+                // Collect personal details
+                var personName = document.querySelector('input[name="person_name"]').value;
+                var dob = document.querySelector('input[name="dob"]').value;
+                var gender = document.querySelector('input[name="gender"]:checked').value;
+                var maritalStatus = document.querySelector('input[name="marital_status"]:checked').value;
+                
+                var reviewHtml = `
+                    <h4>Personal Details</h4>
+                    <p><strong>Name:</strong> ${personName}</p>
+                    <p><strong>Date of Birth:</strong> ${dob}</p>
+                    <p><strong>Gender:</strong> ${gender}</p>
+                    <p><strong>Marital Status:</strong> ${maritalStatus}</p>
+                `;
+        
+                // Collect spouse details
+                var numSpouses = document.querySelector('select[name="num_spouse"]').value;
+                if (numSpouses > 0) {
+                    reviewHtml += '<h4>Spouse Details</h4>';
+                    for (let i = 1; i <= numSpouses; i++) {
+                        var spouseName = document.querySelector(`input[name="spouse_name_${i}"]`).value;
+            var spouseFatherName = document.querySelector(`input[name="spouse_father_name_${i}"]`).value;
+            var spouseVillage = document.querySelector(`input[name="spouse_village_${i}"]`).value;
+
+            reviewHtml += `
+                <p><strong>Spouse ${i} Name:</strong> ${spouseName}</p>
+                <p><strong>Spouse ${i} Father's Name:</strong> ${spouseFatherName}</p>
+                <p><strong>Spouse ${i} Village:</strong> ${spouseVillage}</p>
+            `;
+        }
+    }
+
+    // Collect children details
+    var numChildren = document.querySelector('select[name="num_children"]').value;
+    if (numChildren > 0) {
+        reviewHtml += '<h4>Children Details</h4>';
+        let maxChildren = numChildren === '4+' ? 7 : parseInt(numChildren);
+
+        for (let i = 1; i <= maxChildren; i++) {
+            var childName = document.querySelector(`input[name="child_name_${i}"]`).value;
+            var childGender = document.querySelector(`input[name="child_gender_${i}"]:checked`).value;
+            var childMaritalStatus = document.querySelector(`input[name="child_marital_status_${i}"]:checked`).value;
+
+            reviewHtml += `
+                <p><strong>Child ${i} Name:</strong> ${childName}</p>
+                <p><strong>Child ${i} Gender:</strong> ${childGender}</p>
+                <p><strong>Child ${i} Marital Status:</strong> ${childMaritalStatus}</p>
+            `;
+            if (childMaritalStatus === 'married') {
+                alert(`PLEASE FILL OUT THE ${childName}`)
+            }
+        }
+    }
+    reviewContent.innerHTML = reviewHtml;
+}
+</script>
+</body>
+</html>

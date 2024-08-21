@@ -320,3 +320,204 @@ def d3_collapsible_tree(request):
         return JsonResponse(tree_data)  
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+# import csv
+# from django.shortcuts import render, redirect
+# from .forms import PersonForm
+# import os
+
+# def save_person_data(request):
+#     if request.method == 'POST':
+#         form = PersonForm(request.POST)
+        
+#         if form.is_valid():
+#             # Define the local CSV file path
+#             local_csv_file_path = '/Users/neel2004/Desktop/rampara-genealogy.csv'  # Adjust path as needed
+            
+#             # Extract form data
+#             person_data = [
+#                 form.cleaned_data.get('your_name', ''),
+#                 form.cleaned_data.get('your_email', ''),
+#                 form.cleaned_data.get('person_name', ''),
+#                 form.cleaned_data.get('dob', ''),
+#                 form.cleaned_data.get('gender', ''),
+#                 form.cleaned_data.get('father_name', ''),
+#                 form.cleaned_data.get('mother_name', ''),
+#                 form.cleaned_data.get('marital_status', ''),
+#                 form.cleaned_data.get('spouse_name', ''),
+#                 form.cleaned_data.get('spouse_father_name', ''),
+#                 form.cleaned_data.get('spouse_village', ''),
+#                 form.cleaned_data.get('num_children', '')
+#             ]
+            
+#             # Extract child and in-law details dynamically
+#             num_children = form.cleaned_data.get('num_children', '0')
+#             max_children = int(num_children) if num_children != '4+' else 7
+            
+#             children_data = []
+#             for i in range(1, max_children + 1):
+#                 child_name = form.cleaned_data.get(f'child_name_{i}', '')
+#                 child_marital_status = form.cleaned_data.get(f'child_marital_status_{i}', '')
+#                 in_law_name = form.cleaned_data.get(f'in_law_name_{i}', '')
+#                 in_law_father_name = form.cleaned_data.get(f'in_law_father_name_{i}', '')
+#                 in_law_village = form.cleaned_data.get(f'in_law_village_{i}', '')
+                
+#                 # Append child and in-law data to the list
+#                 children_data.extend([child_name, child_marital_status, in_law_name, in_law_father_name, in_law_village])
+
+#             # Define the header
+#             header = [
+#                 'Your Name', 'Your Email', 'Person Name', 'DOB', 'Gender', 
+#                 'Father Name', 'Mother Name', 'Marital Status', 
+#                 'Spouse Name', 'Spouse Father Name', 'Spouse Village', 
+#                 'Number of Children'
+#             ]
+#             header += [f'Child Name {i}' for i in range(1, max_children + 1)]
+#             header += [f'Child Marital Status {i}' for i in range(1, max_children + 1)]
+#             header += [f'In-Law Name {i}' for i in range(1, max_children + 1)]
+#             header += [f'In-Law Father Name {i}' for i in range(1, max_children + 1)]
+#             header += [f'In-Law Village {i}' for i in range(1, max_children + 1)]
+            
+#             # Write to the CSV file
+#             try:
+#                 file_exists = os.path.isfile(local_csv_file_path)
+#                 with open(local_csv_file_path, 'a', newline='', encoding='utf-8') as csvfile:
+#                     writer = csv.writer(csvfile)
+                    
+#                     # Write the header only if the file is new
+#                     if not file_exists:
+#                         writer.writerow(header)
+                    
+#                     # Write new data to the CSV file
+#                     writer.writerow(person_data + children_data)
+                
+#                 print("Data successfully written to CSV.")
+                
+#             except IOError as e:
+#                 print(f"Error writing to file: {e}")
+            
+#             # Redirect to a success page or the same form with a success message
+#             return redirect('save_person_data')  # Adjust the redirect URL as needed
+        
+#         else:
+#             # Render the form with errors if the form is not valid
+#             return render(request, 'save_person_data.html', {'form': form, 'error': 'Please correct the errors below.'})
+#     else:
+#         # Instantiate a blank form
+#         form = PersonForm()
+    
+#     return render(request, 'save_person_data.html', {'form': form})
+import csv
+import os
+from django.shortcuts import render, redirect
+from .forms import PersonForm
+
+def save_person_data(request):
+    if request.method == 'POST':
+        num_children = int(request.POST.get('num_children', 0))
+        num_spouse = int(request.POST.get('num_spouse', 0))
+
+        form = PersonForm(request.POST, num_children=num_children, num_spouse=num_spouse)
+        print("Form Data:", request.POST)
+        if form.is_valid():
+            local_csv_file_path = '/Users/neel2004/Desktop/rampara-genealogy.csv'  # Adjust path as needed
+            
+            person_data = [
+                form.cleaned_data.get('your_name', ''),
+                form.cleaned_data.get('your_email', ''),
+                form.cleaned_data.get('person_name', ''),
+                form.cleaned_data.get('dob', ''),
+                form.cleaned_data.get('gender', ''),
+                form.cleaned_data.get('father_name', ''),
+                form.cleaned_data.get('mother_name', ''),
+                form.cleaned_data.get('marital_status', ''),
+                num_spouse,
+                num_children
+            ]
+
+            # Collect spouse details
+            spouse_data = []
+            for i in range(1, num_spouse + 1):
+                spouse_name = form.cleaned_data.get(f'spouse_name_{i}', '')
+                spouse_father_name = form.cleaned_data.get(f'spouse_father_name_{i}', '')
+                spouse_village = form.cleaned_data.get(f'spouse_village_{i}', '')
+                spouse_data.extend([spouse_name, spouse_father_name, spouse_village])
+
+            # Collect children and in-law details
+            children_data = []
+            for i in range(1, num_children + 1):
+                child_name = form.cleaned_data.get(f'child_name_{i}', '')
+                child_gender = form.cleaned_data.get(f'child_gender_{i}', '')
+                child_marital_status = form.cleaned_data.get(f'child_marital_status_{i}', '')
+                
+                # Add the details to the children_data list
+                children_data.extend([child_name, child_gender, child_marital_status])
+                
+            print('================================================= CHILDREN DATA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',children_data)
+
+            # Check if file exists to manage headers dynamically
+            file_exists = os.path.isfile(local_csv_file_path)
+            current_max_spouse = num_spouse
+            current_max_children = num_children
+
+            if file_exists:
+                with open(local_csv_file_path, 'r', newline='', encoding='utf-8') as csvfile:
+                    reader = csv.reader(csvfile)
+                    current_header = next(reader, [])
+                    current_max_spouse = max(current_max_spouse, sum(1 for h in current_header if h.startswith('Spouse Name')))
+                    current_max_children = max(current_max_children, sum(1 for h in current_header if h.startswith('Child Name')))
+
+            # Build the header based on the maximum numbers
+            header = [
+                'Your Name', 'Your Email', 'Person Name', 'DOB', 'Gender', 
+                'Father Name', 'Mother Name', 'Marital Status', 'Number of Spouse',
+                'Number of Children'
+            ]
+            for i in range(1, current_max_spouse + 1):
+                header.extend([f'Spouse Name {i}', f'Spouse Father Name {i}', f'Spouse Village {i}'])
+            for i in range(1, current_max_children + 1):
+                header.extend([f'Child Name {i}', f'Child Gender {i}', f'Child Marital Status {i}'])
+
+            # Write to CSV with proper alignment
+            try:
+                with open(local_csv_file_path, 'a+', newline='', encoding='utf-8') as csvfile:
+                    writer = csv.writer(csvfile)
+                    
+                    # Write the header if the file is new or needs an updated header
+                    if not file_exists or csvfile.read(1) == '':
+                        writer.writerow(header)
+                    else:
+                        # Read existing data and update the header if needed
+                        csvfile.seek(0)
+                        rows = list(csv.reader(csvfile))
+                        if header != rows[0]:
+                            rows[0] = header
+                            csvfile.seek(0)
+                            csvfile.truncate()
+                            writer.writerows(rows)
+                    
+                    # Create the final row with correct data alignment
+                    final_data = person_data + spouse_data + [''] * (current_max_spouse - num_spouse) * 3
+                    final_data += children_data + [''] * (current_max_children - num_children) * 6
+                    
+                    # Write the final data row to the CSV
+                    writer.writerow(final_data)
+
+                print("Data successfully written to CSV.")
+                
+            except IOError as e:
+                print(f"Error writing to file: {e}")
+            
+            return redirect('save_person_data')  # Adjust the redirect URL as needed
+        
+        else:
+            return render(request, 'save_person_data.html', {'form': form, 'error': 'Please correct the errors below.'})
+    else:
+        num_children = int(request.GET.get('num_children', 0))
+        num_spouse = int(request.GET.get('num_spouse', 0))
+        form = PersonForm(num_children=num_children, num_spouse=num_spouse)
+    
+    return render(request, 'save_person_data.html', {'form': form})
+
+# def success(request):
+#     return render(request, 'success.html')
