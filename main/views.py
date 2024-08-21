@@ -450,13 +450,12 @@ def save_person_data(request):
                 child_marital_status = form.cleaned_data.get(f'child_marital_status_{i}', '')
                 children_data.extend([child_name, child_gender, child_marital_status])
 
-            # Prepare CSV data
-            output = StringIO()
-            writer = csv.writer(output)
-            
-            # Define header
+            # Define the path for the temporary CSV file
+            temp_csv_path = '/tmp/rampara-genealogy.csv'
+
+            # Build the header based on current data
             header = [
-                'Your Name', 'Your Email', 'Person Name', 'DOB', 'Gender',
+                'Your Name', 'Your Email', 'Person Name', 'DOB', 'Gender', 
                 'Father Name', 'Mother Name', 'Marital Status', 'Number of Spouse',
                 'Number of Children'
             ]
@@ -464,35 +463,39 @@ def save_person_data(request):
                 header.extend([f'Spouse Name {i}', f'Spouse Father Name {i}', f'Spouse Village {i}'])
             for i in range(1, num_children + 1):
                 header.extend([f'Child Name {i}', f'Child Gender {i}', f'Child Marital Status {i}'])
-            
-            # Write header to output
-            writer.writerow(header)
 
-            # Fill data row with empty placeholders where necessary
-            final_data = person_data + spouse_data + [''] * ((num_spouse - len(spouse_data) // 3) * 3)
-            final_data += children_data + [''] * ((num_children - len(children_data) // 3) * 3)
-            writer.writerow(final_data)
-            
-            output.seek(0)
-
-            # Write to temporary file
-            temp_file_path = '/tmp/rampara-genealogy.csv'
             try:
-                with open(temp_file_path, 'a+', newline='', encoding='utf-8') as f:
-                    f.write(output.getvalue())
-                print("Data successfully written to CSV.")
+                with open(temp_csv_path, 'a+', newline='', encoding='utf-8') as csvfile:
+                    writer = csv.writer(csvfile)
+                    
+                    # Write the header if the file is new
+                    if csvfile.tell() == 0:
+                        writer.writerow(header)
+                    
+                    # Write the data
+                    final_data = person_data + spouse_data + [''] * (num_spouse * 3 - len(spouse_data))
+                    final_data += children_data + [''] * (num_children * 3 - len(children_data))
+                    writer.writerow(final_data)
+
+                print(f"Data successfully written to CSV at: {temp_csv_path}")
+                
+                # Optional: Read and print the file content for verification
+                with open(temp_csv_path, 'r', encoding='utf-8') as file:
+                    content = file.read()
+                    print(f"Content of the file:\n{content}")
+
             except IOError as e:
                 print(f"Error writing to file: {e}")
 
-            return redirect('save_person_data')  # Replace 'success_url' with your actual URL name
+            return redirect('save_person_data')
+        
         else:
             return render(request, 'save_person_data.html', {'form': form, 'error': 'Please correct the errors below.'})
-
     else:
         num_children = int(request.GET.get('num_children', 0))
         num_spouse = int(request.GET.get('num_spouse', 0))
         form = PersonForm(num_children=num_children, num_spouse=num_spouse)
-
+    
     return render(request, 'save_person_data.html', {'form': form})
 
 # def success(request):
