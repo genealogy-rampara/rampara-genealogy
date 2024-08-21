@@ -411,8 +411,6 @@ def d3_collapsible_tree(request):
 import csv
 import os
 from io import StringIO
-from django.conf import settings
-from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from .forms import PersonForm
 
@@ -436,6 +434,7 @@ def save_person_data(request):
                 num_children
             ]
 
+            # Collect spouse details
             spouse_data = []
             for i in range(1, num_spouse + 1):
                 spouse_name = form.cleaned_data.get(f'spouse_name_{i}', '')
@@ -443,6 +442,7 @@ def save_person_data(request):
                 spouse_village = form.cleaned_data.get(f'spouse_village_{i}', '')
                 spouse_data.extend([spouse_name, spouse_father_name, spouse_village])
 
+            # Collect children details
             children_data = []
             for i in range(1, num_children + 1):
                 child_name = form.cleaned_data.get(f'child_name_{i}', '')
@@ -450,8 +450,11 @@ def save_person_data(request):
                 child_marital_status = form.cleaned_data.get(f'child_marital_status_{i}', '')
                 children_data.extend([child_name, child_gender, child_marital_status])
 
+            # Prepare CSV data
             output = StringIO()
             writer = csv.writer(output)
+            
+            # Define header
             header = [
                 'Your Name', 'Your Email', 'Person Name', 'DOB', 'Gender',
                 'Father Name', 'Mother Name', 'Marital Status', 'Number of Spouse',
@@ -461,22 +464,27 @@ def save_person_data(request):
                 header.extend([f'Spouse Name {i}', f'Spouse Father Name {i}', f'Spouse Village {i}'])
             for i in range(1, num_children + 1):
                 header.extend([f'Child Name {i}', f'Child Gender {i}', f'Child Marital Status {i}'])
-
+            
+            # Write header to output
             writer.writerow(header)
-            final_data = person_data + spouse_data + [''] * (len(header) - len(person_data) - len(spouse_data) - len(children_data))
-            final_data += children_data
+
+            # Fill data row with empty placeholders where necessary
+            final_data = person_data + spouse_data + [''] * ((num_spouse - len(spouse_data) // 3) * 3)
+            final_data += children_data + [''] * ((num_children - len(children_data) // 3) * 3)
             writer.writerow(final_data)
+            
             output.seek(0)
 
+            # Write to temporary file
+            temp_file_path = '/tmp/rampara-genealogy.csv'
             try:
-                file_path = os.path.join(settings.MEDIA_ROOT, 'rampara-genealogy.csv')
-                with default_storage.open(file_path, 'a+') as f:
+                with open(temp_file_path, 'a+', newline='', encoding='utf-8') as f:
                     f.write(output.getvalue())
                 print("Data successfully written to CSV.")
             except IOError as e:
                 print(f"Error writing to file: {e}")
 
-            return redirect('save_person_data')
+            return redirect('save_person_data')  # Replace 'success_url' with your actual URL name
         else:
             return render(request, 'save_person_data.html', {'form': form, 'error': 'Please correct the errors below.'})
 
@@ -486,5 +494,6 @@ def save_person_data(request):
         form = PersonForm(num_children=num_children, num_spouse=num_spouse)
 
     return render(request, 'save_person_data.html', {'form': form})
+
 # def success(request):
 #     return render(request, 'success.html')
