@@ -407,6 +407,7 @@ def d3_collapsible_tree(request):
 #         form = PersonForm()
     
 #     return render(request, 'save_person_data.html', {'form': form})
+
 import csv
 import os
 from django.shortcuts import render, redirect
@@ -508,7 +509,7 @@ def save_person_data(request):
             except IOError as e:
                 print(f"Error writing to file: {e}")
             
-            return redirect('save_person_data')  # Adjust the redirect URL as needed
+            return redirect('save_person_data')
         
         else:
             return render(request, 'save_person_data.html', {'form': form, 'error': 'Please correct the errors below.'})
