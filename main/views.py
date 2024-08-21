@@ -421,7 +421,7 @@ def save_person_data(request):
         form = PersonForm(request.POST, num_children=num_children, num_spouse=num_spouse)
         print("Form Data:", request.POST)
         if form.is_valid():
-            local_csv_file_path = '/Users/neel2004/Desktop/rampara-genealogy.csv'  # Adjust path as needed
+            local_csv_file_path = 'media/rampara-genealogy.csv'  # Adjust path as needed
             
             person_data = [
                 form.cleaned_data.get('your_name', ''),

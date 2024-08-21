@@ -138,6 +138,7 @@ import os
 STATICFILES_DIRS = ['/Users/neel2004/Desktop/family/family/static',]
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
+# settings.py
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
