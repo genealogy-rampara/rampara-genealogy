@@ -482,7 +482,7 @@ def save_person_data(request):
                 email = EmailMessage(
                     subject='Genealogy CSV File',
                     body='Please find the attached file.',
-                    to=['rampara-genealogy@gmail.com']
+                    to=['ramparagenealogy@gmail.com']
                 )
                 email.attach_file(temp_csv_path)
                 email.send()
