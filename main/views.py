@@ -410,6 +410,7 @@ def d3_collapsible_tree(request):
 
 import csv
 import os
+import csv
 from io import StringIO
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
@@ -478,7 +479,7 @@ def save_person_data(request):
                     final_data += children_data + [''] * (num_children * 3 - len(children_data))
                     writer.writerow(final_data)
 
-                # Send the file via email
+                # Send the CSV file via email to yourself (for record-keeping)
                 email = EmailMessage(
                     subject='Genealogy CSV File',
                     body='Please find the attached file.',
@@ -486,6 +487,15 @@ def save_person_data(request):
                 )
                 email.attach_file(temp_csv_path)
                 email.send()
+
+                # Send a confirmation email to the user
+                user_email = form.cleaned_data.get('your_email')
+                confirmation_email = EmailMessage(
+                    subject='Submission Received - Rampara Genealogy',
+                    body='Your data has been successfully submitted. It will be added to our records within 3-5 working days.',
+                    to=[user_email]
+                )
+                confirmation_email.send()
 
                 print(f"Data successfully written to CSV at: {temp_csv_path} and emailed.")
 
