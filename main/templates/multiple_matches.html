@@ -68,12 +68,16 @@
                                 {% if person.spouse_name %}
                                     {{ person.Name }} - {{ person.father }}<br>
                                     {% if person.Gender == "M" %}
-                                        રાણી સાહેબ નું વતન : {{ person.spouse_village }}
+                                        રાણી સાહેબ                 : {{ person.spouse_name }}<br>
+                                        રાણી સાહેબ ના બાપુ સાહેબ નું નામ : {{ person.spouse_fathername }}<br>
+                                        રાણી સાહેબ નું વતન            : {{ person.spouse_village }}<br>
                                     {% elif person.Gender == "F" %}
-                                        જમાઈસાહેબ  વતન : {{ person.spouse_village }}
+                                        જમાઈ સાહેબ                 : {{ person.spouse_name }}<br>
+                                        જમાઈ સાહેબ ના બાપુ સાહેબ નું નામ : {{ person.spouse_fathername }}<br>
+                                        જમાઈસાહેબ  વતન              : {{ person.spouse_village }}<br>
                                     {% endif %}
                                 {% else %}
-                                    {{ person.Name }} - {{ person.father }}
+                                    {{ person.Name }} - {{ person.father }}<br>
                                 {% endif %}
                             </a>
                         </li>

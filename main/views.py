@@ -86,7 +86,7 @@ def search_person(request):
     genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
     if query:
         # Find all persons where the Name or spouse_village contains the query string
-        matching_persons = [item for item in genealogy_data if query.lower() in item["Name"].lower() or query.lower() in item.get("spouse_village", "").lower()]
+        matching_persons = [item for item in genealogy_data if query.lower() in item.get("Name","") or query.lower() in item.get("spouse_village", "").lower() or query.lower() in item.get("spouse_name","") or query.lower() in item.get("spouse_fathername","")]
         if matching_persons:
             if len(matching_persons) == 1:
                 # If exactly one match is found, redirect to the person's detail page
