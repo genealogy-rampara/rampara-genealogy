@@ -58,6 +58,7 @@
         }
 
         .wrapper .name {
+            
             font-weight: 600;
             font-size: 1.4rem;
             color: #555;
@@ -72,8 +73,7 @@
 
         .form-field input[type="text"],
         .form-field input[type="email"],
-        .form-field input[type="date"],
-        .form-field select {
+        .form-field input[type="date"]{
             width: 100%;
             border: none;
             background: none;
@@ -82,16 +82,10 @@
             padding: 10px 15px 10px 40px;
         }
 
-        .form-field label {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
         .form-field .fas {
             position: absolute;
             top: 50%;
-            left: 15px;
+            left: 10px;
             transform: translateY(-50%);
             color: #555;
         }
@@ -141,7 +135,18 @@
         }
 
         .form-field label {
-            margin-bottom: 10px;
+            top: 15px;
+            left: 300px;
+        }
+        .form-field select
+        {
+            display:inline-block;
+            width: auto;
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 10px 15px 10px 40px;
         }
 
         .btn-secondary {
@@ -181,18 +186,16 @@
                     <h3><i class="fas fa-info-circle"></i> તમારી માહિતી નીચે દાખલ કરો</h3>
                     
                     <div class="mb-3 form-field">
-                        <label for="{{ form.your_name.id_for_label }}">
+                        <!-- <label>{{ form.your_name.label_tag }}</label> -->
                             <i class="fas fa-user"></i> <!-- Icon for name -->
-                            {{ form.your_name.label_tag }}
-                        </label>
                         {{ form.your_name }}
                     </div>
         
                     <div class="mb-3 form-field">
-                        <label for="{{ form.your_email.id_for_label }}">
+                        <!-- <label for="{{ form.your_email.id_for_label }}"> -->
                             <i class="fas fa-envelope"></i> <!-- Icon for email -->
-                            {{ form.your_email.label_tag }}
-                        </label>
+                            <!-- {{ form.your_email.label_tag }} -->
+                        <!-- </label> -->
                         {{ form.your_email }}
                     </div>
         
@@ -210,40 +213,40 @@
             <h3><i class="fas fa-user-plus"></i> જેમનો ડેટા ઉમેરવા નો હોય તેમની માહિતી નીચે દાખલ કરો</h3>
             
             <div class="mb-3 form-field">
-                <label for="{{ form.person_name.id_for_label }}">
+                <!-- <label for="{{ form.person_name.id_for_label }}"> -->
                     <i class="fas fa-user"></i> <!-- Icon for person name -->
-                    {{ form.person_name.label_tag }}
-                </label>
+                    <!-- {{ form.person_name.label_tag }} -->
+                <!-- </label> -->
                 {{ form.person_name }}
             </div>
 
             <div class="mb-3 form-field">
-                <label for="{{ form.dob.id_for_label }}">
+                <!-- <label for="{{ form.dob.id_for_label }}"> -->
                     <i class="fas fa-calendar-alt"></i> <!-- Icon for date of birth -->
-                    {{ form.dob.label_tag }}
-                </label>
+                    <!-- {{ form.dob.label_tag }} -->
+                <!-- </label> -->
                 {{ form.dob }}
             </div>
 
             <div class="gender radio-group">
-                    <i class="fas fa-venus-mars"></i> <!-- Icon for gender -->
-                    {{ form.gender.label_tag }}
+                <i class="fas fa-venus-mars"></i> <!-- Icon for gender -->
+                {{ form.gender.label_tag }}
                 {{ form.gender }}
             </div>
 
             <div class="mb-3 form-field">
-                <label for="{{ form.father_name.id_for_label }}">
+                <!-- <label for="{{ form.father_name.id_for_label }}"> -->
                     <i class="fas fa-user"></i> <!-- Icon for father name -->
-                    {{ form.father_name.label_tag }}
-                </label>
+                    <!-- {{ form.father_name.label_tag }} -->
+                <!-- </label> -->
                 {{ form.father_name }}
             </div>
 
             <div class="mb-3 form-field">
-                <label for="{{ form.mother_name.id_for_label }}">
+                <!-- <label for="{{ form.mother_name.id_for_label }}"> -->
                     <i class="fas fa-user"></i> <!-- Icon for mother name -->
-                    {{ form.mother_name.label_tag }}
-                </label>
+                    <!-- {{ form.mother_name.label_tag }} -->
+                <!-- </label> -->
                 {{ form.mother_name }}
             </div>
 
@@ -255,12 +258,12 @@
                 {{ form.marital_status }}
             </div>
 
-            <div class="mb-3 form-field">
+            <div class="form-field">
                 <label for="{{ form.num_spouse.id_for_label }}">
-                    <i class="fas fa-users"></i> <!-- Icon for number of spouses -->
+                    <i class="fas fa-users"></i>&emsp;&emsp;<!-- Icon for number of spouses -->
                     {{ form.num_spouse.label_tag }}
+                    {{ form.num_spouse }}
                 </label>
-                {{ form.num_spouse }}
             </div>
 
             <div class="d-flex justify-content-between">
