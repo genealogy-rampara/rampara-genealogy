@@ -149,8 +149,9 @@
     <script>
         (function() {
             var width = window.innerWidth;
-            if (width >= 768) { // Adjust the width as needed
-                window.location.href = "{% url 'tree_with_female' %}"; // URL to redirect to
+            if (width >= 768) 
+            { 
+                window.location.href = "{% url 'tree_with_female' %}";
             }
         })();
     </script>
@@ -309,7 +310,7 @@
             var node = g.selectAll("g.node")
                         .data(nodes, function(d) { return d.id || (d.id = ++i);
 
- });
+});
 
             // Enter new nodes at the parent's previous position
             var new_nodes = node.enter().append("g")

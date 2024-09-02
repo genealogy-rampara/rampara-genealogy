@@ -15,5 +15,4 @@ urlpatterns = [
     path('tree_including_daughter/', views.tree_with_female, name='tree_with_female'),
     path('login/', views.login, name='login'),
     path('save-person-data/', views.save_person_data, name='save_person_data'),
-    # path('success/', views.success, name='success'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
