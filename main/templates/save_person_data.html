@@ -337,9 +337,15 @@
                     if (sectionNumber === 3) 
                     {
                         var maritalStatus = document.querySelector('input[name="marital_status"]:checked');
+                        var genderStatus = document.querySelector('input[name="gender"]:checked');
+                        if(!genderStatus)
+                        {
+                            alert("Please Select The Gender.");
+                            return;
+                        }
                         if (!maritalStatus) 
                         {
-                            alert("Please select marital status.");
+                            alert("Please Select Marital Status.");
                             return;
                         }
                         if (maritalStatus.value === "not_married") 
@@ -362,7 +368,8 @@
                             } 
                             else 
                             {
-                                section3Heading.innerText = personName + "'s Spouse Information";
+                                alert("Please Select The Gender");
+                                return;
                             }
                             // Add spouse fields dynamically
                             var numSpouses = document.querySelector('select[name="num_spouse"]').value;

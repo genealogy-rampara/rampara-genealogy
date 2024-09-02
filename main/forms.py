@@ -55,7 +55,7 @@ class PersonForm(forms.Form):
     # Section 3: Spouse Information
     num_spouse = forms.ChoiceField(
         label="Number of Spouses",
-        choices=[('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4+', '4+')],
+        choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4+', '4+')],
         widget=forms.Select(attrs={'class': 'form-select'})
     )
     
