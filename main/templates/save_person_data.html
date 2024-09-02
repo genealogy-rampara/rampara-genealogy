@@ -1,105 +1,327 @@
-<html>
-    <head>
-        <style>
-            .form-section 
-            {
-                margin-bottom: 20px;
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rampara Genealogy is dedicated to providing detailed and comprehensive genealogical data. Explore the history and family connections at Rampara.">
+    <meta name="keywords" content="Rampara, genealogy, family tree, ancestry, historical data, rampara">
+    <title>Save Person Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="icon" href="https://www.royalark.net/India/dhrangadhra-arms.jpg" type="image/icon type">
+    <style>
+        /* Importing fonts from Google */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ecf0f3;
+        }
+
+        .wrapper {
+            max-width: fit-content;
+            min-height: 500px;
+            margin: 80px auto;
+            padding: 40px 30px;
+            background-color: #cbe0f0;
+            border-radius: 15px;
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+        }
+
+        .logo {
+            width: 80px;
+            margin: auto;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0px 0px 3px #5f5f5f,
+                        0px 0px 0px 5px #ecf0f3,
+                        8px 8px 15px #a7aaa7,
+                        -8px -8px 15px #fff;
+        }
+
+        .wrapper h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        .wrapper .name {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #555;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+            position: relative;
+        }
+
+        .form-field input[type="text"],
+        .form-field input[type="email"],
+        .form-field input[type="date"],
+        .form-field select {
+            width: 100%;
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 10px 15px 10px 40px;
+        }
+
+        .form-field label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .form-field .fas {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #555;
+        }
+
+        .wrapper .btn {
+            width: auto;
+            height: 40px;
+            background-color: #f41703;
+            color: #fff;
+            border-radius: 25px;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            letter-spacing: 1.3px;
+            border: none;
+        }
+
+        .wrapper .btn:hover {
+            background-color: #e56c03;
+        }
+
+        .wrapper a {
+            text-decoration: none;
+            font-size: 0.8rem;
+            color: #03A9F4;
+        }
+
+        .wrapper a:hover {
+            color: #039BE5;
+        }
+
+        @media (max-width: 380px) {
+            .wrapper {
+                margin: 30px 20px;
+                padding: 40px 15px;
             }
-            .btn 
-            {
-                margin-top: 10px;
-            }
-            .child-info, .spouse-info 
-            {
-                display: none;
-            }
-        </style>
+        }
+
+        /* Styling for radio buttons */
+        .form-field input[type="radio"] {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .radio-group, .gender {
+            display: inline-block;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-field label {
+            margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+    </style>
     </head>
     <body>
-        <form id="multiStepForm" method="post">
-            {% csrf_token %}
-            <!-- Section 1: Your Details -->
-            <div id="section1" class="form-section">
-                <h3>તમારી માહિતી નીચે દાખલ કરો</h3>
-                <div class="mb-3">
-                    {{ form.your_name.label_tag }}&emsp;
-                    {{ form.your_name }}&emsp;<br><br>
+        <div class="wrapper">
+            <form id="multiStepForm" method="post">
+                {% csrf_token %}
+                <!-- Section 1: Your Details -->
+                <div id="section1" class="form-section">
+                    <h3><i class="fas fa-info-circle"></i> તમારી માહિતી નીચે દાખલ કરો</h3>
+                    
+                    <div class="mb-3 form-field">
+                        <label for="{{ form.your_name.id_for_label }}">
+                            <i class="fas fa-user"></i> <!-- Icon for name -->
+                            {{ form.your_name.label_tag }}
+                        </label>
+                        {{ form.your_name }}
+                    </div>
+        
+                    <div class="mb-3 form-field">
+                        <label for="{{ form.your_email.id_for_label }}">
+                            <i class="fas fa-envelope"></i> <!-- Icon for email -->
+                            {{ form.your_email.label_tag }}
+                        </label>
+                        {{ form.your_email }}
+                    </div>
+        
+                    <div class="d-flex justify-content-between">
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextSection(2)">
+                            <i class="fas fa-arrow-right"></i> Next
+                        </button>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    {{ form.your_email.label_tag }}&emsp;
-                    {{ form.your_email }}&emsp;<br><br>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="reset" class="btn btn-secondary">Reset</button>&emsp;
-                    <button type="button" class="btn btn-primary" onclick="nextSection(2)">Next</button>
-                </div>
+        <!-- Section 2: Person's Details to Add to CSV -->
+        <div id="section2" class="form-section" style="display:none;">
+            <h3><i class="fas fa-user-plus"></i> જેમનો ડેટા ઉમેરવા નો હોય તેમની માહિતી નીચે દાખલ કરો</h3>
+            
+            <div class="mb-3 form-field">
+                <label for="{{ form.person_name.id_for_label }}">
+                    <i class="fas fa-user"></i> <!-- Icon for person name -->
+                    {{ form.person_name.label_tag }}
+                </label>
+                {{ form.person_name }}
             </div>
-            <!-- Section 2: Person's Details to Add to CSV -->
-            <div id="section2" class="form-section" style="display:none;">
-                <h3>જેમનો ડેટા ઉમેરવા નો હોય તેમની માહિતી નીચે દાખલ કરો</h3>
-                <div class="mb-3">
-                    {{ form.person_name.label_tag }}&emsp;
-                    {{ form.person_name }}&emsp;<br><br>
-                </div>
-                <div class="mb-3">
-                    {{ form.dob.label_tag }}&emsp;
-                    {{ form.dob }}&emsp;<br><br>
-                </div>
-                <div class="mb-3">
-                    {{ form.gender.label_tag }}&emsp;
-                    {{ form.gender }}&emsp;<br><br>
-                </div>
-                <div class="mb-3">
-                    {{ form.father_name.label_tag }}&emsp;
-                    {{ form.father_name }}&emsp;<br><br>
-                </div>
-                <div class="mb-3">
-                    {{ form.mother_name.label_tag }}&emsp;
-                    {{ form.mother_name }}&emsp;<br><br>
-                </div>
-                <div class="mb-3">
-                    {{ form.marital_status.label_tag }}&emsp;
-                    {{ form.marital_status }}&emsp;<br><br>
-                </div>
-                <div class="mb-3">
-                    {{ form.num_spouse.label_tag }}&emsp;&emsp;
-                    {{ form.num_spouse }}&emsp;<br><br>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="previousSection(1)">Previous</button>&emsp;
-                    <button type="button" class="btn btn-primary" onclick="nextSection(3)">Next</button>
-                </div>
+
+            <div class="mb-3 form-field">
+                <label for="{{ form.dob.id_for_label }}">
+                    <i class="fas fa-calendar-alt"></i> <!-- Icon for date of birth -->
+                    {{ form.dob.label_tag }}
+                </label>
+                {{ form.dob }}
             </div>
-            <!-- Section 3: Spouse Information -->
-            <div id="section3" class="form-section" style="display:none;">
-                <h3><span id="section3Heading">રાણીસાહેબ / જમાઈસાહેબ ની માહિતી નીચે દાખલ કરો</span></h3>
-                <div id="spouseDetails"></div>
-                <div class="mb-3">
-                    {{ form.num_children.label_tag }}&emsp;
-                    {{ form.num_children }}&emsp;<br><br>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="previousSection(2)">Previous</button>&emsp;
-                    <button type="button" class="btn btn-primary" onclick="nextSection(4)">Next</button>
-                </div>
+
+            <div class="gender radio-group">
+                    <i class="fas fa-venus-mars"></i> <!-- Icon for gender -->
+                    {{ form.gender.label_tag }}
+                {{ form.gender }}
             </div>
-            <!-- Section 4: Children Information -->
-            <div id="section4" class="form-section" style="display:none;">
-                <h3>સંતાન ની માહિતી નીચે દાખલ કરો</h3>
-                <div id="childrenDetails"></div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="previousSection(3)">Previous</button>&emsp;
-                    <button type="button" class="btn btn-success" onclick="validateAndNext()">Next</button>
-                </div>
+
+            <div class="mb-3 form-field">
+                <label for="{{ form.father_name.id_for_label }}">
+                    <i class="fas fa-user"></i> <!-- Icon for father name -->
+                    {{ form.father_name.label_tag }}
+                </label>
+                {{ form.father_name }}
             </div>
-            <div id="section5" class="form-section" style="display:none;">
-                <h3>Review and Save</h3>
-                <div id="reviewContent"></div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="previousSection(4)">Previous</button>&emsp;
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
+
+            <div class="mb-3 form-field">
+                <label for="{{ form.mother_name.id_for_label }}">
+                    <i class="fas fa-user"></i> <!-- Icon for mother name -->
+                    {{ form.mother_name.label_tag }}
+                </label>
+                {{ form.mother_name }}
             </div>
+
+            <div class="gender radio-group">
+                <label for="{{ form.marital_status.id_for_label }}">
+                    <i class="fas fa-heart"></i> <!-- Icon for marital status -->
+                    {{ form.marital_status.label_tag }}
+                </label>
+                {{ form.marital_status }}
+            </div>
+
+            <div class="mb-3 form-field">
+                <label for="{{ form.num_spouse.id_for_label }}">
+                    <i class="fas fa-users"></i> <!-- Icon for number of spouses -->
+                    {{ form.num_spouse.label_tag }}
+                </label>
+                {{ form.num_spouse }}
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(1)">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextSection(3)">
+                    <i class="fas fa-arrow-right"></i> Next
+                </button>
+            </div>
+        </div>
+        <!-- Section 3: Spouse Information -->
+        <div id="section3" class="form-section" style="display:none;">
+            <h3><span id="section3Heading">Spouse Information</span></h3>
+            <div id="spouseDetails"></div>
+            <div class="mb-3">
+                <label for="{{ form.num_children.id_for_label }}">
+                    <i class="fas fa-child"></i> <!-- Icon for number of children -->
+                    {{ form.num_children.label_tag }}
+                </label>
+                {{ form.num_children }}
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(2)">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button type="button" class="btn btn-primary" onclick="nextSection(4)">
+                    <i class="fas fa-arrow-right"></i> Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 4: Children Information -->
+        <div id="section4" class="form-section" style="display:none;">
+            <h3><i class="fas fa-child"></i> Children Information</h3>
+            <div id="childrenDetails"></div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(3)">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button type="button" class="btn btn-success" onclick="validateAndNext()">
+                    <i class="fas fa-check"></i> Review & Save
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 5: Review and Save -->
+        <div id="section5" class="form-section" style="display:none;">
+            <h3><i class="fas fa-check"></i> Review and Save</h3>
+            <div id="reviewContent"></div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" onclick="previousSection(4)">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save
+                </button>
+            </div>
+        </div>
+        </form>
+        </div>
             <script>
                 function nextSection(sectionNumber) 
                 {
@@ -148,17 +370,26 @@
                                 spouseDetailsDiv.innerHTML += `
                                     <div class="spouse-info">
                                         <h4>Spouse ${i} Information</h4>
+                                        
                                         <div class="mb-3">
-                                            <label for="id_spouse_name_${i}">Spouse ${i}'s Full Name</label>&emsp;
-                                            <input type="text" id="id_spouse_name_${i}" name="spouse_name_${i}" class="form-control" placeholder="Enter spouse's full name">&emsp;<br><br>
+                                            <label for="id_spouse_name_${i}" class="form-label">
+                                                <i class="fas fa-user"></i> Spouse ${i}'s Full Name
+                                            </label>
+                                            <input type="text" id="id_spouse_name_${i}" name="spouse_name_${i}" class="form-control" placeholder="Enter spouse's full name">
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <label for="id_spouse_father_name_${i}">Spouse ${i}'s Father's Full Name</label>&emsp;
-                                            <input type="text" id="id_spouse_father_name_${i}" name="spouse_father_name_${i}" class="form-control" placeholder="Enter spouse's father's full name">&emsp;<br><br>
+                                            <label for="id_spouse_father_name_${i}" class="form-label">
+                                                <i class="fas fa-user-friends"></i> Spouse ${i}'s Father's Full Name
+                                            </label>
+                                            <input type="text" id="id_spouse_father_name_${i}" name="spouse_father_name_${i}" class="form-control" placeholder="Enter spouse's father's full name">
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <label for="id_spouse_village_${i}">Spouse ${i}'s Village</label>&emsp;
-                                            <input type="text" id="id_spouse_village_${i}" name="spouse_village_${i}" class="form-control" placeholder="Enter spouse's village">&emsp;<br><br>
+                                            <label for="id_spouse_village_${i}" class="form-label">
+                                                <i class="fas fa-map-marker-alt"></i> Spouse ${i}'s Village
+                                            </label>
+                                            <input type="text" id="id_spouse_village_${i}" name="spouse_village_${i}" class="form-control" placeholder="Enter spouse's village">
                                         </div>
                                     </div>
                                 `;

@@ -81,13 +81,13 @@ class PersonForm(forms.Form):
             )
             self.fields[f'child_gender_{i}'] = forms.ChoiceField(
                 label=f"Child {i}'s Gender",
-                choices=[('male', 'Male'), ('female', 'Female')],
+                choices=[('male', 'પુરુષ'), ('female', 'સ્ત્રી')],
                 required=True,
                 widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
             )
             self.fields[f'child_marital_status_{i}'] = forms.ChoiceField(
                 label=f"Child {i}'s Marital Status",
-                choices=[('married', 'Married'), ('not_married', 'Not Married')],
+                choices=[('married', 'પરણિત'), ('not_married', 'અપરણિત')],
                 required=True,
                 widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
             )
