@@ -23,7 +23,7 @@ class PersonForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'પૂરુ નામ'})
     )
     gender = forms.ChoiceField(
-        label="Gender",
+        label="જાતિ",
         required=True,
         choices=[('Male', 'પુરુષ'), ('Female', 'સ્ત્રી')],
         widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
@@ -46,7 +46,7 @@ class PersonForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "બાસાહેબ નુ પુરુ નામ દાખલ કરો"})
     )
     marital_status = forms.ChoiceField(
-        label="Marital Status",
+        label="વૈવાહિક સ્થિતિ",
         required=True,
         choices=[('married', 'પરણિત'), ('not_married', 'અપરણિત')],
         widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
@@ -55,7 +55,7 @@ class PersonForm(forms.Form):
     # Section 3: Spouse Information
     num_spouse = forms.ChoiceField(
         label="Number of Spouses",
-        choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4+', '4+')],
+        choices=[('0','0'),('1', '1'), ('2', '2'), ('3', '3'), ('4+', '4+')],
         widget=forms.Select(attrs={'class': 'form-select'})
     )
     
@@ -74,19 +74,19 @@ class PersonForm(forms.Form):
         # Dynamically add fields for each child
         for i in range(1, num_children + 1):
             self.fields[f'child_name_{i}'] = forms.CharField(
-                label=f"Child {i}'s Full Name",
+                label=f"સંતાન - {i} નુ પૂરુ નામ",
                 max_length=100,
                 required=True,
-                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Child's full name"})
+                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "સંતાન નુ પૂરુ નામ દાખલ કરો."})
             )
             self.fields[f'child_gender_{i}'] = forms.ChoiceField(
-                label=f"Child {i}'s Gender",
+                label=f"સંતાન - {i} ની જાતિ",
                 choices=[('male', 'પુરુષ'), ('female', 'સ્ત્રી')],
                 required=True,
                 widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
             )
             self.fields[f'child_marital_status_{i}'] = forms.ChoiceField(
-                label=f"Child {i}'s Marital Status",
+                label=f"સંતાન - {i} ની વૈવાહિક સ્થિતિ",
                 choices=[('married', 'પરણિત'), ('not_married', 'અપરણિત')],
                 required=True,
                 widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
@@ -95,10 +95,10 @@ class PersonForm(forms.Form):
         # Dynamically add fields for each spouse
         for i in range(1, num_spouse + 1):
             self.fields[f'spouse_name_{i}'] = forms.CharField(
-                label=f"Spouse {i}'s Full Name",
+                label=f"રાણીસાહેબ/જમાઈસાહેબ - {i} નું પૂરુ નામ",
                 max_length=100,
                 required=False,
-                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Enter spouse's full name"})
+                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "રાણીસાહેબ / જમાઈસાહેબ નુ પૂરુ નામ દાખલ કરો."})
             )
             self.fields[f'spouse_father_name_{i}'] = forms.CharField(
                 label=f"Spouse {i}'s Father's Full Name",

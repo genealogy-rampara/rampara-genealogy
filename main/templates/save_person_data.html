@@ -27,7 +27,7 @@
         }
 
         .wrapper {
-            max-width: fit-content;
+            max-width: 700px;
             min-height: 500px;
             margin: 80px auto;
             padding: 40px 30px;
@@ -99,6 +99,9 @@
             box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
             letter-spacing: 1.3px;
             border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 20px;
         }
 
         .wrapper .btn:hover {
@@ -334,13 +337,46 @@
                         console.error('Current section not found.');
                         return;
                     }
+                    if(sectionNumber === 2)
+                    {
+                        var Name = document.querySelector('input[name="your_name"]').value;
+                        var Email = document.querySelector('input[name="your_email"]').value;
+                        if (!Name) 
+                        {
+                            alert("Please Fill Out Your Name.");
+                            return;
+                        }
+                        if (!Email)
+                        {
+                            alert("Please Fill Out Your Email.");
+                            return;
+                        }
+                    }
                     if (sectionNumber === 3) 
                     {
+                        var personName = document.querySelector('input[name="person_name"]').value;
+                        var personFatherName = document.querySelector('input[name="father_name"]').value;
+                        var personMotherName = document.querySelector('input[name="mother_name"]').value;
                         var maritalStatus = document.querySelector('input[name="marital_status"]:checked');
                         var genderStatus = document.querySelector('input[name="gender"]:checked');
+                        if(!personName)
+                        {
+                            alert("Please Fill Out Person Name.");
+                            return;
+                        }
                         if(!genderStatus)
                         {
                             alert("Please Select The Gender.");
+                            return;
+                        }
+                        if(!personFatherName)
+                        {
+                            alert("Please Fill Out Father Name.");
+                            return;
+                        }
+                        if(!personMotherName)
+                        {
+                            alert("Please Fill Out Mother Name.");
                             return;
                         }
                         if (!maritalStatus) 
@@ -348,6 +384,7 @@
                             alert("Please Select Marital Status.");
                             return;
                         }
+                        updateSpousePlaceholders(); 
                         if (maritalStatus.value === "not_married") 
                         {
                             document.getElementById('multiStepForm').submit()
@@ -373,42 +410,51 @@
                             }
                             // Add spouse fields dynamically
                             var numSpouses = document.querySelector('select[name="num_spouse"]').value;
-                            var spouseDetailsDiv = document.getElementById('spouseDetails');
-                            spouseDetailsDiv.innerHTML = ''; // Clear previous content
-                            for (let i = 1; i <= numSpouses; i++) 
+                            if (numSpouses==0)
                             {
-                                spouseDetailsDiv.innerHTML += `
-                                    <div class="spouse-info">
-                                        <h4>Spouse ${i} Information</h4>
-                                        
-                                        <div class="mb-3">
-                                            <label for="id_spouse_name_${i}" class="form-label">
-                                                <i class="fas fa-user"></i> Spouse ${i}'s Full Name
-                                            </label>
-                                            <input type="text" id="id_spouse_name_${i}" name="spouse_name_${i}" class="form-control" placeholder="Enter spouse's full name">
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <label for="id_spouse_father_name_${i}" class="form-label">
-                                                <i class="fas fa-user-friends"></i> Spouse ${i}'s Father's Full Name
-                                            </label>
-                                            <input type="text" id="id_spouse_father_name_${i}" name="spouse_father_name_${i}" class="form-control" placeholder="Enter spouse's father's full name">
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <label for="id_spouse_village_${i}" class="form-label">
-                                                <i class="fas fa-map-marker-alt"></i> Spouse ${i}'s Village
-                                            </label>
-                                            <input type="text" id="id_spouse_village_${i}" name="spouse_village_${i}" class="form-control" placeholder="Enter spouse's village">
-                                        </div>
-                                    </div>
-                                `;
+                                alert("Please Select Number Of Spouse.");
+                                return;
                             }
-                            // Show the spouse details
-                            document.querySelectorAll('.spouse-info').forEach(function(spouseInfo) 
+                            else
                             {
-                                spouseInfo.style.display = 'block';
-                            });
+                                let maxSpouses = numSpouses === '4+' ? 7 : parseInt(numSpouses)
+                                var spouseDetailsDiv = document.getElementById('spouseDetails');
+                                spouseDetailsDiv.innerHTML = ''; // Clear previous content
+                                for (let i = 1; i <= maxSpouses; i++) 
+                                {
+                                    spouseDetailsDiv.innerHTML += `
+                                        <div class="spouse-info">
+                                            <h4>જીવનસાથી - ${i} ની માહિતી</h4>
+                                            <div class="mb-3">
+                                                <label for="id_spouse_name_${i}" class="form-label">
+                                                    <i class="fas fa-user"></i> Spouse ${i}'s Full Name
+                                                </label>
+                                                <input type="text" id="id_spouse_name_${i}" name="spouse_name_${i}" class="form-control" placeholder="રાણીસાહેબ / જમાઈસાહેબ નુ પૂરુ નામ દાખલ કરો.">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="id_spouse_father_name_${i}" class="form-label">
+                                                    <i class="fas fa-user-friends"></i> Spouse ${i}'s Father's Full Name
+                                                </label>
+                                                <input type="text" id="id_spouse_father_name_${i}" name="spouse_father_name_${i}" class="form-control" placeholder="Enter spouse's father's full name">
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="id_spouse_village_${i}" class="form-label">
+                                                    <i class="fas fa-map-marker-alt"></i> Spouse ${i}'s Village
+                                                </label>
+                                                <input type="text" id="id_spouse_village_${i}" name="spouse_village_${i}" class="form-control" placeholder="Enter spouse's village">
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                                // Show the spouse details
+                                document.querySelectorAll('.spouse-info').forEach(function(spouseInfo) 
+                                {
+                                    spouseInfo.style.display = 'block';
+                                });
+                                updateSpousePlaceholders(); 
+                            }
+                            
                         }
                     }
                     if (sectionNumber === 4) 
@@ -431,18 +477,18 @@
                                     <input type="text" id="id_child_name_${i}" name="child_name_${i}" class="form-control" placeholder="Enter child's full name">&emsp;<br><br>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="id_child_gender_${i}">Child ${i}'s Gender</label>&emsp;<br><br>
+                                    <label for="id_child_gender_${i}">સંતાન - ${i} ની જાતિ</label>&emsp;<br><br>
                                     <input type="radio" id="id_child_gender_${i}_male" name="child_gender_${i}" value="male" class="form-check-input">
-                                    <label for="id_child_gender_${i}_male">Male</label>&emsp;
+                                    <label for="id_child_gender_${i}_male">પુરુષ</label>&emsp;
                                     <input type="radio" id="id_child_gender_${i}_female" name="child_gender_${i}" value="female" class="form-check-input">&emsp;
-                                    <label for="id_child_gender_${i}_female">Female</label>&emsp;<br><br>
+                                    <label for="id_child_gender_${i}_female">સ્ત્રી</label>&emsp;<br><br>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="id_child_marital_status_${i}">Child ${i}'s Marital Status</label><br><br>
+                                    <label for="id_child_marital_status_${i}">સંતાન - ${i} ની વૈવાહિક સ્થિતિ</label><br><br>
                                     <input type="radio" id="id_child_marital_status_${i}_married" name="child_marital_status_${i}" value="married" class="form-check-input">&emsp;
-                                    <label for="id_child_marital_status_${i}_married">Married</label>&emsp;
+                                    <label for="id_child_marital_status_${i}_married">પરણિત</label>&emsp;
                                     <input type="radio" id="id_child_marital_status_${i}_not_married" name="child_marital_status_${i}" value="not_married" class="form-check-input">
-                                    <label for="id_child_marital_status_${i}_not_married">Not Married</label>&emsp;<br><br>
+                                    <label for="id_child_marital_status_${i}_not_married">અપરણિત</label>&emsp;<br><br>
                                 </div>
                             `;
                         }
@@ -479,6 +525,51 @@
                     }
                     nextSection(5); // Move to Section 5
                 }
+                function updateSpousePlaceholders() 
+                {
+                    var gender = document.querySelector('input[name="gender"]:checked').value;
+                    var spouseLabel = gender === 'Male' ? 'રાણીસાહેબ' : 'જમાઈસાહેબ';
+                    var numSpouses = document.querySelector('select[name="num_spouse"]').value;
+                    var spouseInfoDivs = document.querySelectorAll('.spouse-info');
+
+                    spouseInfoDivs.forEach(function (spouseInfoDiv, index) 
+                    {
+                        var spouseNumber = index + 1;
+                        var spouseTitle = numSpouses === "1" ? spouseLabel : `${spouseLabel} - ${spouseNumber}`;
+
+                        // Update the spouse heading
+                        var spouseHeading = spouseInfoDiv.querySelector('h4');
+                        if (spouseHeading) 
+                        {
+                            spouseHeading.innerText = `${spouseTitle} ની માહિતી`;
+                        }
+
+                        // Update the spouse name label and placeholder
+                        var spouseNameLabel = spouseInfoDiv.querySelector(`label[for="id_spouse_name_${spouseNumber}"]`);
+                        spouseNameLabel.innerHTML = `<i class="fas fa-user"></i> ${spouseTitle} નું પૂરું નામ દાખલ કરો.`;
+                        var spouseNameInput = spouseInfoDiv.querySelector(`input[name="spouse_name_${spouseNumber}"]`);
+                        spouseNameInput.placeholder = `${spouseTitle} નું પૂરું નામ દાખલ કરો`;
+
+                        // Update the spouse father name label and placeholder
+                        var spouseFatherNameLabel = spouseInfoDiv.querySelector(`label[for="id_spouse_father_name_${spouseNumber}"]`);
+                        spouseFatherNameLabel.innerHTML = `<i class="fas fa-user"></i> ${spouseTitle} ના બાપુસાહેબ નુ પૂરું નામ દાખલ કરો.`;
+                        var spouseFatherNameInput = spouseInfoDiv.querySelector(`input[name="spouse_father_name_${spouseNumber}"]`);
+                        spouseFatherNameInput.placeholder = `${spouseTitle} ના બાપુસાહેબ નુ પૂરું નામ દાખલ કરો`;
+
+                        // Update the spouse village name label and placeholder
+                        var spouseVillageNameLabel = spouseInfoDiv.querySelector(`label[for="id_spouse_village_${spouseNumber}"]`);
+                        spouseVillageNameLabel.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${spouseTitle} નુ વતન દાખલ કરો.`;
+                        var spouseVillageNameInput = spouseInfoDiv.querySelector(`input[name="spouse_village_${spouseNumber}"]`);
+                        spouseVillageNameInput.placeholder = `${spouseTitle} નુ વતન દાખલ કરો`;
+                    });
+                }
+
+                // Call this function when the gender is selected in Section 2
+                document.querySelectorAll('input[name="gender"]').forEach(function (genderRadio) 
+                {
+                    genderRadio.addEventListener('change', updateSpousePlaceholders);
+                });
+                
                 function generateReview() 
                 {
                     var reviewContent = document.getElementById('reviewContent');
@@ -489,10 +580,10 @@
                     var maritalStatus = document.querySelector('input[name="marital_status"]:checked').value;
                     var reviewHtml = `
                         <h4>Personal Details</h4>
-                        <p><strong>Name:</strong> ${personName}</p>
-                        <p><strong>Date of Birth:</strong> ${dob}</p>
-                        <p><strong>Gender:</strong> ${gender}</p>
-                        <p><strong>Marital Status:</strong> ${maritalStatus}</p>
+                        <p><strong>Name : </strong> ${personName}</p><br>
+                        <p><strong>Date of Birth : </strong> ${dob}</p><br>
+                        <p><strong>Gender : </strong> ${gender}</p><br>
+                        <p><strong>Marital Status : </strong> ${maritalStatus}</p><br>
                     `;
                     // Collect spouse details
                     var numSpouses = document.querySelector('select[name="num_spouse"]').value;
@@ -505,9 +596,9 @@
                             var spouseFatherName = document.querySelector(`input[name="spouse_father_name_${i}"]`).value;
                             var spouseVillage = document.querySelector(`input[name="spouse_village_${i}"]`).value;
                             reviewHtml += `
-                                <p><strong>Spouse ${i} Name:</strong> ${spouseName}</p>
-                                <p><strong>Spouse ${i} Father's Name:</strong> ${spouseFatherName}</p>
-                                <p><strong>Spouse ${i} Village:</strong> ${spouseVillage}</p>
+                                <p><strong>Spouse ${i} Name : </strong> ${spouseName}</p><br>
+                                <p><strong>Spouse ${i} Father's Name : </strong> ${spouseFatherName}</p><br>
+                                <p><strong>Spouse ${i} Village : </strong> ${spouseVillage}</p><br>
                             `;
                         }
                     }
@@ -523,9 +614,9 @@
                             var childGender = document.querySelector(`input[name="child_gender_${i}"]:checked`).value;
                             var childMaritalStatus = document.querySelector(`input[name="child_marital_status_${i}"]:checked`).value;
                             reviewHtml += `
-                                <p><strong>Child ${i} Name:</strong> ${childName}</p>
-                                <p><strong>Child ${i} Gender:</strong> ${childGender}</p>
-                                <p><strong>Child ${i} Marital Status:</strong> ${childMaritalStatus}</p>
+                                <p><strong>Child ${i} Name : </strong> ${childName}</p><br>
+                                <p><strong>Child ${i} Gender : </strong> ${childGender}</p><br>
+                                <p><strong>Child ${i} Marital Status : </strong> ${childMaritalStatus}</p><br>
                             `;
                             if (childMaritalStatus === 'married') 
                             {
