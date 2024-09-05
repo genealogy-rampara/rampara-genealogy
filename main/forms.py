@@ -1,4 +1,5 @@
 from random import choices
+from typing import Iterable
 from django import forms
 
 class PersonForm(forms.Form):
@@ -10,9 +11,13 @@ class PersonForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'તમારુ પુરુ નામ દાખલ કરો'})
     )
     your_email = forms.EmailField(
-        label="Your Email",
-        required=True,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'તમારુ ઈમેલ દાખલ કરો'})
+    label="Your Email",
+    required=True,
+    error_messages={
+        'required': 'ઈમેલ દાખલ કરવું ફરજિયાત છે.',  # Custom message for empty email
+        'invalid': 'તમારું ઈમેલ સરનામું અમાન્ય છે.'  # Custom message for invalid email format
+    },
+    widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'તમારુ ઈમેલ દાખલ કરો'})
     )
 
     # Section 2: Person's Details to Add to CSV
@@ -31,7 +36,8 @@ class PersonForm(forms.Form):
     dob = forms.DateField(
         label="Date of Birth",
         required=False,
-        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'})
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}),
+        input_formats=['%d-%m-%Y'],  # Specifies the input format as DD-MM-YYYY
     )
     father_name = forms.CharField(
         label="Father's Full Name",
@@ -60,7 +66,7 @@ class PersonForm(forms.Form):
     )
     
     num_children = forms.ChoiceField(
-        label = "Number of Children",
+        label = "સંતાનો ની સંખિયા",
         choices=[('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4+', '4+')],
         widget=forms.Select(attrs={'class':'form-select'})
     )

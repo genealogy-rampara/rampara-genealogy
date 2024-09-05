@@ -15,18 +15,21 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
         /* General Reset */
-        * {
+        * 
+        {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
-        body {
+        body 
+        {
             background: #ecf0f3;
         }
 
-        .wrapper {
+        .wrapper 
+        {
             max-width: 700px;
             min-height: 500px;
             margin: 80px auto;
@@ -36,12 +39,14 @@
             box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
         }
 
-        .logo {
+        .logo 
+        {
             width: 80px;
             margin: auto;
         }
 
-        .logo img {
+        .logo img 
+        {
             width: 100%;
             height: 80px;
             object-fit: cover;
@@ -52,19 +57,21 @@
                         -8px -8px 15px #fff;
         }
 
-        .wrapper h3 {
+        .wrapper h3 
+        {
             font-size: 1.6rem;
             margin-bottom: 20px;
         }
 
-        .wrapper .name {
-            
+        .wrapper .name 
+        {
             font-weight: 600;
             font-size: 1.4rem;
             color: #555;
         }
 
-        .form-field {
+        .form-field 
+        {
             margin-bottom: 20px;
             border-radius: 20px;
             box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
@@ -73,7 +80,8 @@
 
         .form-field input[type="text"],
         .form-field input[type="email"],
-        .form-field input[type="date"]{
+        .form-field input[type="date"]
+        {
             width: 100%;
             border: none;
             background: none;
@@ -82,7 +90,8 @@
             padding: 10px 15px 10px 40px;
         }
 
-        .form-field .fas {
+        .form-field .fas 
+        {
             position: absolute;
             top: 50%;
             left: 10px;
@@ -90,7 +99,8 @@
             color: #555;
         }
 
-        .wrapper .btn {
+        .wrapper .btn 
+        {
             width: auto;
             height: 40px;
             background-color: #f41703;
@@ -104,40 +114,47 @@
             padding: 0 20px;
         }
 
-        .wrapper .btn:hover {
+        .wrapper .btn:hover 
+        {
             background-color: #e56c03;
         }
 
-        .wrapper a {
+        .wrapper a 
+        {
             text-decoration: none;
             font-size: 0.8rem;
             color: #03A9F4;
         }
 
-        .wrapper a:hover {
+        .wrapper a:hover 
+        {
             color: #039BE5;
         }
 
-        @media (max-width: 380px) {
-            .wrapper {
+        @media (max-width: 380px) 
+        {
+            .wrapper 
+            {
                 margin: 30px 20px;
                 padding: 40px 15px;
             }
         }
 
         /* Styling for radio buttons */
-        .form-field input[type="radio"] {
+        .form-field input[type="radio"] 
+        {
             margin-right: 8px;
-            vertical-align: middle;
         }
 
-        .radio-group, .gender {
+        .radio-group, .gender 
+        {
             display: inline-block;
             align-items: center;
             margin-bottom: 15px;
         }
 
-        .form-field label {
+        .form-field label 
+        {
             top: 15px;
             left: 300px;
         }
@@ -152,30 +169,36 @@
             padding: 10px 15px 10px 40px;
         }
 
-        .btn-secondary {
+        .btn-secondary 
+        {
             background-color: #6c757d;
             border: none;
         }
 
-        .btn-secondary:hover {
+        .btn-secondary:hover 
+        {
             background-color: #5a6268;
         }
 
-        .btn-primary {
+        .btn-primary 
+        {
             background-color: #007bff;
             border: none;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover 
+        {
             background-color: #0069d9;
         }
 
-        .btn-success {
+        .btn-success 
+        {
             background-color: #28a745;
             border: none;
         }
 
-        .btn-success:hover {
+        .btn-success:hover 
+        {
             background-color: #218838;
         }
     </style>
@@ -232,8 +255,12 @@
             </div>
 
             <div class="gender radio-group">
-                <i class="fas fa-venus-mars"></i> <!-- Icon for gender -->
-                {{ form.gender.label_tag }}
+                <strong>
+                    <label for="{{ form.gender.id_for_label }}">
+                        <i class="fas fa-venus-mars"></i>
+                        {{ form.gender.label_tag }}
+                    </label>
+                </strong>
                 {{ form.gender }}
             </div>
 
@@ -252,21 +279,25 @@
                 <!-- </label> -->
                 {{ form.mother_name }}
             </div>
-
+            
             <div class="gender radio-group">
-                <label for="{{ form.marital_status.id_for_label }}">
-                    <i class="fas fa-heart"></i>
-                    {{ form.marital_status.label_tag }}
-                </label>
+                <strong>
+                    <label for="{{ form.marital_status.id_for_label }}">
+                        <i class="fas fa-heart"></i>
+                        {{ form.marital_status.label_tag }}
+                    </label>
+                </strong>
                 {{ form.marital_status }}
             </div>
 
             <div class="form-field">
-                <label for="{{ form.num_spouse.id_for_label }}">
-                    <i class="fas fa-users"></i>&emsp;&emsp;
-                    {{ form.num_spouse.label_tag }}
-                    {{ form.num_spouse }}
-                </label>
+                <strong>
+                    <label for="{{ form.num_spouse.id_for_label }}">
+                        <i class="fas fa-users"></i>&emsp;&emsp;
+                        {{ form.num_spouse.label_tag }}
+                        {{ form.num_spouse }}
+                    </label>
+                </strong>
             </div>
 
             <div class="d-flex justify-content-between">
@@ -283,10 +314,12 @@
             <h3><span id="section3Heading">Spouse Information</span></h3>
             <div id="spouseDetails"></div>
             <div class="mb-3">
-                <label for="{{ form.num_children.id_for_label }}">
-                    <i class="fas fa-child"></i> <!-- Icon for number of children -->
-                    {{ form.num_children.label_tag }}
-                </label>
+                <strong>
+                    <label for="{{ form.num_children.id_for_label }}">
+                        <i class="fas fa-child"></i> <!-- Icon for number of children -->
+                        {{ form.num_children.label_tag }}
+                    </label>
+                </strong>
                 {{ form.num_children }}
             </div>
             <div class="d-flex justify-content-between">
@@ -337,18 +370,29 @@
                         console.error('Current section not found.');
                         return;
                     }
-                    if(sectionNumber === 2)
+                    if (sectionNumber === 2) 
                     {
                         var Name = document.querySelector('input[name="your_name"]').value;
                         var Email = document.querySelector('input[name="your_email"]').value;
+                        // Check if the name is empty
                         if (!Name) 
                         {
-                            alert("Please Fill Out Your Name.");
+                            alert("પૂરુ નામ દાખલ કરો !");
                             return;
                         }
-                        if (!Email)
+                        // Regular expression for validating an email address
+                        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        // Check if the email is empty
+                        if (!Email) 
                         {
-                            alert("Please Fill Out Your Email.");
+                            alert("ઈમેલ દાખલ કરો !");
+                            return;
+                        }
+                        
+                        // Validate email format
+                        if (!emailPattern.test(Email)) 
+                        {
+                            alert("મુબારીક ઇમેઇલ સરનામું દાખલ કરો !");
                             return;
                         }
                     }
@@ -359,29 +403,55 @@
                         var personMotherName = document.querySelector('input[name="mother_name"]').value;
                         var maritalStatus = document.querySelector('input[name="marital_status"]:checked');
                         var genderStatus = document.querySelector('input[name="gender"]:checked');
+                        var dob = document.querySelector('input[name="dob"]').value;
                         if(!personName)
                         {
-                            alert("Please Fill Out Person Name.");
+                            alert("જેમનો ડેટા ઉમેરવાનો હોય તેમ નુ પૂરુ નામ દાખલ કરો !");
                             return;
                         }
+                        // If DOB is filled, validate its format (DD-MM-YYYY)
+                        if (dob)
+                        {
+                            var dobParts = dob.split('-');
+                            if (dobParts.length !== 3)
+                            {
+                                alert("જન્મ તારીખ આ ફોરમેટ માં દાખલ કરો (DD-MM-YYYY) !");
+                                return;
+                            }
+                            if (parseInt(dobParts[0]) < 1 || parseInt(dobParts[0]) > 31)
+                            {
+                                alert("તારીખ (૧-૩૧) માથી ને દાખલ કરો !");
+                                return;
+                            }
+                            if (parseInt(dobParts[1]) < 1 || parseInt(dobParts[1]) > 12)
+                            {
+                                alert("મહિનો (૧-૧૨) માથી ને દાખલ કરો !");
+                                return;
+                            }
+                            if (parseInt(dobParts[2]) < 1000 || parseInt(dobParts[2]) > 9999)
+                            {
+                                alert("વર્ષ (૧૦૦૦-૯૯૯૯) માથી ને દાખલ કરો !");
+                                return;
+                            }
+                        }  
                         if(!genderStatus)
                         {
-                            alert("Please Select The Gender.");
+                            alert("જાતિ સિલેક્ટ કરો !");
                             return;
                         }
                         if(!personFatherName)
                         {
-                            alert("Please Fill Out Father Name.");
+                            alert("બાપુસાહેબ નુ પૂરુ નામ દાખલ કરો !");
                             return;
                         }
                         if(!personMotherName)
                         {
-                            alert("Please Fill Out Mother Name.");
+                            alert("બાસાહેબ નુ પૂરુ નામ દાખલ કરો !");
                             return;
                         }
                         if (!maritalStatus) 
                         {
-                            alert("Please Select Marital Status.");
+                            alert("વૈવાહિક સ્થિતિ જણાવો !");
                             return;
                         }
                         updateSpousePlaceholders(); 
@@ -405,7 +475,7 @@
                             } 
                             else 
                             {
-                                alert("Please Select The Gender");
+                                alert("જાતિ સિલેક્ટ કરો !");
                                 return;
                             }
                             // Add spouse fields dynamically
@@ -426,22 +496,28 @@
                                         <div class="spouse-info">
                                             <h4>જીવનસાથી - ${i} ની માહિતી</h4>
                                             <div class="mb-3">
-                                                <label for="id_spouse_name_${i}" class="form-label">
-                                                    <i class="fas fa-user"></i> Spouse ${i}'s Full Name
-                                                </label>
+                                                <strong>
+                                                    <label for="id_spouse_name_${i}" class="form-label">
+                                                        <i class="fas fa-user"></i> Spouse ${i}'s Full Name
+                                                    </label>
+                                                </strong>
                                                 <input type="text" id="id_spouse_name_${i}" name="spouse_name_${i}" class="form-control" placeholder="રાણીસાહેબ / જમાઈસાહેબ નુ પૂરુ નામ દાખલ કરો.">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="id_spouse_father_name_${i}" class="form-label">
-                                                    <i class="fas fa-user-friends"></i> Spouse ${i}'s Father's Full Name
-                                                </label>
+                                                <strong>
+                                                    <label for="id_spouse_father_name_${i}" class="form-label">
+                                                        <i class="fas fa-user-friends"></i> Spouse ${i}'s Father's Full Name
+                                                    </label>
+                                                </strong>
                                                 <input type="text" id="id_spouse_father_name_${i}" name="spouse_father_name_${i}" class="form-control" placeholder="Enter spouse's father's full name">
                                             </div>
                                             
                                             <div class="mb-3">
-                                                <label for="id_spouse_village_${i}" class="form-label">
-                                                    <i class="fas fa-map-marker-alt"></i> Spouse ${i}'s Village
-                                                </label>
+                                                <strong>
+                                                    <label for="id_spouse_village_${i}" class="form-label">
+                                                        <i class="fas fa-map-marker-alt"></i> Spouse ${i}'s Village
+                                                    </label>
+                                                </strong>
                                                 <input type="text" id="id_spouse_village_${i}" name="spouse_village_${i}" class="form-control" placeholder="Enter spouse's village">
                                             </div>
                                         </div>
@@ -473,22 +549,28 @@
                         {
                             childrenDetailsDiv.innerHTML += `
                                 <div class="mb-3">
-                                    <label for="id_child_name_${i}">Child ${i}'s Full Name</label>&emsp;
-                                    <input type="text" id="id_child_name_${i}" name="child_name_${i}" class="form-control" placeholder="Enter child's full name">&emsp;<br><br>
+                                    <strong>
+                                        <label for="id_child_name_${i}">સંતાન - ${i} નું પૂરુ નામ દાખલ કરો : </label>
+                                    </strong>
+                                    <input type="text" id="id_child_name_${i}" name="child_name_${i}" class="form-control" placeholder="સંતાન - ${i} નું પૂરુ નામ દાખલ કરો.">&emsp;<br>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="id_child_gender_${i}">સંતાન - ${i} ની જાતિ</label>&emsp;<br><br>
+                                    <strong>
+                                        <label for="id_child_gender_${i}">સંતાન - ${i} ની જાતિ : </label>
+                                    </strong>
                                     <input type="radio" id="id_child_gender_${i}_male" name="child_gender_${i}" value="male" class="form-check-input">
                                     <label for="id_child_gender_${i}_male">પુરુષ</label>&emsp;
                                     <input type="radio" id="id_child_gender_${i}_female" name="child_gender_${i}" value="female" class="form-check-input">&emsp;
-                                    <label for="id_child_gender_${i}_female">સ્ત્રી</label>&emsp;<br><br>
+                                    <label for="id_child_gender_${i}_female">સ્ત્રી</label>&emsp;<br>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="id_child_marital_status_${i}">સંતાન - ${i} ની વૈવાહિક સ્થિતિ</label><br><br>
+                                    <strong>
+                                        <label for="id_child_marital_status_${i}">સંતાન - ${i} ની વૈવાહિક સ્થિતિ : </label>
+                                    </strong>
                                     <input type="radio" id="id_child_marital_status_${i}_married" name="child_marital_status_${i}" value="married" class="form-check-input">&emsp;
                                     <label for="id_child_marital_status_${i}_married">પરણિત</label>&emsp;
                                     <input type="radio" id="id_child_marital_status_${i}_not_married" name="child_marital_status_${i}" value="not_married" class="form-check-input">
-                                    <label for="id_child_marital_status_${i}_not_married">અપરણિત</label>&emsp;<br><br>
+                                    <label for="id_child_marital_status_${i}_not_married">અપરણિત</label>&emsp;<br>
                                 </div>
                             `;
                         }
@@ -520,7 +602,7 @@
                     var allFieldsFilled = Array.from(childInputs).every(input => input.value.trim() !== '');
                     if (!allFieldsFilled) 
                     {
-                        alert("Please fill out the details for all children.");
+                        alert("બધા સંતાન ની માહિતી દાખલ કરો !");
                         return;
                     }
                     nextSection(5); // Move to Section 5
@@ -546,21 +628,21 @@
 
                         // Update the spouse name label and placeholder
                         var spouseNameLabel = spouseInfoDiv.querySelector(`label[for="id_spouse_name_${spouseNumber}"]`);
-                        spouseNameLabel.innerHTML = `<i class="fas fa-user"></i> ${spouseTitle} નું પૂરું નામ દાખલ કરો.`;
+                        spouseNameLabel.innerHTML = `<i class="fas fa-user"></i> ${spouseTitle} નું પૂરું નામ દાખલ કરો : `;
                         var spouseNameInput = spouseInfoDiv.querySelector(`input[name="spouse_name_${spouseNumber}"]`);
-                        spouseNameInput.placeholder = `${spouseTitle} નું પૂરું નામ દાખલ કરો`;
+                        spouseNameInput.placeholder = `${spouseTitle} નું પૂરું નામ દાખલ કરો.`;
 
                         // Update the spouse father name label and placeholder
                         var spouseFatherNameLabel = spouseInfoDiv.querySelector(`label[for="id_spouse_father_name_${spouseNumber}"]`);
-                        spouseFatherNameLabel.innerHTML = `<i class="fas fa-user"></i> ${spouseTitle} ના બાપુસાહેબ નુ પૂરું નામ દાખલ કરો.`;
+                        spouseFatherNameLabel.innerHTML = `<i class="fas fa-user"></i> ${spouseTitle} ના બાપુસાહેબ નુ પૂરું નામ દાખલ કરો : `;
                         var spouseFatherNameInput = spouseInfoDiv.querySelector(`input[name="spouse_father_name_${spouseNumber}"]`);
-                        spouseFatherNameInput.placeholder = `${spouseTitle} ના બાપુસાહેબ નુ પૂરું નામ દાખલ કરો`;
+                        spouseFatherNameInput.placeholder = `${spouseTitle} ના બાપુસાહેબ નુ પૂરું નામ દાખલ કરો.`;
 
                         // Update the spouse village name label and placeholder
                         var spouseVillageNameLabel = spouseInfoDiv.querySelector(`label[for="id_spouse_village_${spouseNumber}"]`);
-                        spouseVillageNameLabel.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${spouseTitle} નુ વતન દાખલ કરો.`;
+                        spouseVillageNameLabel.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${spouseTitle} નુ વતન દાખલ કરો : `;
                         var spouseVillageNameInput = spouseInfoDiv.querySelector(`input[name="spouse_village_${spouseNumber}"]`);
-                        spouseVillageNameInput.placeholder = `${spouseTitle} નુ વતન દાખલ કરો`;
+                        spouseVillageNameInput.placeholder = `${spouseTitle} નુ વતન દાખલ કરો.`;
                     });
                 }
 
@@ -579,11 +661,11 @@
                     var gender = document.querySelector('input[name="gender"]:checked').value;
                     var maritalStatus = document.querySelector('input[name="marital_status"]:checked').value;
                     var reviewHtml = `
-                        <h4>Personal Details</h4>
-                        <p><strong>Name : </strong> ${personName}</p><br>
-                        <p><strong>Date of Birth : </strong> ${dob}</p><br>
-                        <p><strong>Gender : </strong> ${gender}</p><br>
-                        <p><strong>Marital Status : </strong> ${maritalStatus}</p><br>
+                        <h4>DATA : </h4>
+                        <p><strong>નામ : </strong> ${personName}</p><br>
+                        <p><strong>જન્મ તારીખ : </strong> ${dob}</p><br>
+                        <p><strong>જાતિ : </strong> ${gender}</p><br>
+                        <p><strong>વૈવાહિક સ્થિતિ : </strong> ${maritalStatus}</p><br>
                     `;
                     // Collect spouse details
                     var numSpouses = document.querySelector('select[name="num_spouse"]').value;
@@ -606,7 +688,7 @@
                     var numChildren = document.querySelector('select[name="num_children"]').value;
                     if (numChildren > 0) 
                     {
-                        reviewHtml += '<h4>Children Details</h4>';
+                        reviewHtml += '<h4>સંતાન ની માહિતી</h4>';
                         let maxChildren = numChildren === '4+' ? 7 : parseInt(numChildren);
                         for (let i = 1; i <= maxChildren; i++) 
                         {
@@ -614,13 +696,13 @@
                             var childGender = document.querySelector(`input[name="child_gender_${i}"]:checked`).value;
                             var childMaritalStatus = document.querySelector(`input[name="child_marital_status_${i}"]:checked`).value;
                             reviewHtml += `
-                                <p><strong>Child ${i} Name : </strong> ${childName}</p><br>
-                                <p><strong>Child ${i} Gender : </strong> ${childGender}</p><br>
-                                <p><strong>Child ${i} Marital Status : </strong> ${childMaritalStatus}</p><br>
+                                <p><strong>સંતાન - ${i} નુ પૂરુ નામ : </strong> ${childName}</p><br>
+                                <p><strong>સંતાન - ${i} ની જાતિ : </strong> ${childGender}</p><br>
+                                <p><strong>સંતાન - ${i} ની વૈવાહિક સ્થિતિ : </strong> ${childMaritalStatus}</p><br>
                             `;
                             if (childMaritalStatus === 'married') 
                             {
-                                alert(`PLEASE FILL OUT THE ${childName}`)
+                                alert(`આ ફોર્મ ને રિવ્યૂ & સેવ કરી ને પછી, ${childName} ની માહિતી માટે બીજું ફોર્મ ભરો !`)
                             }
                         }
                     }
