@@ -142,7 +142,25 @@
                             <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ person.father|default:"માહિતી ઉપલબ્ધ નથી" }}</p>
                             <p class="card-text" style="text-align: left;"> બા સાહેબ : {{ person.mother|default:"માહિતી ઉપલબ્ધ નથી" }}</p>
                         </div>
-                    
+
+                        {% if person.Name == 'રણમલસિંહજી - ૨ (૧૮૪૩ - ૧૮૬૯)' %}
+                        <div class="small-card ml-3">
+                            <img src="https://www.royalark.net/India/dhrangadhra-Ranmalsinhji%20II.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ranmalsinhji II Amarsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
+                        </div>
+                        {% endif %}
+
+                        {% if person.Name == 'માનસિંહજી - ૨ (૧૮૬૯ - ૧૯૦૦)' %}
+                        <div class="small-card ml-3">
+                            <img src="https://www.royalark.net/India/dhrangadhra-Mansinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Mansinhji II Ranmalsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
+                        </div>
+                        {% endif %}
+
+                        {% if person.Name == 'અજીતસિંહજી   (૧૯૦૦ - ૧૯૧૧)' %}
+                        <div class="small-card ml-3">
+                            <img src="https://www.royalark.net/India/dhrangadhra-Ajitsinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ajitsinhji Jaswantwinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
+                        </div>
+                        {% endif %}
+                        
                         <!-- Image Section -->
                         {% if person.Name == 'ઘનશ્યામસિંહજી   (૧૯૧૧ – ૧૯૪૨)' %}
                         <div class="small-card ml-3">
