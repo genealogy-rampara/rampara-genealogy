@@ -136,14 +136,105 @@
                     <div class="col-md-1 d-flex align-items-center justify-content-center">
                         <div class="vr"></div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 d-flex">
+                        <!-- Father and Mother Information -->
                         <div class="small-card">
                             <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ person.father|default:"માહિતી ઉપલબ્ધ નથી" }}</p>
-                        </div>
-                        <div class="small-card">
                             <p class="card-text" style="text-align: left;"> બા સાહેબ : {{ person.mother|default:"માહિતી ઉપલબ્ધ નથી" }}</p>
                         </div>
+                    
+                        <!-- Image Section -->
+                        {% if person.Name == 'ઘનશ્યામસિંહજી   (૧૯૧૧ – ૧૯૪૨)' %}
+                        <div class="small-card ml-3">
+                            <img src="https://www.royalark.net/India/dhrangadhra-Ghanashyamsinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Ghanshyamsinjhi Ajitsinhji Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra" style="max-width: 150px;">
+                        </div>
+                        {% endif %}
+                        
+                        {% if person.Name == 'મયૂરધ્વજજી મેઘરાજજી - ૩ (૧૯૪૨ – [૨૦૧૦])' %}
+                        <div class="small-card ml-3">
+                            <img src="https://www.thetimes.com/imageserver/image/%2Fmethode%2Ftimes%2Fprodmigration%2Fweb%2Fbin%2Fa034d4da-60fd-3b44-b71f-350ab27b9f38.jpg?crop=380%2C570%2C0%2C0&resize=360" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Mayurdwajsinhji Meghrajji III Ghanshyamsinjhi Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra-Halvad." style="max-width: 150px;">
+                        </div>
+                        {% endif %}
+
+                        {% if person.Name == 'સોધસલજી શત્રુજિતદેવ ( [૨૦૧૦ – ૨૦૧૭] )' %}
+                        <div class="small-card ml-3">
+                            <img src="https://www.royalark.net/India/dhrangadhra-Sodhsalji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sodhsalji Shatrujitdev Sahib Bahadur [Jibava], Maharaja Raj Sahib of Dhrangadhra-Halvad." style="max-width: 150px;">
+                        </div>
+                        {% endif %}
                     </div>
+                </div>
+                <div class="col">
+                    {% if person.Name == 'રાજ જશવંતસિંહજી - ૨ (૧૭૮૨ - ૧૮૦૧)' %}
+                        <strong>
+                            <p class="card-text"> 
+                                1782 - 1801 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Jaswantsinhji II Gajsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, eldest son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Gajsinhji II [Bhabhoji] Raisinhji Sahib Bahadur, Maharana Raj Sahib of Halvad, by his first wife, H.H. Raniji Ba Shri Jijibai Kunverba Sahib, sometime Regent of Halvad, educ. privately. Raised to the gadi at the Amar Mahal, Jhallisvara Vat Palace, Halvad, under the regency of his mother, and in opposition to his father, 1758. Succeeded on the death of his father, 1782. Removed his capital permanently to Dhrangadhra, 5th October 1783.
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'રાયસિંહજી - ૩ (૧૮૦૧ - ૧૮૦૪)' %}
+                        <strong>
+                            <p class="card-text">
+                                1801 - 1804 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Raisinhji Jaswantsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, eldest son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Jaswantsinhji II Gajsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, by his first wife, H.H. Raniji Ba Shri Chanduba Kunverba Sahib, educ. privately. Succeeded on the death of his father, 1801.
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'અમરસિંહજી (૧૮૦૪ - ૧૮૪૩)' %}
+                        <strong>
+                            <p class="card-text">
+                                1804 - 1843 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Amarsinhji II Raisinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra. b. at Halvad, 15th April 1782, eldest son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Raisinhji Jaswantsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, by his first wife, H.H. Sanandwala Raniji Ba Shri Motiba Kunverba Sahib, educ. privately. Succeeded on the death of his father, 1804. A learned prince who composed bhajans, devotional hymms, still sung in Gujarat today.
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'રણમલસિંહજી - ૨ (૧૮૪૩ - ૧૮૬૯)' %}
+                        <strong>
+                            <p class="card-text"> 
+                                1843 - 1869 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ranmalsinhji II Amarsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank"> KCSI</a>  (24.5.1866). b. at the Manmahelat Palace, 20th July 1809, educ. privately. Succeeded on the death of his father, 9th April 1843. Ascended the gadi at the Amar Mahal, Jhallisvara Vat Palace, Halvad, 21st April 1843. Raised to a permanent salute of 11-guns in 1866, and prom. to 13-guns in 1867. He succeeded to an empty treasury and a state in heavy debt, which he remedied within a few years by implementing a series of agricultural and economic reforms. Established a Public Works Department, which repaired the Dhrangadhra Fort and the Chandra Sar tank at Sitha. Constructed the new lake of Ranmal Sar, the forts of Sitha and Umarda, the village of Ranmalpur, and the palace at Halvad. A great scholar and poet with an extensive knowledge of Sanskrit, Persian, Urdu and Gujarati.
+                            </p>
+                        </strong>
+                    {% endif %}    
+                    {% if person.Name == 'માનસિંહજી - ૨ (૧૮૬૯ - ૧૯૦૦)' %}
+                        <strong>
+                            <p class="card-text">
+                                1869 - 1900 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Mansinhji II Ranmalsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank"> KCSI</a> (1.1.1877). b. at the Manmahelat Palace, Dhrangadhra, 11th January 1837, eldest son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ranmalsinhji II Amarsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCSI</a>, by his third wife, H.H. Raniji Ba Shri Bairajba Kunverba Sahiba, educ. privately. Succeeded on the death of his father, 16th October 1869. Ascended the gadi at the Amar Mahal, Jhallisvara Vat Palace, Halvad, 28th October 1869. Attended the Imperial Durbar at Delhi, where he was raised to a personal salute of 15-guns, 1st January 1877. Received a sanad of adoption, 15th October 1890. He continued the modernization and reform programme instituted by his father, paying particular attention to extending education facilities, improving the transport infrastructure, reforming the revenue assessments and building hospitals. The first Girl's High School was established during his reign, an English school, State Library and several schools in outlying villags. His strenuous efforts to bring relief to those effected by the disastrous famine of 1900 lead to his own death. Patron Talukdari Girassia College 1881-1900. Rcvd: the Prince of Wales's (1875) and <a href="https://en.wikipedia.org/wiki/Kaisar-i-Hind_Medal">the KIH</a> (1877) gold medals.
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'જશવંતસિંહજી' %}
+                        <strong>
+                            <p class="card-text">
+                                Patvi Namdar Rajkumar Shri Jaswantsinhji Mansinhji Sahib. b. at Dhrangadhra, 1854 (s/o Rupaliba Kunverba), educ. privately. 
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'અજીતસિંહજી   (૧૯૦૦ - ૧૯૧૧)' %}
+                        <strong>
+                            <p class="card-text">
+                                1900 - 1911 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ajitsinhji Jaswantwinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCSI</a> (1.1.1909). b. at the Manmahelat Palace, Dhrangadhra, 18th January 1872, elder son of Patvi Namdar Rajkumar Shri Jaswantsinhji Mansinhji Sahib, by his second wife, H.H. Rajmata Bai Shri Majiraj Kunverba Sahib, educ. Rajkumar Coll, Rajkot. Became Heir-Apparent on the death of his father in December 1879. Succeeded on the death of his grand father, 2nd December 1900. Ascended the gadi at the Amar Mahal, Jhallisvara Vat Palace, Halvad, 3rd December 1900. Attended the Delhi Coronation Durbar 1903. Greatly interested in literature and the theatre, he constructed one of the largest auditoriums in Gujarat for which he wrote and produced his own plays. Patron Talukdari Girassia College 1900-1911.Rcvd: Durbar gold medal (1903). 
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'ઘનશ્યામસિંહજી   (૧૯૧૧ – ૧૯૪૨)' %}
+                        <strong>
+                            <p class="card-text">
+                                1911 - 1942 H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Ghanshyamsinjhi Ajitsinhji Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra, GCIE (3.6.1922), <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCSI</a> (1.1.1917). b. at Dhrangadhra, 31st May 1889, second and eldest surviving son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ajitsinhji Jaswantwinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCSI</a>, by his first wife, H.H. Jamnagarwala Rani Ba Shri Sunderba Kunverba Sahib, educ. Rajkumar Coll, Rajkot, Chircombe Sch., Bideford, and United Services College, Westward Ho!, North Devon, and at Southsea, Hants. Apprenticeship with Cambridge Little-Go and the Metropolitan Police at Scotland Yard studying criminology and detective work 1907-1909. Appointed Maj-Gen Dhrangadhra State Forces 1909, cdt Dhrangadhra State Forces and Cmsnr of Police 1909-1911. Succeeded on the death of his father, 8th February 1911. Ascended the gadi at the Amar Mahal, Jhallisvara Vat Palace, Halvad, 20th February 1911. Granted a permanent salute of 13-guns together with the hereditary title of Maharaja, 1st January 1918. Attended the funeral of the King Emperor George V in London in 1936. A ruler with prodigeous energy, he built a maternity hospital, girl's middle school, and veterinary hospital. He also extednded the railways, promoted the salt industry and established the heavu chemical industry. Hon Maj attached 3rd Cavalry (Duke of Connaught's Own Lancers) 19/6/1937. Patron Talukdari Girassia College 1911-1942. Chief Scout Dhrangadhra Boy Scouts 1922-1942. Hon. LL.D. Founder and Sovereign of the Sri Saktimat Makhapraphulla Order of Jhalavad 1933. Rcvd: DGBStJ (22.5.1924), Delhi Durbar gold medal (1911), Prince of Wales's (1922), Silver Jubilee (1935) and the Coron (1937) medals.&emsp; 
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'મયૂરધ્વજજી મેઘરાજજી - ૩ (૧૯૪૨ – [૨૦૧૦])' %}
+                        <strong>
+                            <p class="card-text">
+                                1942 – [2010] H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Mayurdwajsinhji Meghrajji III Ghanshyamsinjhi Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra-Halvad, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCIE</a> (14.8.1947). b. at Sunder Vilas, Dhrangadhra, 3rd March 1923, second son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ghanshyamsinjhi Ajitsinhji Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">GCIE</a>, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCSI</a>, by his third wife, H.H. Kotdawala Maharani Ba Shri Rajni Anand Kunverba, educ. Dhrangadhra Rajdham Shala, Dhrangadhra, Millfield Sch, Street, Somerset, Heath Mount Sch, Herts, Haileybury Coll, Herts, St Joseph’s Acad, Dehra Dun, Shivaji Military Sch, Poona, Christ Church, Oxford (B.Litt. 1958), Ruskin Sch of Drawing and Inst of Social Anthropology, Oxford (Dip.). Succeeded on the death of his father, 4th February 1942. Ascended the gadi at the Amar Mahal, Jhallisvara Vat Palace, Halvad, 15th February 1942. Reigned under a Council of Regency until he came of age and was invested with full ruling powers, 8th October 1943. Signed the instrument of accession to the Dominion of India, 9th August 1947. Merged his state into the United State of Kathiawad 15th February 1948, and into the Union of Saurashtra on 26th March 1948. Uprajpramukh of Saurashtra 26th March 1948 to 1952 (sometime acting Rajpramukh and C-in-C State Forces). Mbr Standing Cttee of the Chamber of Princes 1945-1947, and Constituent Assembly of India 1947-1948, Presdt Cttee of Priviledges for Saurashtra 1950, and the Jodhpur Council of Regency 1965-1968, MLA Gujarat State Assembly for Surendranagar 1967, and MP (Lok Sabha) for Jhalavad 1967-1971, Promoter & Intendent Gen for the Consultation of Rulers of Indian States in concord for India 1967-1971. Patron Talukdari Girassia College 1942-1948, and Bhandarkar Oriental Research Inst. Presdt State Bank of Saurashtra 1949, Rajkumar Coll (Rajkot) Governing Brd 1966-2001, and Sri Rajram Educational Foundn. Life Mbr Millfield Soc, Indian Council of World Affairs 1967, Indian Parliamentary Group 1967, Commonwealth Parliamentary Assoc 1967, Linguistic Soc of India, Numismatic Soc of India, Heraldry Soc, World Wildlife Fund. Mbr Indian Cttee of the United World Colleges, Cricket Club of India (Bombay), etc. FRAS, FRAI, Assoc Royal Historical Soc. The GOI amended the Indian Contitution to remove his guaranteed position as a “ruler” and his right to receive privy-purse payments, 28th December 1971. Sovereign of the Sri Saktimat Makhapraphulla Order of Jhalavad 4th February 1942-2010. Rcvd: Coron (1937 & 1953), and Indian Independence (1947) medals.<br><br>
+                                H.H. Shri Shaktimant Jhaladhipati Mahamandleshwar Maharana Sriraj Maharaja Sir Shri Mayurdwajsinhji Meghrajsinhji III Ghanshyam Sinhji Bahadur, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India" target="_blank">KCSI</a>, <a href="https://en.wikipedia.org/wiki/Royal_Asiatic_Society_of_Great_Britain_and_Ireland" target="_blank">FRAS</a>, <a href="https://en.wikipedia.org/wiki/Royal_Anthropological_Institute_of_Great_Britain_and_Ireland" target="_blank">FRAI</a>, <a href="https://en.wikipedia.org/wiki/Royal_Historical_Society" target="_blank">FRHistS </a> (3 March 1923 – 1 August 2010) <a href="https://www.telegraph.co.uk/news/obituaries/royalty-obituaries/7978328/The-Maharaja-of-Dhrangadhra-Halvad.html" target="_blank">was the last ruling Maharaja of Dhrangadhra-Halvad</a>. He was an academic, politician, member of several distinguished academic bodies, and one of the last surviving rulers of the former <a href="https://en.wikipedia.org/wiki/Princely_state" target="_blank">princely states</a> of the <a href="https://en.wikipedia.org/wiki/British_Raj" target="_blank">British Raj</a>. He was also the last surviving knight of the <a href="https://en.wikipedia.org/wiki/Order_of_the_Indian_Empire" target="_blank">Order of the Indian Empire</a> and the last of either of the chivalric orders of the <a href="https://en.wikipedia.org/wiki/British_Raj" target="_blank">British Indian Empire</a>.
+                            </p>
+                        </strong>
+                    {% endif %}
+                    {% if person.Name == 'સોધસલજી શત્રુજિતદેવ ( [૨૦૧૦ – ૨૦૧૭] )' %}
+                        <strong>
+                            <p class="card-text">
+                                [2010 – 2017] H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sodhsalji Shatrujitdev Sahib Bahadur [Jibava], Maharaja Raj Sahib of Dhrangadhra-Halvad. b. at Durbargadh Palace, Dhrangadhra, 22nd March 1944, eldest son of H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Mayurdwajsinhji Meghrajji III Ghanshyamsinjhi Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra-Halvad, <a href="https://en.wikipedia.org/wiki/Order_of_the_Star_of_India">KCIE</a>, by his wife, H.H. Rathodiji Jodhpurwala Maharani Shrimati Sri Rajni Brijraj Kunverba Sahib, educ. Cothill House Preparatory Sch, Oxford, the Doon Sch, Dehra Dun, and Christ Church, Oxford. Became Heir Apparent at birth and formally invested as such, with the title of Yuvraj Sahib of Dhrangadhra-Halvad, at the Ajit Niwas Palace, Dhrangadhra, 1961. Succeeded on the death of his father as Head of the Royal House of Dhrangadhra-Halvad, 1st August 2010. Trustee Raj Karma Shakti Asta. Dir Dhrangadhra Chemical Works (DCW) Ltd 1990-2017, Jaycee Chemicals Pvt Ltd, Umbria Chmicals Pvt Ltd, Jhalavad Sambhal Seva Foundation Co 2012-2017, etc. Founder Mbr Indian National Trust for Art, Culture & Heritage (INTACH). Sovereign of the Sri Saktimat Makhapraphulla Order of Jhalavad 1st August 2010-2017 (previously Registrar of the order). Rcvd: the Halvad-Dhrangadhra State Rajyabhisek Medal 1st class and the Halvad-Dhrangadhra Accession to India Medal (25.3.1948).
+                            </p>
+                        </strong>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -180,7 +271,6 @@
                                     </center>
                                     <center>
                                         <p class="card-text" style="text-align: left;"> વતન : <a href="{{ spouse.spouse_village_map }}" target="_blank">{{ spouse.spouse_village|default:"Unknown" }}</a></p>
-                                        <!-- <p class="card-text" style="text-align: left;"> વતન : {{ spouse.spouse_village }}</p> -->
                                     </center>
                                 </div>
                             {% endfor %}
