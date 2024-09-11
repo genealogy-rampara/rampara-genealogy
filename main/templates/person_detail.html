@@ -142,45 +142,43 @@
                             <p class="card-text" style="text-align: left;"> બાપુ સાહેબ : {{ person.father|default:"માહિતી ઉપલબ્ધ નથી" }}</p>
                             <p class="card-text" style="text-align: left;"> બા સાહેબ : {{ person.mother|default:"માહિતી ઉપલબ્ધ નથી" }}</p>
                         </div>
-
-                        {% if person.Name == 'રણમલસિંહજી - ૨ (૧૮૪૩ - ૧૮૬૯)' %}
-                        <div class="small-card ml-3">
-                            <img src="https://www.royalark.net/India/dhrangadhra-Ranmalsinhji%20II.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ranmalsinhji II Amarsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
-                        </div>
-                        {% endif %}
-
-                        {% if person.Name == 'માનસિંહજી - ૨ (૧૮૬૯ - ૧૯૦૦)' %}
-                        <div class="small-card ml-3">
-                            <img src="https://www.royalark.net/India/dhrangadhra-Mansinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Mansinhji II Ranmalsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
-                        </div>
-                        {% endif %}
-
-                        {% if person.Name == 'અજીતસિંહજી   (૧૯૦૦ - ૧૯૧૧)' %}
-                        <div class="small-card ml-3">
-                            <img src="https://www.royalark.net/India/dhrangadhra-Ajitsinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ajitsinhji Jaswantwinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
-                        </div>
-                        {% endif %}
-                        
-                        <!-- Image Section -->
-                        {% if person.Name == 'ઘનશ્યામસિંહજી   (૧૯૧૧ – ૧૯૪૨)' %}
-                        <div class="small-card ml-3">
-                            <img src="https://www.royalark.net/India/dhrangadhra-Ghanashyamsinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Ghanshyamsinjhi Ajitsinhji Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra" style="max-width: 150px;">
-                        </div>
-                        {% endif %}
-                        
-                        {% if person.Name == 'મયૂરધ્વજજી મેઘરાજજી - ૩ (૧૯૪૨ – [૨૦૧૦])' %}
-                        <div class="small-card ml-3">
-                            <img src="https://www.thetimes.com/imageserver/image/%2Fmethode%2Ftimes%2Fprodmigration%2Fweb%2Fbin%2Fa034d4da-60fd-3b44-b71f-350ab27b9f38.jpg?crop=380%2C570%2C0%2C0&resize=360" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Mayurdwajsinhji Meghrajji III Ghanshyamsinjhi Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra-Halvad." style="max-width: 150px;">
-                        </div>
-                        {% endif %}
-
-                        {% if person.Name == 'સોધસલજી શત્રુજિતદેવ ( [૨૦૧૦ – ૨૦૧૭] )' %}
-                        <div class="small-card ml-3">
-                            <img src="https://www.royalark.net/India/dhrangadhra-Sodhsalji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sodhsalji Shatrujitdev Sahib Bahadur [Jibava], Maharaja Raj Sahib of Dhrangadhra-Halvad." style="max-width: 150px;">
-                        </div>
-                        {% endif %}
-                        
                     </div>
+                    {% if person.Name == 'રણમલસિંહજી - ૨ (૧૮૪૩ - ૧૮૬૯)' %}
+                    <div class="card-body">
+                        <img src="https://www.royalark.net/India/dhrangadhra-Ranmalsinhji%20II.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ranmalsinhji II Amarsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
+                    </div>
+                    {% endif %}
+
+                    {% if person.Name == 'માનસિંહજી - ૨ (૧૮૬૯ - ૧૯૦૦)' %}
+                    <div class="card-body">
+                        <img src="https://www.royalark.net/India/dhrangadhra-Mansinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Mansinhji II Ranmalsinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
+                    </div>
+                    {% endif %}
+
+                    {% if person.Name == 'અજીતસિંહજી   (૧૯૦૦ - ૧૯૧૧)' %}
+                    <div class="card-body">
+                        <img src="https://www.royalark.net/India/dhrangadhra-Ajitsinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Sir Ajitsinhji Jaswantwinhji Sahib Bahadur, Maharana Raj Sahib of Dhrangadhra">
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Image Section -->
+                    {% if person.Name == 'ઘનશ્યામસિંહજી   (૧૯૧૧ – ૧૯૪૨)' %}
+                    <div class="card-body">
+                        <img src="https://www.royalark.net/India/dhrangadhra-Ghanashyamsinhji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Ghanshyamsinjhi Ajitsinhji Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra" style="max-width: 150px;">
+                    </div>
+                    {% endif %}
+                    
+                    {% if person.Name == 'મયૂરધ્વજજી મેઘરાજજી - ૩ (૧૯૪૨ – [૨૦૧૦])' %}
+                    <div class="card-body">
+                        <img src="https://www.thetimes.com/imageserver/image/%2Fmethode%2Ftimes%2Fprodmigration%2Fweb%2Fbin%2Fa034d4da-60fd-3b44-b71f-350ab27b9f38.jpg?crop=380%2C570%2C0%2C0&resize=360" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sir Mayurdwajsinhji Meghrajji III Ghanshyamsinjhi Sahib Bahadur, Maharaja Raj Sahib of Dhrangadhra-Halvad." style="max-width: 150px;">
+                    </div>
+                    {% endif %}
+
+                    {% if person.Name == 'સોધસલજી શત્રુજિતદેવ ( [૨૦૧૦ – ૨૦૧૭] )' %}
+                    <div class="card-body">
+                        <img src="https://www.royalark.net/India/dhrangadhra-Sodhsalji.jpg" alt="H.H. Shri Shaktimant Jhaladipati Mahamandleshwar Maharana Sriraj Maharaja Sodhsalji Shatrujitdev Sahib Bahadur [Jibava], Maharaja Raj Sahib of Dhrangadhra-Halvad." style="max-width: 150px;">
+                    </div>
+                    {% endif %}
                     {% if person.Name == 'Dr. જયાસિંહજી મયૂરધ્વજસિંહજી ઝાલા ([૨૦૧૭ - Present])' %}
                         <div class="card-body">
                             <img src="https://www.indianrajputs.com/i/t/i/thumb200_dhrangadhra-Present-his-Highness-rajbava-Dr-jayasinhji-1.jpg" alt="H.H. Maharana Maharaja Shri Raj Dr. JAYASINHJI MAYURDHWAJSINHJI Sahib [Jawahir Dev Sahib]">
