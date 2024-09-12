@@ -422,21 +422,23 @@ from django.shortcuts import render
 
 import folium
 
+# def spouse_village_map(request):
+#     # Load your CSV data into a pandas DataFrame
+#     genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+#     # Create a Folium map centered on Gujarat (or your desired location)
+#     m = folium.Map(location=[23.0225, 72.5714], zoom_start=8)
+#     # Add markers for each village
+#     for _, row in df.iterrows():
+#         folium.Marker(
+#             location=[row['latitude'], row['longitude']],
+#             popup=row['village_name'],
+#             icon=folium.Icon(color='blue')
+#         ).add_to(m)
+
+#     # Save the map to an HTML file
+#     map_html = 'map.html'
+#     m.save(map_html)
+
+#     return render(request, 'spouse_village_map.html', {'map_html': map_html})
 def spouse_village_map(request):
-    # Load your CSV data into a pandas DataFrame
-    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
-    # Create a Folium map centered on Gujarat (or your desired location)
-    m = folium.Map(location=[23.0225, 72.5714], zoom_start=8)
-    # Add markers for each village
-    for _, row in df.iterrows():
-        folium.Marker(
-            location=[row['latitude'], row['longitude']],
-            popup=row['village_name'],
-            icon=folium.Icon(color='blue')
-        ).add_to(m)
-
-    # Save the map to an HTML file
-    map_html = 'map.html'
-    m.save(map_html)
-
-    return render(request, 'spouse_village_map.html', {'map_html': map_html})
+    return render(request, 'village_maps.html')
