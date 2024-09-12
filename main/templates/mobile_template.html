@@ -182,6 +182,9 @@
                             <button onclick="window.print()" class="btn btn-secondary">Print Details</button>
                         </center>
                     </li>
+                    <li class="nav-item"> <!-- New Expand All Button -->
+                        <button class="btn btn-success" onclick="expandAll()">Expand All</button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -390,6 +393,24 @@
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
+        }
+
+        function expandAll() 
+        {
+            function expand(d) 
+            {
+                if (d._children) 
+                {
+                    d.children = d._children;
+                    d._children = null;
+                }
+                if (d.children) 
+                {
+                    d.children.forEach(expand);
+                }
+            }
+            expand(root);
+            update(root);
         }
 
         // Recalculate tree size on window resize
