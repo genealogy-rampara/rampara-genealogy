@@ -240,14 +240,14 @@
     <script>
         // Set up the SVG canvas dimensions and margins
         var margin = {top: 200, right: 200, bottom: 20, left: 400},
-            canvas_height = 3000,
+            canvas_height = 4000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
-            tree_level_depth = 400; // Depth of each tree level
+            tree_level_depth = 700; // Depth of each tree level
         
         var i = 0, // Node index counter
-            duration = 1800, // Transition duration for node movements
+            duration = 1200, // Transition duration for node movements
             root; // Root node of the tree
     
         // Create a tree layout with the specified size
@@ -318,7 +318,7 @@
         });
     
         // Set the height of the iframe
-        d3.select(self.frameElement).style("height", "3000px");
+        d3.select(self.frameElement).style("height", "4000px");
     
         // Function to update the tree layout
         function update(source) {
@@ -352,7 +352,7 @@
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)
-                .style("font-size", "18px") // Increase font size
+                .style("font-size", "15px") // Increase font size
                 .style("font-weight", "bolder") // Make text bold
                 .on("click", function(d) {
                     d3.event.stopPropagation();
@@ -371,7 +371,7 @@
             // Update text opacity and size
             moved_node.select("text")
                 .style("fill-opacity", 1)
-                .style("font-size", "18px") // Ensure font size is consistent
+                .style("font-size", "15px") // Ensure font size is consistent
                 .style("font-weight", "bold"); // Ensure text is bold
 
             // Transition nodes to be removed
