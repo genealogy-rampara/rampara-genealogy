@@ -14,7 +14,5 @@ urlpatterns = [
     path('search/', views.search_person, name='search_person'),
     path('tree_including_daughter/', views.tree_with_female, name='tree_with_female'),
     path('login/', views.login, name='login'),
-    path('save-person-data/', views.save_person_data, name='save_person_data'),
-    path('spouse_village_map',views.spouse_village_map, name='spouse_village_map'),
-
+    path('save-person-data/', views.save_person_data, name='save_person_data')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

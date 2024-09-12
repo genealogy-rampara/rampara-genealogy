@@ -440,5 +440,3 @@ import folium
 #     m.save(map_html)
 
 #     return render(request, 'spouse_village_map.html', {'map_html': map_html})
-def spouse_village_map(request):
-    return render(request, 'village_maps.html')
