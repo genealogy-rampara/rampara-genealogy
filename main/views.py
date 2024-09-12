@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import EmailMessage
 from .forms import PersonForm
-
 # Path to your CSV file
 def render_tree_view(request):
     return render(request, 'tree.html')
@@ -418,3 +417,26 @@ def save_person_data(request):
         form = PersonForm(num_children=num_children, num_spouse=num_spouse)
     
     return render(request, 'save_person_data.html', {'form': form})
+
+from django.shortcuts import render
+
+import folium
+
+def spouse_village_map(request):
+    # Load your CSV data into a pandas DataFrame
+    genealogy_data = import_data_from_csv(fetch_csv_data_from_drive(csv_file_url))
+    # Create a Folium map centered on Gujarat (or your desired location)
+    m = folium.Map(location=[23.0225, 72.5714], zoom_start=8)
+    # Add markers for each village
+    for _, row in df.iterrows():
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=row['village_name'],
+            icon=folium.Icon(color='blue')
+        ).add_to(m)
+
+    # Save the map to an HTML file
+    map_html = 'map.html'
+    m.save(map_html)
+
+    return render(request, 'spouse_village_map.html', {'map_html': map_html})
