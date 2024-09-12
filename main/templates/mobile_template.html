@@ -199,13 +199,13 @@
     <script>
         // Set up the SVG canvas dimensions
         var margin = {top: 200, right: 120, bottom: 20, left: 400},
-            canvas_height = 3000,
+            canvas_height = 4000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
-            tree_level_depth = 500;
+            tree_level_depth = 700;
         var i = 0,
-            duration = 1800,
+            duration = 1200,
             root;
         // Create a tree layout
         var tree = d3.layout.tree().size([tree_height, tree_width]);
@@ -253,7 +253,7 @@
         });
 
         // Set the height of the iframe
-        d3.select(self.frameElement).style("height", "3000px");
+        d3.select(self.frameElement).style("height", "4000px");
 
         // Function to update the tree layout
         function update(source) 
@@ -311,7 +311,7 @@
             // Update text opacity and size
             moved_node.select("text")
                 .style("fill-opacity", 1)
-                .style("font-size", "25px") // Ensure font size is consistent
+                .style("font-size", "23px") // Ensure font size is consistent
                 .style("font-weight", "bold"); // Ensure text is bold
 
             // Transition nodes to be removed
