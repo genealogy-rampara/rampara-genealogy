@@ -1,4 +1,5 @@
 import csv, requests
+from socket import timeout
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import EmailMessage
@@ -418,6 +419,85 @@ def save_person_data(request):
     
     return render(request, 'save_person_data.html', {'form': form})
 
+# import pandas as pd
+# import folium
+# from geopy.geocoders import Nominatim
+# from django.shortcuts import render
+# import requests
+# import io
+# from unidecode import unidecode
+
+# cache = {}
+# unique_villages = set()
+# failed_villages = []
+
+
+# def get_lat_lon_nominatim(village_name):
+#     geolocator = Nominatim(user_agent="your_app_name")
+#     location = geolocator.geocode(f"{village_name}, Gujarat, India")
+#     if location:
+#         return location.latitude, location.longitude
+#     return None, None
+
+# def normalize_village_name(village_name):
+#     village_name = unidecode(village_name)
+#     village_name = village_name.replace('aa', 'a').replace('ii', 'i').replace('dd', 'd')
+#     village_name = village_name.replace('kcch', 'Kutch').replace('morbii', 'Morbi').replace('junaagddh', 'Junagadh')
+#     village_name = village_name.title()
+#     return village_name
+
+# def spouse_village_map(request):
+#     csv_file_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv"
+#     csv_data = fetch_csv_data_from_drive(csv_file_url)
+
+#     if csv_data:
+#         df = pd.read_csv(io.StringIO("\n".join(csv_data)))
+
+#         if 'spouse_village' in df.columns:
+#             village_list = df['spouse_village'].dropna()
+#             print('VILLAGE LIST : ', village_list)
+
+#             gujarat_coordinates = [22.2587, 71.1924]
+#             my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=30)
+
+#             for villages in village_list:
+#                 village_names = [name.strip() for name in villages.split(';') if name.strip()]
+#                 print("VILLAGES NAME AFTER SPLITTING : ", village_names)
+#                 for village in village_names:
+#                     if village not in unique_villages:
+#                         unique_villages.add(village)
+#                         lat, lon = get_lat_lon_nominatim(village)
+#                         if lat and lon:
+#                             print(f"LAT - {lat} & LON - {lon} FOR {village}")
+#                             folium.Marker([lat, lon], popup=village).add_to(my_map)
+#                         else:
+#                             print(f"Could not find coordinates for {village}. Logged for manual entry.")
+#                             failed_villages.append(village)
+
+#             if failed_villages:
+#                 print("These villages need manual geocoding or further retries:", failed_villages)
+#                 save_failed_villages()
+
+#             map_html = my_map._repr_html_()
+#             return render(request, 'village_maps.html', {'map': map_html})
+#         else:
+#             print("Column 'spouse_village' not found in the CSV file.")
+#     else:
+#         print("Failed to fetch or decode CSV data.")
+
+#     return render(request, 'village_maps.html')
+
+# def save_failed_villages():
+#     failed_villages_file = 'failed_villages.csv'
+#     if failed_villages:
+#         print(f"Saving {len(failed_villages)} failed villages to {failed_villages_file}.")
+#         with open(failed_villages_file, 'a') as f:
+#             f.write("village_name\n")
+#             for village in failed_villages:
+#                 f.write(f"{village}\n")
+#     else:
+#         print("No failed villages to save.")
+
 import pandas as pd
 import folium
 from geopy.geocoders import Nominatim
@@ -425,55 +505,16 @@ from django.shortcuts import render
 import requests
 import io
 from unidecode import unidecode
-import time
 import os
-from folium.plugins import MarkerCluster
-from opencage.geocoder import OpenCageGeocode
-import pandas as pd
-import folium
-from django.shortcuts import render
-import requests
-import io
-from unidecode import unidecode
-import time
-import os
-from folium.plugins import MarkerCluster
 
-cache = {}
 unique_villages = set()
 failed_villages = []
 
-OPENCAGE_API_KEY = '3c6c29ebf62e49d6a961e78842e10153'
-
-def get_lat_lon(village_name, max_retries=5, retry_delay=2):
-    if pd.isna(village_name):
-        return None, None
-
-    village_name = normalize_village_name(village_name.strip())
-
-    if village_name in cache:
-        return cache[village_name]
-
-    geocoder = OpenCageGeocode(OPENCAGE_API_KEY)
-
-    for attempt in range(max_retries):
-        try:
-            result = geocoder.geocode(f"{village_name}, Gujarat, India")
-            if result and len(result) > 0:
-                lat_lon = (result[0]['geometry']['lat'], result[0]['geometry']['lng'])
-                cache[village_name] = lat_lon
-                return lat_lon
-            else:
-                print(f"No location found for {village_name} on attempt {attempt + 1}.")
-        except Exception as e:
-            print(f"Error getting geocode for {village_name} on attempt {attempt + 1}: {e}")
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
-            else:
-                print(f"Logging {village_name} for manual review.")
-                failed_villages.append(village_name)
-
-    cache[village_name] = (None, None)
+def get_lat_lon_nominatim(village_name):
+    geolocator = Nominatim(user_agent="your_app_name")
+    location = geolocator.geocode(f"{village_name}, Gujarat, India")
+    if location:
+        return location.latitude, location.longitude
     return None, None
 
 def normalize_village_name(village_name):
@@ -492,27 +533,28 @@ def spouse_village_map(request):
 
         if 'spouse_village' in df.columns:
             village_list = df['spouse_village'].dropna()
+            print('VILLAGE LIST : ', village_list)
 
             gujarat_coordinates = [22.2587, 71.1924]
-            my_map = folium.Map(location=gujarat_coordinates, zoom_start=7)
-
-            cluster = MarkerCluster().add_to(my_map)
+            my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=10)
 
             for villages in village_list:
-                village_names = villages.split(';')
+                village_names = [name.strip() for name in villages.split(';') if name.strip()]
+                print("VILLAGES NAME AFTER SPLITTING : ", village_names)
                 for village in village_names:
-                    village = village.strip()
-                    if village and village not in unique_villages:
+                    if village not in unique_villages:
                         unique_villages.add(village)
-                        lat, lon = get_lat_lon(village)
+                        lat, lon = get_lat_lon_nominatim(village)
                         if lat and lon:
-                            folium.Marker([lat, lon], popup=village).add_to(cluster)
+                            print(f"LAT - {lat} & LON - {lon} FOR {village}")
+                            folium.Marker([lat, lon], popup=village).add_to(my_map)
                         else:
                             print(f"Could not find coordinates for {village}. Logged for manual entry.")
-            
+                            failed_villages.append(village)
+
             if failed_villages:
                 print("These villages need manual geocoding or further retries:", failed_villages)
-                save_failed_villages()
+                update_with_manual_entries(my_map)
 
             map_html = my_map._repr_html_()
             return render(request, 'village_maps.html', {'map': map_html})
@@ -523,13 +565,18 @@ def spouse_village_map(request):
 
     return render(request, 'village_maps.html')
 
-def save_failed_villages():
-    failed_villages_file = 'failed_villages.csv'
-    if failed_villages:
-        print(f"Saving {len(failed_villages)} failed villages to {failed_villages_file}.")
-        with open(failed_villages_file, 'w') as f:
-            f.write("village_name\n")
-            for village in failed_villages:
-                f.write(f"{village}\n")
+def update_with_manual_entries(my_map):
+    manual_entries_file = 'manual_entries.csv'
+    if os.path.exists(manual_entries_file):
+        manual_df = pd.read_csv(manual_entries_file)
+        for index, row in manual_df.iterrows():
+            village_name = row['village_name']
+            lat = row['latitude']
+            lon = row['longitude']
+            if lat and lon:
+                print(f"Adding manual entry - LAT: {lat}, LON: {lon}, VILLAGE: {village_name}")
+                folium.Marker([lat, lon], popup=village_name).add_to(my_map)
+            else:
+                print(f"Invalid coordinates for {village_name}.")
     else:
-        print("No failed villages to save.")
+        print("Manual entries file not found.")
