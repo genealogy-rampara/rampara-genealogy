@@ -214,8 +214,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Set up the SVG canvas dimensions
-        var margin = {top: 200, right: 120, bottom: 20, left: 400},
-            canvas_height = 4000,
+        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+            canvas_height = 3000,
             canvas_width = 7000,
             tree_width = canvas_width - margin.right - margin.left,
             tree_height = canvas_height - margin.top - margin.bottom,
@@ -429,7 +429,9 @@
         // Recalculate tree size on window resize
         window.addEventListener('resize', function() {
             canvas_width = "7000px";
+            canvas_height = "3000px";
             tree_width = canvas_width - margin.right - margin.left;
+            tree_height = canvas_height - margin.top - margin.bottom;
             tree.size([tree_height, tree_width]);
             update(root);
         });
