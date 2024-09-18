@@ -300,9 +300,9 @@
 
             // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -30 : 30; }) // Adjust distance from the circle
-                .attr("y", -10) // Move text above the circle
-                .attr("dy", ".15em") // Adjust vertical alignment
+                .attr("x", function(d) { return d.children || d._children ? -15 : 15; }) // Adjust distance from the circle
+                .attr("y", -6) // Move text above the circle
+                .attr("dy", "-.25px") // Adjust vertical alignment
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)

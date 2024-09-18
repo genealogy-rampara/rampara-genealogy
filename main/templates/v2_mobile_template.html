@@ -310,7 +310,7 @@
         });
 
         // Set the height of the iframe
-        d3.select(self.frameElement).style("height", "4000px");
+        d3.select(self.frameElement).style("height", "3000px");
 
         // Function to update the tree layout
         function update(source) 
@@ -341,9 +341,9 @@
 
             // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -15 : 10; }) // Adjust distance from the circle
-                .attr("y", -9) // Move text above the circle
-                .attr("dy", ".15em") // Adjust vertical alignment
+                .attr("x", function(d) { return d.children || d._children ? -15 : 15; }) // Adjust distance from the circle
+                .attr("y", -3) // Move text above the circle
+                .attr("dy", "-.20px") // Adjust vertical alignment
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)
