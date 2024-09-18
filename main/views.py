@@ -536,7 +536,7 @@ def spouse_village_map(request):
             print('VILLAGE LIST : ', village_list)
 
             gujarat_coordinates = [22.2587, 71.1924]
-            my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=10)
+            my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=60)
 
             for villages in village_list:
                 village_names = [name.strip() for name in villages.split(';') if name.strip()]
