@@ -189,11 +189,14 @@
                     <!-- Dropdown for Create -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            Add Data Through Drive
+                            View or Edit Details 
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
                             <li>
-                                <a class="dropdown-item" href="{% url 'login' %}" target="_blank">Add Data</a>
+                                <a class="dropdown-item" href="{% url 'save_person_data' %}" target="_blank">Edit Details</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'login' %}" target="_blank">View Details in CSV</a>
                             </li>
                         </ul>
                     </li>
@@ -207,17 +210,17 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="mapsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                            Maps
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="mapsDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'spouse_village_map' %}" target="_blank">Spouse Village Map</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="mapsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                        Maps
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="mapsDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'spouse_village_map' %}" target="_blank">Spouse Village Map</a>
-                        </li>
-                    </ul>
-                </li>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <form class="d-flex" method="get" action="{% url 'search_person'  %}">
@@ -338,13 +341,13 @@
 
             // Add text to nodes and set up click event for opening person details
             new_nodes.append("text")
-                .attr("x", function(d) { return d.children || d._children ? -30 : 30; }) // Adjust distance from the circle
-                .attr("y", -10) // Move text above the circle
+                .attr("x", function(d) { return d.children || d._children ? -15 : 10; }) // Adjust distance from the circle
+                .attr("y", -9) // Move text above the circle
                 .attr("dy", ".15em") // Adjust vertical alignment
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6)
-                .style("font-size", "22px") // Increase font size
+                .style("font-size", "19px") // Increase font size
                 .style("font-weight", "bolder") // Make text bold
                 .on("click", function(d) {
                     d3.event.stopPropagation();
@@ -363,7 +366,7 @@
             // Update text opacity and size
             moved_node.select("text")
                 .style("fill-opacity", 1)
-                .style("font-size", "22px") // Ensure font size is consistent
+                .style("font-size", "19px") // Ensure font size is consistent
                 .style("font-weight", "bold"); // Ensure text is bold
 
             // Transition nodes to be removed

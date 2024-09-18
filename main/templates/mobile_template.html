@@ -151,11 +151,14 @@
                     <!-- Dropdown for Create -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            Add Data Through Drive
+                            View or Edit Details 
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
                             <li>
-                                <a class="dropdown-item" href="{% url 'login' %}" target="_blank">Add Data</a>
+                                <a class="dropdown-item" href="{% url 'save_person_data' %}" target="_blank">Edit Details</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'login' %}" target="_blank">View Details in CSV</a>
                             </li>
                         </ul>
                     </li>
@@ -169,17 +172,17 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="mapsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                            Maps
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="mapsDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'spouse_village_map' %}" target="_blank">Spouse Village Map</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="mapsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                        Maps
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="mapsDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'spouse_village_map' %}" target="_blank">Spouse Village Map</a>
-                        </li>
-                    </ul>
-                </li>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <form class="d-flex" method="get" action="{% url 'search_person'  %}" target="_blank">
