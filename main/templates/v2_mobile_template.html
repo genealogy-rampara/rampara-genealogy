@@ -466,11 +466,12 @@
         }
 
         // Recalculate tree size on window resize
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function() 
+        {
             canvas_width = "7000px";
-            canvas_height = "3500px";
             tree_width = canvas_width - margin.right - margin.left;
-            tree_height = canvas_height - margin.top - margin.bottom;
+            tree.size([tree_height, tree_width]);
+            update(root);
         });
     </script>
 </body>
