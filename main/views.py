@@ -533,27 +533,27 @@ def spouse_village_map(request):
 
         if 'spouse_village' in df.columns:
             village_list = df['spouse_village'].dropna()
-            print('VILLAGE LIST : ', village_list)
+            # print('VILLAGE LIST : ', village_list)
 
             gujarat_coordinates = [22.2587, 71.1924]
             my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=60)
 
             for villages in village_list:
                 village_names = [name.strip() for name in villages.split(';') if name.strip()]
-                print("VILLAGES NAME AFTER SPLITTING : ", village_names)
+                # print("VILLAGES NAME AFTER SPLITTING : ", village_names)
                 for village in village_names:
                     if village not in unique_villages:
                         unique_villages.add(village)
                         lat, lon = get_lat_lon_nominatim(village)
                         if lat and lon:
-                            print(f"LAT - {lat} & LON - {lon} FOR {village}")
+                            # print(f"LAT - {lat} & LON - {lon} FOR {village}")
                             folium.Marker([lat, lon], popup=village).add_to(my_map)
                         else:
-                            print(f"Could not find coordinates for {village}. Logged for manual entry.")
+                            # print(f"Could not find coordinates for {village}. Logged for manual entry.")
                             failed_villages.append(village)
 
             if failed_villages:
-                print("These villages need manual geocoding or further retries:", failed_villages)
+                # print("These villages need manual geocoding or further retries:", failed_villages)
                 update_with_manual_entries(my_map)
 
             map_html = my_map._repr_html_()
