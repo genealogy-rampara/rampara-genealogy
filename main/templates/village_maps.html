@@ -24,5 +24,17 @@
     </div>    
     <!-- Include Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Make an AJAX request to fetch the markers
+            fetch('/api/villages/')
+                .then(response => response.json())
+                .then(data => {
+                    data.villages.forEach(village => {
+                        L.marker([village.lat, village.lon]).addTo(map).bindPopup(village.name);
+                    });
+                });
+        });
+        </script>
 </body>
 </html>

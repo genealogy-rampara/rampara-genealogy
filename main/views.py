@@ -524,46 +524,50 @@ def normalize_village_name(village_name):
     village_name = village_name.title()
     return village_name
 
-def spouse_village_map(request):
-    csv_file_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv"
-    csv_data = fetch_csv_data_from_drive(csv_file_url)
+# def spouse_village_map(request):
+#     csv_file_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv"
+#     csv_data = fetch_csv_data_from_drive(csv_file_url)
 
-    if csv_data:
-        df = pd.read_csv(io.StringIO("\n".join(csv_data)))
+#     if csv_data:
+#         df = pd.read_csv(io.StringIO("\n".join(csv_data)))
 
-        if 'spouse_village' in df.columns:
-            village_list = df['spouse_village'].dropna()
-            # print('VILLAGE LIST : ', village_list)
+#         if 'spouse_village' in df.columns:
+#             village_list = df['spouse_village'].dropna()
+#             # print('VILLAGE LIST : ', village_list)
 
-            gujarat_coordinates = [22.2587, 71.1924]
-            my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=60)
+#             gujarat_coordinates = [22.2587, 71.1924]
+#             my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=60)
 
-            for villages in village_list:
-                village_names = [name.strip() for name in villages.split(';') if name.strip()]
-                # print("VILLAGES NAME AFTER SPLITTING : ", village_names)
-                for village in village_names:
-                    if village not in unique_villages:
-                        unique_villages.add(village)
-                        lat, lon = get_lat_lon_nominatim(village)
-                        if lat and lon:
-                            # print(f"LAT - {lat} & LON - {lon} FOR {village}")
-                            folium.Marker([lat, lon], popup=village).add_to(my_map)
-                        else:
-                            # print(f"Could not find coordinates for {village}. Logged for manual entry.")
-                            failed_villages.append(village)
+#             for villages in village_list:
+#                 village_names = [name.strip() for name in villages.split(';') if name.strip()]
+#                 # print("VILLAGES NAME AFTER SPLITTING : ", village_names)
+#                 for village in village_names:
+#                     if village not in unique_villages:
+#                         unique_villages.add(village)
+#                         lat, lon = get_lat_lon_nominatim(village)
+#                         if lat and lon:
+#                             # print(f"LAT - {lat} & LON - {lon} FOR {village}")
+#                             folium.Marker([lat, lon], popup=village).add_to(my_map)
+#                         else:
+#                             # print(f"Could not find coordinates for {village}. Logged for manual entry.")
+#                             failed_villages.append(village)
 
-            if failed_villages:
-                # print("These villages need manual geocoding or further retries:", failed_villages)
-                update_with_manual_entries(my_map)
+#             if failed_villages:
+#                 # print("These villages need manual geocoding or further retries:", failed_villages)
+#                 update_with_manual_entries(my_map)
 
-            map_html = my_map._repr_html_()
-            return render(request, 'village_maps.html', {'map': map_html})
-        else:
-            print("Column 'spouse_village' not found in the CSV file.")
-    else:
-        print("Failed to fetch or decode CSV data.")
+#             map_html = my_map._repr_html_()
+#             # Save the map as an HTML file
+#             map_output_path = 'map_save.html'
+#             my_map.save(map_output_path)
 
-    return render(request, 'village_maps.html')
+#             return render(request, 'village_maps.html', {'map': map_html})
+#         else:
+#             print("Column 'spouse_village' not found in the CSV file.")
+#     else:
+#         print("Failed to fetch or decode CSV data.")
+
+#     return render(request, 'village_maps.html')
 
 def update_with_manual_entries(my_map):
     manual_entries_file = 'manual_entries.csv'
@@ -580,3 +584,53 @@ def update_with_manual_entries(my_map):
                 print(f"Invalid coordinates for {village_name}.")
     else:
         print("Manual entries file not found.")
+def spouse_village_map(request):
+    map_output_path = 'map_save.html'
+    
+    # Check if the saved map exists
+    if os.path.exists(map_output_path):
+        # If the saved map exists, render it directly
+        with open(map_output_path, 'r') as file:
+            map_html = file.read()
+        return render(request, 'village_maps.html', {'map': map_html})
+
+    # If the saved map doesn't exist, generate the map
+    csv_file_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv"
+    csv_data = fetch_csv_data_from_drive(csv_file_url)
+
+    if csv_data:
+        df = pd.read_csv(io.StringIO("\n".join(csv_data)))
+
+        if 'spouse_village' in df.columns:
+            village_list = df['spouse_village'].dropna()
+
+            gujarat_coordinates = [22.2587, 71.1924]
+            my_map = folium.Map(location=gujarat_coordinates, zoom_start=7, timeout=60)
+
+            for villages in village_list:
+                village_names = [name.strip() for name in villages.split(';') if name.strip()]
+                for village in village_names:
+                    if village not in unique_villages:
+                        unique_villages.add(village)
+                        lat, lon = get_lat_lon_nominatim(village)
+                        if lat and lon:
+                            folium.Marker([lat, lon], popup=village).add_to(my_map)
+                        else:
+                            failed_villages.append(village)
+
+            if failed_villages:
+                update_with_manual_entries(my_map)
+
+            # Save the generated map as an HTML file
+            my_map.save(map_output_path)
+
+            # Render the newly generated map
+            map_html = my_map._repr_html_()
+            return render(request, 'village_maps.html', {'map': map_html})
+
+        else:
+            print("Column 'spouse_village' not found in the CSV file.")
+    else:
+        print("Failed to fetch or decode CSV data.")
+
+    return render(request, 'village_maps.html')
