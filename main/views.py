@@ -546,7 +546,7 @@ def normalize_village_name(village_name):
 #                         unique_villages.add(village)
 #                         lat, lon = get_lat_lon_nominatim(village)
 #                         if lat and lon:
-#                             # print(f"LAT - {lat} & LON - {lon} FOR {village}")
+#                             print(f"VILLAGE : {village}")
 #                             folium.Marker([lat, lon], popup=village).add_to(my_map)
 #                         else:
 #                             # print(f"Could not find coordinates for {village}. Logged for manual entry.")
@@ -584,6 +584,7 @@ def update_with_manual_entries(my_map):
                 print(f"Invalid coordinates for {village_name}.")
     else:
         print("Manual entries file not found.")
+
 def spouse_village_map(request):
     map_output_path = 'map_save.html'
     
