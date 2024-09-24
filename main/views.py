@@ -569,21 +569,21 @@ def normalize_village_name(village_name):
 
 #     return render(request, 'village_maps.html')
 
-def update_with_manual_entries(my_map):
-    manual_entries_file = 'manual_entries.csv'
-    if os.path.exists(manual_entries_file):
-        manual_df = pd.read_csv(manual_entries_file)
-        for index, row in manual_df.iterrows():
-            village_name = row['village_name']
-            lat = row['latitude']
-            lon = row['longitude']
-            if lat and lon:
-                print(f"Adding manual entry - LAT: {lat}, LON: {lon}, VILLAGE: {village_name}")
-                folium.Marker([lat, lon], popup=village_name).add_to(my_map)
-            else:
-                print(f"Invalid coordinates for {village_name}.")
-    else:
-        print("Manual entries file not found.")
+# def update_with_manual_entries(my_map):
+#     manual_entries_file = 'manual_entries.csv'
+#     if os.path.exists(manual_entries_file):
+#         manual_df = pd.read_csv(manual_entries_file)
+#         for index, row in manual_df.iterrows():
+#             village_name = row['village_name']
+#             lat = row['latitude']
+#             lon = row['longitude']
+#             if lat and lon:
+#                 print(f"Adding manual entry - LAT: {lat}, LON: {lon}, VILLAGE: {village_name}")
+#                 folium.Marker([lat, lon], popup=village_name).add_to(my_map)
+#             else:
+#                 print(f"Invalid coordinates for {village_name}.")
+#     else:
+#         print("Manual entries file not found.")
 
 def spouse_village_map(request):
     map_output_path = 'map_save.html'
