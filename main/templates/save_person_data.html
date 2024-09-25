@@ -412,6 +412,11 @@
                         // If DOB is filled, validate its format (DD-MM-YYYY)
                         if (dob)
                         {
+                            if (!/^[0-9\-]+$/.test(dob)) 
+                            {
+                                alert("જન્મ તારીખ ઇંગ્લિશ માં દાખલ કરવી!");
+                                return;
+                            }
                             var dobParts = dob.split('-');
                             if (dobParts.length !== 3)
                             {
