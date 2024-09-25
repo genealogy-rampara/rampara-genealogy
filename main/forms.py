@@ -1,5 +1,3 @@
-from random import choices
-from typing import Iterable
 from django import forms
 
 class PersonForm(forms.Form):
