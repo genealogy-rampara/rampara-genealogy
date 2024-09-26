@@ -129,8 +129,8 @@ def build_tree(person, data):
     return person_tree
 
 # View to render the note.html template
-def note(request):
-    return render(request, 'note.html')
+# def note(request):
+#     return render(request, 'note.html')
 
 # View to display detailed information about a person
 def person_detail(request, person_id):
@@ -252,58 +252,6 @@ def person_detail(request, person_id):
                     #print(spouses)
                     #print('=========================================================================================================================================\n\n')
         # Fetching father's spouse village for specific spouse
-        # father_spouse_village = None
-
-        # if person.get('father'):
-        #     father_name = person['father']
-        #     # Find the father's record in the genealogy data by matching the name
-        #     father_record = next((entry for entry in genealogy_data if entry['Name'] == father_name), None)
-        #     print('Father Record:', father_record)
-            
-        #     if father_record:
-        #         # Check if the father has multiple spouses
-        #         if father_record.get('spouse_name'):
-        #             # Split the spouse details into lists
-        #             spouse_names = father_record['spouse_name'].split(';')
-        #             print('SPOUSE NAMES AFTER SPLITTING:', spouse_names)
-        #             spouse_villages = father_record['spouse_village'].split(';')
-        #             print('SPOUSE VILLAGES AFTER SPLITTING:', spouse_villages)
-                    
-        #             # Get the child’s mother's name from the person’s record
-        #             child_mother_name = person.get('mother')
-        #             print('Child’s Mother Name:', child_mother_name)
-                    
-        #             # Ensure child_mother_name is not None or empty
-        #             if child_mother_name:
-        #                 # Initialize target_spouse_index
-        #                 target_spouse_index = None
-                        
-        #                 # Check if the child's mother name is contained in any of the spouse names
-        #                 for idx, spouse_name in enumerate(spouse_names):
-        #                     # Debugging output for each comparison
-        #                     print(f"Checking Spouse {idx + 1}:")
-        #                     print('Spouse Name:', spouse_name)
-                            
-        #                     # Check if child's mother name is contained in the spouse's full name
-        #                     if child_mother_name.strip() in spouse_name.strip():
-        #                         target_spouse_index = idx
-        #                         print(f"Match Found at Index: {target_spouse_index}")
-        #                         break
-        #                     else:
-        #                         print("No match found at this index.")
-                        
-        #                 # If the correct spouse index is found, use it to get the spouse village
-        #                 if target_spouse_index is not None and target_spouse_index < len(spouse_villages):
-        #                     father_spouse_village = spouse_villages[target_spouse_index].strip()
-        #                     print("Father’s Spouse Village:", father_spouse_village)
-        #                 else:
-        #                     print("No matching spouse found or spouse village is missing.")
-        #             else:
-        #                 print("Mother's name is missing in the child’s record.")
-        #         else:
-        #             print("No spouse_name key in father record.")
-        #     else:
-        #         print("No matching father record found in the genealogy data.")
         father_spouse_village = None
 
         if person.get('father'):
@@ -323,7 +271,7 @@ def person_detail(request, person_id):
                     
                     # Get the child’s mother's name from the person’s record
                     child_mother_name = person.get('mother')
-                    print('Child’s Mother Name:', child_mother_name)
+                    print('Child\'s Mother Name:', child_mother_name)
                     
                     # Ensure child_mother_name is not None or empty
                     if child_mother_name:
@@ -346,22 +294,18 @@ def person_detail(request, person_id):
                             # If the correct spouse index is found, use it to get the spouse village
                             if target_spouse_index is not None and target_spouse_index < len(spouse_villages):
                                 father_spouse_village = spouse_villages[target_spouse_index].strip()
-                                print("Father’s Spouse Village from Matching:", father_spouse_village)
+                                print("Father\'s Spouse Village from Matching:", father_spouse_village)
                             else:
                                 print("No matching spouse found or spouse village is missing.")
                         else:  # If there is only one spouse
                             father_spouse_village = spouse_villages[0].strip()  # Directly use the first spouse's village
-                            print("Father’s Spouse Village (Single Spouse):", father_spouse_village)
+                            print("Father\'s Spouse Village (Single Spouse):", father_spouse_village)
                     else:
-                        print("Mother's name is missing in the child’s record.")
+                        print("Mother's name is missing in the child\'s record.")
                 else:
                     print("No spouse_name key in father record.")
             else:
                 print("No matching father record found in the genealogy data.")
-
-
-
-
 
         return render(request, 'person_detail.html', {
             'person': person,

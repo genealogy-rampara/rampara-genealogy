@@ -75,35 +75,6 @@
             display: flex;
             justify-content: space-between;
         }
-        .note 
-        {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            background: #f0f0f0;
-            padding: 10px;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            color: red;
-        }
-        .note span 
-        {
-            display: block;
-            width: 100%;
-            white-space: nowrap;
-            animation: note 25s linear infinite;
-        }
-        @keyframes note 
-        {
-            0% 
-            {
-                transform: translateX(100%);
-            }
-            100% 
-            {
-                transform: translateX(-100%);
-            }
-        }
         footer {
             background-color: #343a40;
             color: #f8f9fa;
@@ -616,17 +587,6 @@
                 <button class="btn btn-primary" disabled>Next</button>
             {% endif %}
         </div>
-        </div>
-        <div class="note">
-            <span>
-                <strong> Please don't delete any kind of data!<br></strong>
-                <strong>Note : </strong> When you add data from CSV, follow the proper format. If you add child_id, then write the ID of that child (person). Press "સૂચના" for more information.<br>
-                <strong>કોઇ પણ ડેટા કાઢવો નહીં!<br></strong> 
-                <strong>નોંધ : </strong> જ્યારે તમે CSV માંથી ડેટા ઉમેરો ત્યારે યોગ્ય ફોર્મેટને અનુસાર ઉમેરો, જો તમે child_id ઉમેરશો તો તે બાળકનું ID લખો. સૂચના બટન પર દબાવી વધુ જાણો.<br>
-            </span>
-            <center>
-                <a href="{% url 'note' %}" class="btn btn-danger" target="_blank">સૂચના</a>
-            </center>
         </div>
         
     </body>
