@@ -221,7 +221,21 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="mapsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                            Events
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="mapsDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'view_event' %}" target="_blank">View Events</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'spouse_village_map' %}" target="_blank">Add Events</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
+
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <form class="d-flex" method="get" action="{% url 'search_person' %}" target="_blank">

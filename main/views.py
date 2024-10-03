@@ -1,4 +1,5 @@
 import csv, requests
+from unittest import skip
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import EmailMessage
@@ -609,3 +610,65 @@ def spouse_village_map(request):
     else:
         print("Failed to fetch or decode CSV data.")
     return render(request, 'village_maps.html')
+
+# import csv
+# import requests
+# from datetime import datetime
+# from io import StringIO
+# from django.shortcuts import render
+
+# def view_event(request):
+#     birthdays = []
+#     upcoming_birthdays = []
+#     csv_file_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv"
+    
+#     # Fetch the CSV content from Google Sheets
+#     response = requests.get(csv_file_url)
+#     csv_content = response.content.decode('utf-8')
+
+#     # Read the CSV data
+#     reader = csv.DictReader(StringIO(csv_content))
+
+#     # Get today's date
+#     today = datetime.today()
+
+#     for row in reader:
+#         # Assuming your CSV has a 'Name' and 'DOB' column
+#         name = row['Name']
+#         dob_str = row['DOB'].strip()  # Ensure this matches the column name in your CSV and strip any extra spaces
+        
+#         if dob_str:
+#             try:
+#                 # Parse the DOB into a date object
+#                 dob = datetime.strptime(dob_str, '%d-%m-%Y')
+#                 if name == 'Dr. જયાસિંહજી મયૂરધ્વજસિંહજી ઝાલા ([૨૦૧૭ - Present])':
+#                     break
+#                 else:
+#                     # Calculate the next birthday for this year
+#                     next_birthday = dob.replace(year=today.year)
+                    
+#                     # If the birthday has already passed this year, set it for next year
+#                     if next_birthday < today:
+#                         next_birthday = next_birthday.replace(year=today.year + 1)
+
+#                     # Add the birthday event
+#                     event = {
+#                         'title': f"{name}'s Birthday",
+#                         'start': next_birthday.strftime('%Y-%m-%d'),
+#                     }
+#                     birthdays.append(event)
+                    
+#                     # Add upcoming birthday within the next 30 days
+#                     if (next_birthday - today).days <= 30:
+#                         upcoming_birthdays.append({
+#                             'name': name,
+#                             'dob': next_birthday.strftime('%d-%m-%Y')  # Display date as DD-MM-YYYY
+#                         })
+                    
+#             except ValueError:
+#                 print(f"Failed to parse date for {name} with DOB: {dob_str}")
+
+#     return render(request, 'view_event.html', {
+#         'birthdays': birthdays,
+#         'upcoming_birthdays': upcoming_birthdays  # Pass upcoming birthdays to the template
+#     })

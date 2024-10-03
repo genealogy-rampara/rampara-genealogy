@@ -16,5 +16,6 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('save-person-data/', views.save_person_data, name='save_person_data'),
     path('spouse_village_map',views.spouse_village_map, name='spouse_village_map'),
+    # path('view_event',views.view_event, name='view_event'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
