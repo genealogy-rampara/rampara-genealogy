@@ -170,7 +170,6 @@ def person_detail(request, person_id):
         if person.get('father'):
             father_name = person['father']
             father_record = next((entry for entry in genealogy_data if entry['Name'] == father_name), None)
-            print('Father Record:', father_record)
             if father_record:
                 if father_record.get('spouse_name'):
                     spouse_names = father_record['spouse_name'].split(';')
