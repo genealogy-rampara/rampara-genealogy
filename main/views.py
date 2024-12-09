@@ -489,7 +489,7 @@ unique_villages = set()
 failed_villages = []
 
 def get_lat_lon_nominatim(village_name):
-    geolocator = Nominatim(user_agent="your_app_name")
+    geolocator = Nominatim(user_agent="main")
     location = geolocator.geocode(f"{village_name}, Gujarat, India")
     if location:
         return location.latitude, location.longitude
