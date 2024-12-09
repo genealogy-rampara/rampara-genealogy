@@ -14,7 +14,7 @@ charset-normalizer==3.3.2
 cyclonedx-python-lib==7.6.2
 defusedxml==0.7.1
 dj-database-url==2.2.0
-Django==5.0.7
+Django==4.2.17
 django-extensions==3.2.3
 django-storages==1.14.4
 filelock==3.16.1

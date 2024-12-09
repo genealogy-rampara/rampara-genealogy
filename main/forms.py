@@ -12,8 +12,8 @@ class PersonForm(forms.Form):
     label="Your Email",
     required=True,
     error_messages={
-        'required': 'ઈમેલ દાખલ કરવું ફરજિયાત છે.',  # Custom message for empty email
-        'invalid': 'તમારું ઈમેલ સરનામું અમાન્ય છે.'  # Custom message for invalid email format
+        'required': 'ઈમેલ દાખલ કરવું ફરજિયાત છે.',
+        'invalid': 'તમારું ઈમેલ સરનામું અમાન્ય છે.'
     },
     widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'તમારુ ઈમેલ દાખલ કરો'})
     )
@@ -35,7 +35,7 @@ class PersonForm(forms.Form):
         label="Date of Birth",
         required=False,
         widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'DD-MM-YYYY'}),
-        input_formats=['%d-%m-%Y'],  # Specifies the input format as DD-MM-YYYY
+        input_formats=['%d-%m-%Y'], 
     )
     father_name = forms.CharField(
         label="Father's Full Name",
