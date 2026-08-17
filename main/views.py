@@ -28,7 +28,7 @@ def login(request):
     password = 'Rampara@2024'
     return render(request, 'login.html', {'email': email, 'password': password})
 
-csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?output=csv'    
+csv_file_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBaOy39XofhZwSWj6RDKkt4QUE69raL98PEVnZD70wtaZ4Es4Gp7BnQyBsWg21hAxY2zNL58tPMPrW/pub?gid=778839574&single=true&output=csv'    
 # Function to fetch CSV data from Google Drive
 def fetch_csv_data_from_drive(url):
     try:
